@@ -128,10 +128,12 @@
       <div class="flex flex-wrap gap-x-5 gap-y-2" id="seriesFilters"></div>
       <div class="hidden md:block w-px h-4 bg-[var(--line-strong)]"></div>
       <div class="flex flex-wrap gap-x-5 gap-y-2" id="condFilters"></div>
+      <div class="hidden md:block w-px h-4 bg-[var(--line-strong)]"></div>
+      <div class="flex flex-wrap gap-x-5 gap-y-2" id="piezasFilters"></div>
       <div class="md:ml-auto">
-        <label for="sortSelect" class="sr-only">Ordenar por precio</label>
+        <label for="sortSelect" class="sr-only">Ordenar</label>
         <select id="sortSelect" class="bg-transparent border hairline rounded-lg mono text-xs px-3 py-2 outline-none cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--green)]">
-          <option value="default" class="bg-[var(--paper)]">Relevancia</option>
+          <option value="model-asc" class="bg-[var(--paper)]">Modelo: menor a mayor</option>
           <option value="price-asc" class="bg-[var(--paper)]">Precio: menor a mayor</option>
           <option value="price-desc" class="bg-[var(--paper)]">Precio: mayor a menor</option>
         </select>
@@ -195,25 +197,30 @@
    ====================================================================== */
 const WHATSAPP_NUMBER = "584120000000"; // <-- EDITA ESTE NÚMERO
 
+// Tasa BCV del día, en Bs por 1 USD. Actualízala a diario.
+const BCV_RATE = 52.03; // <-- EDITA ESTA TASA
+
 const products = [
-  { id: 1, modelo: "iPhone 18 Pro Max", serie: "18", condicion: "sellado", almacenamiento: "256GB", color: "Negro Espacial", colorHex: "#1b1b1d", precio: 1450, bateria: 100, ciclos: 0, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://placehold.co/500x500/F5F9F6/178350?text=iPhone+18+Pro+Max" },
-  { id: 2, modelo: "iPhone 17 Pro Max", serie: "17", condicion: "sellado", almacenamiento: "256GB", color: "Titanio Desierto", colorHex: "#9c8063", precio: 1299, bateria: 100, ciclos: 0, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://placehold.co/500x500/F5F9F6/9c8063?text=iPhone+17+Pro+Max" },
-  { id: 3, modelo: "iPhone 17 Pro", serie: "17", condicion: "openbox", almacenamiento: "128GB", color: "Ultramarino", colorHex: "#3a4a7a", precio: 1050, bateria: 100, ciclos: 2, estetica: "10/10", caja: "Caja abierta, accesorios completos", garantia: "6 meses escrita", img: "https://placehold.co/500x500/F5F9F6/3a4a7a?text=iPhone+17+Pro" },
-  { id: 4, modelo: "iPhone 16 Pro Max", serie: "16", condicion: "seminuevo", almacenamiento: "256GB", color: "Titanio Natural", colorHex: "#cabfae", precio: 870, bateria: 97, ciclos: 180, estetica: "9/10", caja: "Solo equipo + cable USB-C", garantia: "3 meses escrita", img: "https://placehold.co/500x500/F5F9F6/a89a7c?text=iPhone+16+Pro+Max" },
-  { id: 5, modelo: "iPhone 16", serie: "16", condicion: "seminuevo", almacenamiento: "128GB", color: "Negro Espacial", colorHex: "#1b1b1d", precio: 590, bateria: 95, ciclos: 240, estetica: "9/10", caja: "Solo equipo + cable USB-C", garantia: "3 meses escrita", img: "https://placehold.co/500x500/F5F9F6/1b1b1d?text=iPhone+16" },
-  { id: 6, modelo: "iPhone 15 Pro Max", serie: "15", condicion: "seminuevo", almacenamiento: "256GB", color: "Titanio Azul", colorHex: "#3c5a73", precio: 720, bateria: 94, ciclos: 310, estetica: "9/10", caja: "Solo equipo + cable USB-C", garantia: "3 meses escrita", img: "https://placehold.co/500x500/F5F9F6/3c5a73?text=iPhone+15+Pro+Max" },
-  { id: 7, modelo: "iPhone 14 Pro", serie: "14", condicion: "seminuevo", almacenamiento: "128GB", color: "Morado Oscuro", colorHex: "#4b3c56", precio: 480, bateria: 91, ciclos: 420, estetica: "8/10", caja: "Solo equipo", garantia: "3 meses escrita", img: "https://placehold.co/500x500/F5F9F6/4b3c56?text=iPhone+14+Pro" },
-  { id: 8, modelo: "iPhone 13", serie: "13", condicion: "seminuevo", almacenamiento: "128GB", color: "Rosa", colorHex: "#e8c7cb", precio: 310, bateria: 88, ciclos: 560, estetica: "8/10", caja: "Solo equipo", garantia: "3 meses escrita", img: "https://placehold.co/500x500/F5F9F6/9c6b12?text=iPhone+13" },
+  // piezasOriginales: true = pantalla/batería originales de fábrica; false = reemplazadas con repuesto genérico
+  { id: 1, modelo: "iPhone 18 Pro Max", serie: "18", condicion: "sellado", almacenamiento: "256GB", color: "Negro Espacial", colorHex: "#1b1b1d", precio: 1450, piezasOriginales: true, bateria: 100, ciclos: 0, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://placehold.co/500x500/F5F9F6/178350?text=iPhone+18+Pro+Max" },
+  { id: 2, modelo: "iPhone 17 Pro Max", serie: "17", condicion: "sellado", almacenamiento: "256GB", color: "Titanio Desierto", colorHex: "#9c8063", precio: 1299, piezasOriginales: true, bateria: 100, ciclos: 0, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://placehold.co/500x500/F5F9F6/9c8063?text=iPhone+17+Pro+Max" },
+  { id: 3, modelo: "iPhone 17 Pro", serie: "17", condicion: "openbox", almacenamiento: "128GB", color: "Ultramarino", colorHex: "#3a4a7a", precio: 1050, piezasOriginales: true, bateria: 100, ciclos: 2, estetica: "10/10", caja: "Caja abierta, accesorios completos", garantia: "6 meses escrita", img: "https://placehold.co/500x500/F5F9F6/3a4a7a?text=iPhone+17+Pro" },
+  { id: 4, modelo: "iPhone 16 Pro Max", serie: "16", condicion: "seminuevo", almacenamiento: "256GB", color: "Titanio Natural", colorHex: "#cabfae", precio: 870, piezasOriginales: true, bateria: 97, ciclos: 180, estetica: "9/10", caja: "Solo equipo + cable USB-C", garantia: "3 meses escrita", img: "https://placehold.co/500x500/F5F9F6/a89a7c?text=iPhone+16+Pro+Max" },
+  { id: 5, modelo: "iPhone 16", serie: "16", condicion: "seminuevo", almacenamiento: "128GB", color: "Negro Espacial", colorHex: "#1b1b1d", precio: 590, piezasOriginales: false, bateria: 95, ciclos: 240, estetica: "9/10", caja: "Solo equipo + cable USB-C", garantia: "3 meses escrita", img: "https://placehold.co/500x500/F5F9F6/1b1b1d?text=iPhone+16" },
+  { id: 6, modelo: "iPhone 15 Pro Max", serie: "15", condicion: "seminuevo", almacenamiento: "256GB", color: "Titanio Azul", colorHex: "#3c5a73", precio: 720, piezasOriginales: true, bateria: 94, ciclos: 310, estetica: "9/10", caja: "Solo equipo + cable USB-C", garantia: "3 meses escrita", img: "https://placehold.co/500x500/F5F9F6/3c5a73?text=iPhone+15+Pro+Max" },
+  { id: 7, modelo: "iPhone 14 Pro", serie: "14", condicion: "seminuevo", almacenamiento: "128GB", color: "Morado Oscuro", colorHex: "#4b3c56", precio: 480, piezasOriginales: false, bateria: 91, ciclos: 420, estetica: "8/10", caja: "Solo equipo", garantia: "3 meses escrita", img: "https://placehold.co/500x500/F5F9F6/4b3c56?text=iPhone+14+Pro" },
+  { id: 8, modelo: "iPhone 13", serie: "13", condicion: "seminuevo", almacenamiento: "128GB", color: "Rosa", colorHex: "#e8c7cb", precio: 310, piezasOriginales: false, bateria: 88, ciclos: 560, estetica: "8/10", caja: "Solo equipo", garantia: "3 meses escrita", img: "https://placehold.co/500x500/F5F9F6/9c6b12?text=iPhone+13" },
 ];
 /* ====================================================================== */
 
 const SERIES = [{id:"todos",label:"Todos"},{id:"18",label:"18"},{id:"17",label:"17"},{id:"16",label:"16"},{id:"15",label:"15"},{id:"14",label:"14/13"},{id:"13",label:null}];
 const SERIES_VISIBLE = SERIES.filter(s=>s.label);
 const CONDS = [{id:"todos",label:"Todos"},{id:"sellado",label:"Sellado"},{id:"openbox",label:"Open Box"},{id:"seminuevo",label:"Seminuevo"}];
+const PIEZAS = [{id:"todos",label:"Todos"},{id:"original",label:"Piezas originales"},{id:"noOriginal",label:"Piezas no originales"}];
 const CONDITION_LABEL = { sellado:"SELLADO", openbox:"OPEN BOX", seminuevo:"SEMINUEVO" };
 const CONDITION_COLOR = { sellado:"var(--green)", openbox:"var(--ink)", seminuevo:"var(--amber)" };
 
-let state = { serie:"todos", cond:"todos", sort:"default", search:"" };
+let state = { serie:"todos", cond:"todos", piezas:"todos", sort:"model-asc", search:"" };
 let cart = [];
 
 function renderChips(containerId, items, activeKey, onclickFn){
@@ -226,6 +233,7 @@ function setSerie(id){
   state.serie = id; renderAll();
 }
 function setCond(id){ state.cond=id; renderAll(); }
+function setPiezas(id){ state.piezas=id; renderAll(); }
 
 function matchesSerie(p){
   if(state.serie==="todos") return true;
@@ -237,6 +245,8 @@ function filteredProducts(){
   let list = products.filter(p=>{
     if(!matchesSerie(p)) return false;
     if(state.cond!=="todos" && p.condicion!==state.cond) return false;
+    if(state.piezas==="original" && !p.piezasOriginales) return false;
+    if(state.piezas==="noOriginal" && p.piezasOriginales) return false;
     if(state.search){
       const q=state.search.toLowerCase();
       if(!(`${p.modelo} ${p.color} ${p.almacenamiento}`).toLowerCase().includes(q)) return false;
@@ -244,7 +254,8 @@ function filteredProducts(){
     return true;
   });
   if(state.sort==="price-asc") list.sort((a,b)=>a.precio-b.precio);
-  if(state.sort==="price-desc") list.sort((a,b)=>b.precio-a.precio);
+  else if(state.sort==="price-desc") list.sort((a,b)=>b.precio-a.precio);
+  else list.sort((a,b)=> parseInt(a.serie)-parseInt(b.serie) || a.modelo.length-b.modelo.length || a.precio-b.precio);
   return list;
 }
 
@@ -264,7 +275,8 @@ function renderProducts(){
           <span class="inline-block w-2.5 h-2.5 rounded-full border border-black/15 shrink-0" style="background:${p.colorHex}"></span>
           ${p.almacenamiento} · ${p.color}
         </p>
-        <p class="mono text-xl font-bold mb-4">$${p.precio.toLocaleString()}</p>
+        <p class="mono text-xl font-bold">$${p.precio.toLocaleString()}</p>
+        <p class="mono text-[11px] text-[var(--ink3)] mb-4">Bs. ${bsPrice(p.precio)}</p>
         <div class="flex gap-2 mt-auto">
           <button onclick="openSpecModal(${p.id})" class="flex-1 btn-line rounded-xl py-2 text-xs font-semibold">Ver ficha</button>
           <button onclick="addToCart(${p.id})" class="flex-1 btn-solid rounded-xl py-2 text-xs">Agregar</button>
@@ -275,9 +287,12 @@ function renderProducts(){
   lucide.createIcons();
 }
 
+function bsPrice(usd){ return (usd*BCV_RATE).toLocaleString("es-VE", {minimumFractionDigits:2, maximumFractionDigits:2}); }
+
 function renderAll(){
   renderChips("seriesFilters", SERIES_VISIBLE, state.serie, setSerie);
   renderChips("condFilters", CONDS, state.cond, setCond);
+  renderChips("piezasFilters", PIEZAS, state.piezas, setPiezas);
   renderProducts();
   lucide.createIcons();
 }
@@ -297,15 +312,19 @@ function openSpecModal(id){
       <h2 class="text-xl font-black mb-1">${p.modelo}</h2>
       <p class="text-[var(--ink3)] text-sm mb-5">${p.color} · ${p.almacenamiento}</p>
       <div class="mono text-sm space-y-2.5 mb-6">
+        <div class="flex items-center"><span class="text-[var(--ink3)]">Piezas</span><span class="dotted-leader"></span><span>${p.piezasOriginales ? "Originales" : "No originales"}</span></div>
         <div class="flex items-center"><span class="text-[var(--ink3)]">Batería</span><span class="dotted-leader"></span><span>${p.bateria}%</span></div>
         <div class="flex items-center"><span class="text-[var(--ink3)]">Ciclos de carga</span><span class="dotted-leader"></span><span>${p.ciclos}</span></div>
         <div class="flex items-center"><span class="text-[var(--ink3)]">Estética</span><span class="dotted-leader"></span><span>${p.estetica}</span></div>
         <div class="flex items-center"><span class="text-[var(--ink3)]">Garantía</span><span class="dotted-leader"></span><span>${p.garantia}</span></div>
         <div class="flex items-center"><span class="text-[var(--ink3)]">Incluye</span><span class="dotted-leader"></span><span class="text-right">${p.caja}</span></div>
       </div>
-      <div class="flex items-center mb-6 pt-4 border-t hairline mono">
-        <span class="text-[var(--ink3)] text-sm">Precio</span><span class="dotted-leader"></span>
-        <span class="text-2xl font-black text-[var(--green)]">$${p.precio.toLocaleString()}</span>
+      <div class="pt-4 border-t hairline mono mb-6">
+        <div class="flex items-center">
+          <span class="text-[var(--ink3)] text-sm">Precio</span><span class="dotted-leader"></span>
+          <span class="text-2xl font-black text-[var(--green)]">$${p.precio.toLocaleString()}</span>
+        </div>
+        <p class="text-right text-xs text-[var(--ink3)] mt-1">Bs. ${bsPrice(p.precio)} a tasa BCV</p>
       </div>
       <div class="flex gap-3">
         <button onclick="addToCart(${p.id}); closeSpecModal();" class="flex-1 btn-line rounded-xl py-2.5 text-sm font-bold">Agregar</button>
