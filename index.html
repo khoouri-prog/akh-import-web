@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AKH Import — Manifiesto de inventario</title>
-<meta name="description" content="AKH Import — iPhones certificados, sellados y seminuevos. Garantía escrita, 100% originales, envíos seguros.">
+<title>AKH Import — Catálogo</title>
+<meta name="description" content="AKH Import — iPhones nuevos, open box y seminuevos certificados. Garantía escrita, precios en USD, pedido directo por WhatsApp.">
 
 <script src="https://cdn.tailwindcss.com/3.4.13"></script>
 <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.js"></script>
@@ -16,210 +16,148 @@
   :root{
     --bg:#0a0a09;
     --paper:#111110;
-    --line:rgba(237,233,224,0.14);
-    --line-strong:rgba(237,233,224,0.28);
+    --line:rgba(237,233,224,0.12);
+    --line-strong:rgba(237,233,224,0.26);
     --ink:#EDE9E0;
-    --ink2:#A7A299;
+    --ink2:#B8B3A8;
     --ink3:#8C877C;
     --green:#32B271;
     --amber:#E8A33D;
   }
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
   body{
     background:var(--bg); color:var(--ink);
     font-family:'Archivo',system-ui,sans-serif;
     -webkit-font-smoothing:antialiased;
   }
   .mono{font-family:'JetBrains Mono',monospace; font-variant-numeric:tabular-nums}
-
-  ::selection{background:var(--green); color:#07170f}
-
-  :focus-visible{outline:2px solid var(--green); outline-offset:2px}
-
-  /* film grain */
-  .grain{position:fixed; inset:0; z-index:40; pointer-events:none; opacity:.05; mix-blend-mode:overlay;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
   .hairline{border-color:var(--line)}
   .dotted-leader{flex:1; border-bottom:1px dotted var(--line-strong); margin:0 10px; transform:translateY(-4px)}
 
-  /* punch holes along top bar, like a ticket edge */
-  .ticket-edge{
-    background-image:radial-gradient(circle, var(--bg) 3px, transparent 3.2px);
-    background-size:16px 100%;
-    background-position:0 center;
-    height:8px;
-  }
+  ::selection{background:var(--green); color:#07170f}
+  :focus-visible{outline:2px solid var(--green); outline-offset:2px}
 
-  .btn-solid{background:var(--green); color:#07170f; font-weight:700; transition:all .2s ease}
-  .btn-solid:hover{background:#3fcf87; transform:translateY(-1px)}
-  .btn-line{border:1px solid var(--line-strong); color:var(--ink); transition:all .2s ease}
+  .btn-solid{background:var(--green); color:#07170f; font-weight:700; transition:transform .15s ease, background .15s ease}
+  .btn-solid:hover{background:#3fcf87}
+  .btn-solid:active{transform:scale(0.97)}
+  .btn-line{border:1px solid var(--line-strong); color:var(--ink); transition:all .15s ease}
   .btn-line:hover{border-color:var(--ink2); background:rgba(237,233,224,0.04)}
+  .btn-line:active{transform:scale(0.97)}
 
-  .tab{position:relative; padding-bottom:10px; color:var(--ink3); font-weight:600; transition:color .2s}
+  .tab{position:relative; padding-bottom:8px; color:var(--ink3); font-weight:600; transition:color .15s}
+  .tab:hover{color:var(--ink2)}
   .tab.active{color:var(--ink)}
   .tab.active::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--green)}
 
-  .row{border-top:1px solid var(--line); transition:background .2s}
-  .row:hover{background:rgba(237,233,224,0.025)}
-  .row:last-child{border-bottom:1px solid var(--line)}
+  .card{background:var(--paper); border:1px solid var(--line); transition:border-color .2s ease, transform .2s ease}
+  .card:hover{border-color:var(--line-strong); transform:translateY(-2px)}
+  .card img{transition:transform .3s ease}
+  .card:hover img{transform:scale(1.03)}
 
-  .tag-corner{
-    position:absolute; top:14px; right:-34px; width:140px; text-align:center;
-    transform:rotate(45deg); font-size:10px; letter-spacing:.12em; font-weight:700;
-    padding:3px 0; background:var(--green); color:#07170f;
-  }
-
-  .marquee-track{display:flex; width:max-content; animation:scroll 22s linear infinite}
-  @keyframes scroll{from{transform:translateX(0)} to{transform:translateX(-50%)}}
+  .modal-backdrop{background:rgba(5,5,4,0.75)}
+  .drawer{transition:transform .25s cubic-bezier(.22,.9,.3,1)}
+  .modal-pop{animation:pop .18s cubic-bezier(.2,.9,.3,1.1) both}
+  @keyframes pop{from{opacity:0; transform:scale(.97) translateY(6px)} to{opacity:1; transform:scale(1) translateY(0)}}
 
   ::-webkit-scrollbar{width:10px}
   ::-webkit-scrollbar-track{background:transparent}
-  ::-webkit-scrollbar-thumb{background:var(--line-strong); border-radius:0}
-
-  .modal-backdrop{background:rgba(5,5,4,0.75)}
-  .drawer{transition:transform .3s cubic-bezier(.22,.9,.3,1)}
-  .accordion-content{max-height:0; overflow:hidden; transition:max-height .3s ease-out}
-
-  .underline-link{background-image:linear-gradient(var(--green),var(--green)); background-size:0% 1px; background-repeat:no-repeat; background-position:0 100%; transition:background-size .25s}
-  .underline-link:hover{background-size:100% 1px}
-
+  ::-webkit-scrollbar-thumb{background:var(--line-strong)}
   input[type="text"]::placeholder{color:var(--ink3)}
 </style>
 </head>
 <body class="min-h-screen">
-<div class="grain"></div>
 
-<!-- ============ TOP BAR ============ -->
-<header class="sticky top-0 z-50 bg-[var(--bg)]">
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center gap-4 border-b hairline">
+<!-- ============ BARRA SUPERIOR ============ -->
+<header class="sticky top-0 z-50 bg-[var(--bg)] border-b hairline">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center gap-4">
     <a href="#top" class="flex items-center gap-2 shrink-0">
       <span class="w-2 h-2 rounded-full bg-[var(--green)]"></span>
-      <span class="font-black tracking-tight text-sm">AKH IMPORT</span>
+      <span class="font-black tracking-tight text-base">AKH Import</span>
     </a>
 
-    <!-- Ticker de tasa -->
-    <div class="hidden md:flex flex-1 overflow-hidden mono text-[11px] text-[var(--ink3)] relative" style="mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)">
-      <div class="marquee-track gap-10" id="tickerTrack"></div>
+    <div class="flex-1 flex items-center gap-2 border hairline rounded-full px-4 py-2 min-w-0 max-w-sm">
+      <i data-lucide="search" class="w-4 h-4 text-[var(--ink3)] shrink-0"></i>
+      <input id="searchInput" type="text" placeholder="Buscar por modelo…" class="bg-transparent outline-none text-sm w-full min-w-0">
     </div>
 
-    <div class="flex-1 md:flex-none flex items-center gap-2 border hairline px-3 py-1.5 min-w-0">
-      <i data-lucide="search" class="w-3.5 h-3.5 text-[var(--ink3)] shrink-0"></i>
-      <input id="searchInput" type="text" placeholder="Buscar modelo / color…" class="bg-transparent outline-none text-xs w-full min-w-0">
-    </div>
+    <div class="flex-1"></div>
 
-    <button id="cartBtn" class="relative btn-line px-3 py-1.5 text-xs font-bold mono shrink-0 flex items-center gap-1.5">
-      <i data-lucide="receipt" class="w-3.5 h-3.5"></i> <span id="cartCount">0</span>
+    <button id="cartBtn" class="btn-line rounded-full px-4 py-2 text-sm font-semibold shrink-0 flex items-center gap-2">
+      <i data-lucide="message-circle" class="w-4 h-4"></i> Mi lista <span id="cartCount" class="mono">(0)</span>
     </button>
   </div>
-  <div class="ticket-edge"></div>
 </header>
 
-<main id="top" class="max-w-5xl mx-auto px-4 sm:px-6 pb-24">
+<main id="top" class="max-w-6xl mx-auto px-4 sm:px-6 pb-20">
 
-  <!-- ============ HERO ============ -->
-  <section class="grid grid-cols-1 lg:grid-cols-5 gap-10 py-14 lg:py-20 border-b hairline items-center">
-    <div class="lg:col-span-3">
-      <h1 class="text-5xl sm:text-6xl font-black tracking-tight leading-[0.98] mb-6">
-        Equipos originales.<br>Papeles en regla.<br>
-        <span class="relative inline-block">
-          Sin sorpresas.
-          <svg class="absolute left-0 -bottom-1 w-full" height="10" viewBox="0 0 200 10" preserveAspectRatio="none"><path d="M0,6 Q50,0 100,5 T200,4" stroke="#32B271" stroke-width="5" fill="none"/></svg>
-        </span>
-      </h1>
-      <p class="text-[var(--ink2)] text-base max-w-md mb-8 leading-relaxed">
-        Cada equipo pasa por revisión de batería, ciclos e iCloud antes de salir del inventario. Lo que ves en el catálogo es lo que recibes.
-      </p>
-      <div class="flex flex-wrap items-center gap-3">
-        <button onclick="scrollToCatalog()" class="btn-solid px-6 py-3 text-sm">Ver inventario disponible</button>
-        <a href="#faq" class="btn-line px-6 py-3 text-sm font-semibold">Garantía y pagos</a>
-      </div>
-      <div class="mt-10 flex items-center gap-6 mono text-xs text-[var(--ink3)] border-t hairline pt-5">
-        <span><span class="text-[var(--ink)] font-bold">638+</span> equipos entregados</span>
-        <span class="w-1 h-1 rounded-full bg-[var(--line-strong)]"></span>
-        <span><span class="text-[var(--ink)] font-bold">100%</span> originales</span>
-        <span class="w-1 h-1 rounded-full bg-[var(--line-strong)]"></span>
-        <span><span class="text-[var(--ink)] font-bold">6 meses</span> garantía</span>
-      </div>
-    </div>
+  <!-- ============ ENCABEZADO CORTO + FILTROS ============ -->
+  <section class="pt-8 pb-6">
+    <p class="text-[var(--ink2)] text-sm sm:text-base mb-6">
+      Equipos 100% originales, revisados y con <span class="text-[var(--ink)] font-semibold">garantía escrita</span>.
+    </p>
 
-    <div class="lg:col-span-2 relative">
-      <div class="absolute -top-2 -left-2 right-6 bottom-6 border hairline"></div>
-      <div class="relative bg-[var(--paper)] border hairline overflow-hidden">
-        <span class="tag-corner">DESTACADO</span>
-        <img src="https://placehold.co/600x600/111110/32B271?text=iPhone+17+Pro+Max" alt="iPhone 17 Pro Max" class="w-full aspect-square object-contain p-10">
-        <div class="border-t hairline p-4 flex items-center justify-between mono text-xs">
-          <span>iPhone 17 Pro Max · 256GB</span>
-          <span class="font-bold text-[var(--green)]">$1,299</span>
-        </div>
+    <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-8 border-b hairline pb-4">
+      <div class="flex flex-wrap gap-x-5 gap-y-2" id="seriesFilters"></div>
+      <div class="hidden md:block w-px h-4 bg-[var(--line-strong)]"></div>
+      <div class="flex flex-wrap gap-x-5 gap-y-2" id="condFilters"></div>
+      <div class="md:ml-auto">
+        <select id="sortSelect" class="bg-transparent border hairline rounded-lg mono text-xs px-3 py-2 outline-none cursor-pointer">
+          <option value="default" class="bg-[var(--paper)]">Relevancia</option>
+          <option value="price-asc" class="bg-[var(--paper)]">Precio: menor a mayor</option>
+          <option value="price-desc" class="bg-[var(--paper)]">Precio: mayor a menor</option>
+        </select>
       </div>
     </div>
   </section>
 
-  <!-- ============ FILTROS ============ -->
-  <section id="catalogo" class="pt-10">
-    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
-      <h2 class="text-3xl font-black">Catálogo disponible</h2>
-      <select id="sortSelect" class="bg-transparent border hairline mono text-xs px-3 py-2 outline-none cursor-pointer">
-        <option value="default" class="bg-[var(--paper)]">Orden: relevancia</option>
-        <option value="price-asc" class="bg-[var(--paper)]">Precio: menor a mayor</option>
-        <option value="price-desc" class="bg-[var(--paper)]">Precio: mayor a menor</option>
-      </select>
-    </div>
-
-    <div class="flex flex-wrap gap-x-6 gap-y-2 border-b hairline pb-0 mb-1" id="seriesFilters"></div>
-    <div class="flex flex-wrap gap-x-6 gap-y-2 mb-8 mt-4" id="condFilters"></div>
-
-    <!-- ============ LISTA / MANIFIESTO ============ -->
-    <div id="productGrid" class="border-t hairline"></div>
-    <p id="emptyState" class="hidden text-center text-[var(--ink3)] py-16 text-sm">No encontramos equipos con esos filtros.</p>
-  </section>
-
-  <!-- ============ FAQ ============ -->
-  <section id="faq" class="mt-20 pt-10 border-t hairline">
-    <h2 class="text-3xl font-black mb-6">Garantía, pagos y envío</h2>
-    <div id="faqAccordion"></div>
+  <!-- ============ CUADRÍCULA DE EQUIPOS ============ -->
+  <section id="catalogo">
+    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    <p id="emptyState" class="hidden text-center text-[var(--ink3)] py-20 text-sm">No encontramos equipos con esos filtros.</p>
   </section>
 </main>
 
-<!-- ============ CARRITO (RECIBO) ============ -->
+<!-- ============ MI LISTA (DRAWER) ============ -->
 <div id="cartOverlay" class="fixed inset-0 modal-backdrop z-[60] hidden" onclick="closeCart()"></div>
 <aside id="cartDrawer" class="drawer fixed top-0 right-0 h-full w-full sm:w-[380px] z-[70] translate-x-full bg-[var(--paper)] border-l hairline">
   <div class="flex flex-col h-full">
-    <div class="flex items-center justify-between px-6 h-14 border-b hairline">
-      <h3 class="font-black text-sm tracking-wide">Tu pedido</h3>
-      <button onclick="closeCart()" class="btn-line p-1.5"><i data-lucide="x" class="w-4 h-4"></i></button>
+    <div class="flex items-center justify-between px-6 h-16 border-b hairline">
+      <h3 class="font-bold text-base">Mi lista</h3>
+      <button onclick="closeCart()" class="btn-line rounded-full p-1.5"><i data-lucide="x" class="w-4 h-4"></i></button>
     </div>
-    <div class="ticket-edge"></div>
     <div id="cartItems" class="flex-1 overflow-y-auto px-6 py-2"></div>
-    <p id="cartEmpty" class="text-[var(--ink3)] text-sm text-center py-10">Aún no has agregado equipos</p>
+    <p id="cartEmpty" class="text-[var(--ink3)] text-sm text-center py-10">Aún no has agregado equipos.</p>
     <div class="px-6 pb-6 pt-4 border-t hairline mt-auto">
-      <div class="flex items-center mb-5 mono text-sm">
-        <span class="text-[var(--ink3)]">TOTAL</span>
+      <div class="flex items-center mb-4 mono text-sm">
+        <span class="text-[var(--ink3)]">Total</span>
         <span class="dotted-leader"></span>
         <span id="cartTotal" class="font-bold text-[var(--green)] text-lg">$0</span>
       </div>
-      <button onclick="sendCartToWhatsApp()" class="w-full btn-solid py-3.5 text-sm flex items-center justify-center gap-2">
+      <button onclick="sendCartToWhatsApp()" class="w-full btn-solid rounded-xl py-3.5 text-sm flex items-center justify-center gap-2">
         <i data-lucide="message-circle" class="w-4 h-4"></i> Enviar por WhatsApp
       </button>
     </div>
   </div>
 </aside>
 
-<!-- ============ MODAL SPECS ============ -->
+<!-- ============ MODAL VISTA RÁPIDA ============ -->
 <div id="specModalOverlay" class="fixed inset-0 modal-backdrop z-[80] hidden items-center justify-center p-4" onclick="if(event.target===this)closeSpecModal()">
-  <div class="bg-[var(--paper)] border hairline max-w-lg w-full max-h-[88vh] overflow-y-auto" id="specModalContent"></div>
+  <div class="modal-pop bg-[var(--paper)] border hairline rounded-2xl max-w-md w-full max-h-[88vh] overflow-y-auto" id="specModalContent"></div>
 </div>
 
-<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[90] bg-[var(--paper)] border hairline px-5 py-3 text-sm font-medium opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2">
+<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[90] bg-[var(--paper)] border hairline rounded-full px-5 py-3 text-sm font-medium opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2">
   <i data-lucide="check" class="w-3.5 h-3.5 text-[var(--green)]"></i> <span id="toastMsg"></span>
 </div>
 
-<footer class="max-w-5xl mx-auto px-4 sm:px-6 py-8 border-t hairline text-xs text-[var(--ink3)] flex flex-wrap items-center justify-between gap-2">
-  <span>AKH Import © 2026</span>
-  <span>Revisión técnica en cada equipo antes de salida</span>
+<!-- ============ PIE DE PÁGINA ============ -->
+<footer class="border-t hairline">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 text-sm text-[var(--ink2)]">
+    <span><span class="text-[var(--ink3)]">Pagos:</span> Zelle, Binance/USDT, efectivo, transferencia</span>
+    <span><span class="text-[var(--ink3)]">Entrega:</span> en persona o envío nacional con seguimiento</span>
+    <a href="#" id="footerWhatsapp" class="sm:ml-auto btn-line rounded-full px-4 py-2 text-sm font-semibold flex items-center gap-2 w-fit">
+      <i data-lucide="message-circle" class="w-4 h-4"></i> Escríbenos
+    </a>
+  </div>
 </footer>
 
 <script>
@@ -227,9 +165,6 @@
    CONFIGURACIÓN — EDITA AQUÍ
    ====================================================================== */
 const WHATSAPP_NUMBER = "584120000000"; // <-- EDITA ESTE NÚMERO
-
-// Tasa de referencia para el ticker (edítalo o conéctalo a tu fuente real, p.ej. pydolarve.org)
-const RATES = { bcv: 68.42, binance: 71.10 };
 
 const products = [
   { id: 1, modelo: "iPhone 18 Pro Max", serie: "18", condicion: "sellado", almacenamiento: "256GB", color: "Negro Espacial", colorHex: "#1b1b1d", precio: 1450, bateria: 100, ciclos: 0, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://placehold.co/500x500/111110/EDE9E0?text=iPhone+18+Pro+Max" },
@@ -243,36 +178,35 @@ const products = [
 ];
 /* ====================================================================== */
 
-const SERIES = [{id:"todos",label:"Todos"},{id:"18",label:"Serie 18"},{id:"17",label:"Serie 17"},{id:"16",label:"Serie 16"},{id:"15",label:"Serie 15"},{id:"14",label:"Serie 14"},{id:"13",label:"Serie 13"}];
-const CONDS = [{id:"todos",label:"Todos"},{id:"sellado",label:"Sellado / Nuevo"},{id:"openbox",label:"Open Box"},{id:"seminuevo",label:"Seminuevo"}];
+const SERIES = [{id:"todos",label:"Todos"},{id:"18",label:"18"},{id:"17",label:"17"},{id:"16",label:"16"},{id:"15",label:"15"},{id:"14",label:"14/13"},{id:"13",label:null}];
+const SERIES_VISIBLE = SERIES.filter(s=>s.label);
+const CONDS = [{id:"todos",label:"Todos"},{id:"sellado",label:"Sellado"},{id:"openbox",label:"Open Box"},{id:"seminuevo",label:"Seminuevo"}];
 const CONDITION_LABEL = { sellado:"SELLADO", openbox:"OPEN BOX", seminuevo:"SEMINUEVO" };
 const CONDITION_COLOR = { sellado:"var(--green)", openbox:"var(--ink)", seminuevo:"var(--amber)" };
 
 let state = { serie:"todos", cond:"todos", sort:"default", search:"" };
 let cart = [];
 
-function renderTicker(){
-  const items = [
-    `TASA BCV $${RATES.bcv.toFixed(2)}`,
-    `BINANCE USDT $${RATES.binance.toFixed(2)}`,
-    `ENVÍOS A TODO EL PAÍS`,
-    `GARANTÍA ESCRITA EN CADA EQUIPO`,
-  ];
-  const html = items.map(t => `<span>${t}</span>`).join('<span class="text-[var(--line-strong)]">·</span>');
-  document.getElementById("tickerTrack").innerHTML = html + html;
-}
-
 function renderChips(containerId, items, activeKey, onclickFn){
   const el = document.getElementById(containerId);
-  el.innerHTML = items.map(it => `<button data-id="${it.id}" class="tab ${it.id===activeKey?'active':''} text-xs">${it.label}</button>`).join("");
+  el.innerHTML = items.map(it => `<button data-id="${it.id}" class="tab ${it.id===activeKey?'active':''} text-sm">${it.label}</button>`).join("");
   el.querySelectorAll("button").forEach(btn => btn.addEventListener("click", () => onclickFn(btn.dataset.id)));
 }
-function setSerie(id){ state.serie=id; renderAll(); }
+function setSerie(id){
+  // "14/13" agrupa ambas series en un solo filtro
+  state.serie = id; renderAll();
+}
 function setCond(id){ state.cond=id; renderAll(); }
+
+function matchesSerie(p){
+  if(state.serie==="todos") return true;
+  if(state.serie==="14") return p.serie==="14" || p.serie==="13";
+  return p.serie===state.serie;
+}
 
 function filteredProducts(){
   let list = products.filter(p=>{
-    if(state.serie!=="todos" && p.serie!==state.serie) return false;
+    if(!matchesSerie(p)) return false;
     if(state.cond!=="todos" && p.condicion!==state.cond) return false;
     if(state.search){
       const q=state.search.toLowerCase();
@@ -289,33 +223,30 @@ function renderProducts(){
   const grid = document.getElementById("productGrid");
   const list = filteredProducts();
   document.getElementById("emptyState").classList.toggle("hidden", list.length>0);
-  grid.innerHTML = list.map((p,i) => `
-    <div class="row group flex items-center gap-4 py-4">
-      <span class="mono text-xs text-[var(--ink3)] w-6 shrink-0">${String(i+1).padStart(2,'0')}</span>
-      <div class="w-16 h-16 bg-[var(--bg)] border hairline shrink-0 flex items-center justify-center cursor-pointer" onclick="openSpecModal(${p.id})">
-        <img src="${p.img}" alt="${p.modelo}" class="w-[70%] object-contain">
+  grid.innerHTML = list.map(p => `
+    <div class="card rounded-2xl overflow-hidden flex flex-col">
+      <div class="bg-[var(--bg)] aspect-square overflow-hidden flex items-center justify-center cursor-pointer" onclick="openSpecModal(${p.id})">
+        <img src="${p.img}" alt="${p.modelo}" class="w-[72%] object-contain">
       </div>
-      <div class="flex-1 min-w-0 cursor-pointer" onclick="openSpecModal(${p.id})">
-        <div class="flex items-center gap-2 flex-wrap">
-          <h3 class="font-bold text-sm">${p.modelo}</h3>
-          <span class="mono text-[10px] font-bold tracking-wide" style="color:${CONDITION_COLOR[p.condicion]}">${CONDITION_LABEL[p.condicion]}</span>
-        </div>
-        <p class="text-[var(--ink3)] text-xs mt-0.5 flex items-center gap-1.5">
-          <span class="inline-block w-2 h-2 rounded-full border border-white/20" style="background:${p.colorHex}"></span>
-          ${p.color} · ${p.almacenamiento}${p.condicion==='seminuevo' ? ' · '+p.bateria+'% batería' : ''}
+      <div class="p-4 flex flex-col flex-1">
+        <span class="mono text-[10px] font-bold tracking-wide self-start mb-2" style="color:${CONDITION_COLOR[p.condicion]}">${CONDITION_LABEL[p.condicion]}${p.condicion==='seminuevo' ? ' · '+p.bateria+'% BAT' : ''}</span>
+        <h3 class="font-bold text-sm leading-snug mb-1">${p.modelo}</h3>
+        <p class="text-[var(--ink3)] text-xs mb-3 flex items-center gap-1.5">
+          <span class="inline-block w-2.5 h-2.5 rounded-full border border-white/20 shrink-0" style="background:${p.colorHex}"></span>
+          ${p.almacenamiento} · ${p.color}
         </p>
-      </div>
-      <span class="dotted-leader hidden sm:block"></span>
-      <span class="mono font-bold text-base shrink-0 w-20 text-right">$${p.precio.toLocaleString()}</span>
-      <div class="hidden sm:flex items-center gap-2 shrink-0">
-        <button onclick="addToCart(${p.id})" class="btn-solid px-3 py-2 text-xs">Pedir</button>
+        <p class="mono text-xl font-bold mb-4">$${p.precio.toLocaleString()}</p>
+        <div class="flex gap-2 mt-auto">
+          <button onclick="openSpecModal(${p.id})" class="flex-1 btn-line rounded-lg py-2 text-xs font-semibold">Ver ficha</button>
+          <button onclick="addToCart(${p.id})" class="flex-1 btn-solid rounded-lg py-2 text-xs">Agregar</button>
+        </div>
       </div>
     </div>`).join("");
   lucide.createIcons();
 }
 
 function renderAll(){
-  renderChips("seriesFilters", SERIES, state.serie, setSerie);
+  renderChips("seriesFilters", SERIES_VISIBLE, state.serie, setSerie);
   renderChips("condFilters", CONDS, state.cond, setCond);
   renderProducts();
   lucide.createIcons();
@@ -326,10 +257,10 @@ function openSpecModal(id){
   if(!p) return;
   document.getElementById("specModalContent").innerHTML = `
     <div class="flex items-center justify-between px-6 h-14 border-b hairline">
-      <span class="mono text-[11px] tracking-[0.2em] font-bold" style="color:${CONDITION_COLOR[p.condicion]}">${CONDITION_LABEL[p.condicion]}</span>
-      <button onclick="closeSpecModal()" class="btn-line p-1.5"><i data-lucide="x" class="w-4 h-4"></i></button>
+      <span class="mono text-[11px] tracking-[0.1em] font-bold" style="color:${CONDITION_COLOR[p.condicion]}">${CONDITION_LABEL[p.condicion]}</span>
+      <button onclick="closeSpecModal()" class="btn-line rounded-full p-1.5"><i data-lucide="x" class="w-4 h-4"></i></button>
     </div>
-    <div class="bg-[var(--bg)] aspect-[16/10] flex items-center justify-center border-b hairline">
+    <div class="bg-[var(--bg)] aspect-[4/3] flex items-center justify-center border-b hairline">
       <img src="${p.img}" class="w-1/2 object-contain">
     </div>
     <div class="p-6">
@@ -343,12 +274,12 @@ function openSpecModal(id){
         <div class="flex items-center"><span class="text-[var(--ink3)]">Incluye</span><span class="dotted-leader"></span><span class="text-right">${p.caja}</span></div>
       </div>
       <div class="flex items-center mb-6 pt-4 border-t hairline mono">
-        <span class="text-[var(--ink3)] text-sm">PRECIO</span><span class="dotted-leader"></span>
+        <span class="text-[var(--ink3)] text-sm">Precio</span><span class="dotted-leader"></span>
         <span class="text-2xl font-black text-[var(--green)]">$${p.precio.toLocaleString()}</span>
       </div>
       <div class="flex gap-3">
-        <button onclick="addToCart(${p.id}); closeSpecModal();" class="flex-1 btn-line py-3 text-sm font-bold">Agregar</button>
-        <button onclick="sendSingleToWhatsApp(${p.id})" class="flex-1 btn-solid py-3 text-sm flex items-center justify-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> Consultar</button>
+        <button onclick="addToCart(${p.id}); closeSpecModal();" class="flex-1 btn-line rounded-xl py-3 text-sm font-bold">Agregar</button>
+        <button onclick="sendSingleToWhatsApp(${p.id})" class="flex-1 btn-solid rounded-xl py-3 text-sm flex items-center justify-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> Consultar</button>
       </div>
     </div>`;
   document.getElementById("specModalOverlay").classList.remove("hidden");
@@ -363,23 +294,23 @@ function closeSpecModal(){
 function addToCart(id){
   const p = products.find(x=>x.id===id);
   if(!p) return;
-  if(cart.find(c=>c.id===id)){ showToast(`${p.modelo} ya está en tu pedido`); return; }
+  if(cart.find(c=>c.id===id)){ showToast(`${p.modelo} ya está en tu lista`); return; }
   cart.push(p); renderCart(); showToast(`${p.modelo} agregado`);
 }
 function removeFromCart(id){ cart = cart.filter(c=>c.id!==id); renderCart(); }
 function renderCart(){
-  document.getElementById("cartCount").textContent = cart.length;
+  document.getElementById("cartCount").textContent = `(${cart.length})`;
   const itemsEl = document.getElementById("cartItems");
   document.getElementById("cartEmpty").classList.toggle("hidden", cart.length>0);
   itemsEl.innerHTML = cart.map(p => `
     <div class="flex items-center gap-3 py-3 border-b hairline">
-      <img src="${p.img}" class="w-12 h-12 object-contain bg-[var(--bg)] border hairline shrink-0">
+      <img src="${p.img}" class="w-12 h-12 object-contain bg-[var(--bg)] border hairline rounded-lg shrink-0">
       <div class="flex-1 min-w-0">
         <p class="text-xs font-bold truncate">${p.modelo}</p>
         <p class="text-[10px] text-[var(--ink3)] mono">${p.almacenamiento} · ${p.color}</p>
       </div>
       <span class="mono text-sm font-bold">$${p.precio.toLocaleString()}</span>
-      <button onclick="removeFromCart(${p.id})" class="btn-line p-1.5 shrink-0"><i data-lucide="x" class="w-3 h-3"></i></button>
+      <button onclick="removeFromCart(${p.id})" class="btn-line rounded-full p-1.5 shrink-0"><i data-lucide="x" class="w-3 h-3"></i></button>
     </div>`).join("");
   const total = cart.reduce((s,p)=>s+p.precio,0);
   document.getElementById("cartTotal").textContent = `$${total.toLocaleString()}`;
@@ -396,14 +327,19 @@ function buildMessageForProducts(list){
   if(list.length>1) msg += `\nTotal estimado: $${total.toLocaleString()}`;
   return msg;
 }
+function waLink(text){ return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`; }
 function sendSingleToWhatsApp(id){
   const p = products.find(x=>x.id===id); if(!p) return;
-  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(buildMessageForProducts([p]))}`, "_blank");
+  window.open(waLink(buildMessageForProducts([p])), "_blank");
 }
 function sendCartToWhatsApp(){
-  if(cart.length===0){ showToast("Tu pedido está vacío"); return; }
-  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(buildMessageForProducts(cart))}`, "_blank");
+  if(cart.length===0){ showToast("Tu lista está vacía"); return; }
+  window.open(waLink(buildMessageForProducts(cart)), "_blank");
 }
+document.getElementById("footerWhatsapp").addEventListener("click", (e) => {
+  e.preventDefault();
+  window.open(waLink("Hola AKH Import, quisiera más información."), "_blank");
+});
 
 let toastTimer;
 function showToast(text){
@@ -414,41 +350,12 @@ function showToast(text){
   toastTimer = setTimeout(()=>{ t.classList.add("opacity-0"); t.classList.remove("opacity-100"); }, 2200);
 }
 
-const faqs = [
-  { q:"¿Qué métodos de pago aceptan?", a:"Zelle, Binance/USDT, efectivo y transferencias bancarias nacionales. Confirmamos disponibilidad al coordinar por WhatsApp." },
-  { q:"¿Qué garantía tienen los equipos?", a:"Sellados y open box: 6 meses de garantía escrita. Seminuevos certificados: 3 meses de garantía escrita por defectos de fábrica." },
-  { q:"¿Cómo es la entrega o el envío?", a:"Entregas en persona en puntos seguros coordinados, y envíos nacionales por encomienda de confianza con seguimiento." },
-  { q:"¿Los equipos son originales?", a:"100% originales de fábrica. Cada equipo pasa por revisión técnica (batería, ciclos, IMEI, iCloud) antes de publicarse." },
-];
-function renderFaq(){
-  const el = document.getElementById("faqAccordion");
-  el.innerHTML = faqs.map((f,i) => `
-    <div class="border-t hairline ${i===faqs.length-1?'border-b':''}">
-      <button class="w-full flex items-center justify-between py-4 text-left" onclick="toggleFaq(${i})">
-        <span class="font-bold text-sm">${f.q}</span>
-        <i data-lucide="plus" id="faq-icon-${i}" class="w-4 h-4 text-[var(--ink3)] transition-transform duration-300 shrink-0"></i>
-      </button>
-      <div class="accordion-content" id="faq-content-${i}"><p class="text-sm text-[var(--ink2)] pb-4 leading-relaxed max-w-lg">${f.a}</p></div>
-    </div>`).join("");
-  lucide.createIcons();
-}
-function toggleFaq(i){
-  const content = document.getElementById(`faq-content-${i}`);
-  const icon = document.getElementById(`faq-icon-${i}`);
-  const isOpen = content.style.maxHeight && content.style.maxHeight !== "0px";
-  document.querySelectorAll(".accordion-content").forEach(c=>c.style.maxHeight="0px");
-  document.querySelectorAll('[id^="faq-icon-"]').forEach(ic=>ic.style.transform="rotate(0deg)");
-  if(!isOpen){ content.style.maxHeight = content.scrollHeight+"px"; icon.style.transform="rotate(45deg)"; }
-}
-
-function scrollToCatalog(){ document.getElementById("catalogo").scrollIntoView({behavior:"smooth"}); }
 document.getElementById("searchInput").addEventListener("input", e=>{ state.search=e.target.value; renderProducts(); });
 document.getElementById("sortSelect").addEventListener("change", e=>{ state.sort=e.target.value; renderProducts(); });
+document.addEventListener("keydown", e=>{ if(e.key==="Escape"){ closeSpecModal(); closeCart(); } });
 
-renderTicker();
 renderAll();
 renderCart();
-renderFaq();
 lucide.createIcons();
 </script>
 </body>
