@@ -20,7 +20,7 @@
     --line-strong:rgba(237,233,224,0.28);
     --ink:#EDE9E0;
     --ink2:#A7A299;
-    --ink3:#6E6A62;
+    --ink3:#8C877C;
     --green:#32B271;
     --amber:#E8A33D;
   }
@@ -31,7 +31,11 @@
     font-family:'Archivo',system-ui,sans-serif;
     -webkit-font-smoothing:antialiased;
   }
-  .mono{font-family:'JetBrains Mono',monospace}
+  .mono{font-family:'JetBrains Mono',monospace; font-variant-numeric:tabular-nums}
+
+  ::selection{background:var(--green); color:#07170f}
+
+  :focus-visible{outline:2px solid var(--green); outline-offset:2px}
 
   /* film grain */
   .grain{position:fixed; inset:0; z-index:40; pointer-events:none; opacity:.05; mix-blend-mode:overlay;
@@ -118,7 +122,6 @@
   <!-- ============ HERO ============ -->
   <section class="grid grid-cols-1 lg:grid-cols-5 gap-10 py-14 lg:py-20 border-b hairline items-center">
     <div class="lg:col-span-3">
-      <p class="mono text-[11px] tracking-[0.25em] text-[var(--green)] mb-5">MANIFIESTO N.º 001 — INVENTARIO ACTIVO</p>
       <h1 class="text-5xl sm:text-6xl font-black tracking-tight leading-[0.98] mb-6">
         Equipos originales.<br>Papeles en regla.<br>
         <span class="relative inline-block">
@@ -158,10 +161,7 @@
   <!-- ============ FILTROS ============ -->
   <section id="catalogo" class="pt-10">
     <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
-      <div>
-        <p class="mono text-[11px] tracking-[0.25em] text-[var(--ink3)] mb-1">INVENTARIO</p>
-        <h2 class="text-2xl font-black">Catálogo disponible</h2>
-      </div>
+      <h2 class="text-3xl font-black">Catálogo disponible</h2>
       <select id="sortSelect" class="bg-transparent border hairline mono text-xs px-3 py-2 outline-none cursor-pointer">
         <option value="default" class="bg-[var(--paper)]">Orden: relevancia</option>
         <option value="price-asc" class="bg-[var(--paper)]">Precio: menor a mayor</option>
@@ -174,13 +174,12 @@
 
     <!-- ============ LISTA / MANIFIESTO ============ -->
     <div id="productGrid" class="border-t hairline"></div>
-    <p id="emptyState" class="hidden text-center text-[var(--ink3)] py-16 mono text-sm">— sin coincidencias para estos filtros —</p>
+    <p id="emptyState" class="hidden text-center text-[var(--ink3)] py-16 text-sm">No encontramos equipos con esos filtros.</p>
   </section>
 
   <!-- ============ FAQ ============ -->
   <section id="faq" class="mt-20 pt-10 border-t hairline">
-    <p class="mono text-[11px] tracking-[0.25em] text-[var(--ink3)] mb-1">AL DORSO</p>
-    <h2 class="text-2xl font-black mb-6">Garantía, pagos y envío</h2>
+    <h2 class="text-3xl font-black mb-6">Garantía, pagos y envío</h2>
     <div id="faqAccordion"></div>
   </section>
 </main>
@@ -190,12 +189,12 @@
 <aside id="cartDrawer" class="drawer fixed top-0 right-0 h-full w-full sm:w-[380px] z-[70] translate-x-full bg-[var(--paper)] border-l hairline">
   <div class="flex flex-col h-full">
     <div class="flex items-center justify-between px-6 h-14 border-b hairline">
-      <h3 class="font-black text-sm mono tracking-wide">TU PEDIDO</h3>
+      <h3 class="font-black text-sm tracking-wide">Tu pedido</h3>
       <button onclick="closeCart()" class="btn-line p-1.5"><i data-lucide="x" class="w-4 h-4"></i></button>
     </div>
     <div class="ticket-edge"></div>
     <div id="cartItems" class="flex-1 overflow-y-auto px-6 py-2"></div>
-    <p id="cartEmpty" class="text-[var(--ink3)] text-sm text-center py-10 mono">— lista vacía —</p>
+    <p id="cartEmpty" class="text-[var(--ink3)] text-sm text-center py-10">Aún no has agregado equipos</p>
     <div class="px-6 pb-6 pt-4 border-t hairline mt-auto">
       <div class="flex items-center mb-5 mono text-sm">
         <span class="text-[var(--ink3)]">TOTAL</span>
@@ -214,13 +213,13 @@
   <div class="bg-[var(--paper)] border hairline max-w-lg w-full max-h-[88vh] overflow-y-auto" id="specModalContent"></div>
 </div>
 
-<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[90] bg-[var(--paper)] border hairline px-5 py-3 text-xs mono opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2">
+<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[90] bg-[var(--paper)] border hairline px-5 py-3 text-sm font-medium opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2">
   <i data-lucide="check" class="w-3.5 h-3.5 text-[var(--green)]"></i> <span id="toastMsg"></span>
 </div>
 
-<footer class="max-w-5xl mx-auto px-4 sm:px-6 py-8 border-t hairline mono text-[11px] text-[var(--ink3)] flex flex-wrap items-center justify-between gap-2">
-  <span>AKH IMPORT © 2026</span>
-  <span>REVISIÓN TÉCNICA EN CADA EQUIPO ANTES DE SALIDA</span>
+<footer class="max-w-5xl mx-auto px-4 sm:px-6 py-8 border-t hairline text-xs text-[var(--ink3)] flex flex-wrap items-center justify-between gap-2">
+  <span>AKH Import © 2026</span>
+  <span>Revisión técnica en cada equipo antes de salida</span>
 </footer>
 
 <script>
