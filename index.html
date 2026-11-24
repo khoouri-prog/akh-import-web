@@ -14,17 +14,19 @@
 
 <style>
   :root{
-    --bg:#0a0a09;
-    --paper:#111110;
-    --line:rgba(237,233,224,0.12);
-    --line-strong:rgba(237,233,224,0.26);
-    --ink:#EDE9E0;
-    --ink2:#B8B3A8;
-    --ink3:#8C877C;
-    --green:#32B271;
-    --amber:#E8A33D;
+    --bg:#FFFFFF;
+    --paper:#F5F9F6;
+    --line:rgba(14,20,15,0.10);
+    --line-strong:rgba(14,20,15,0.22);
+    --ink:#10140F;
+    --ink2:#3A433C;
+    --ink3:#656F64;
+    --green:#178350;
+    --green-bright:#32B271;
+    --amber:#9C6B12;
   }
   *{box-sizing:border-box}
+  html,body{overflow-x:hidden}
   body{
     background:var(--bg); color:var(--ink);
     font-family:'Archivo',system-ui,sans-serif;
@@ -34,14 +36,15 @@
   .hairline{border-color:var(--line)}
   .dotted-leader{flex:1; border-bottom:1px dotted var(--line-strong); margin:0 10px; transform:translateY(-4px)}
 
-  ::selection{background:var(--green); color:#07170f}
+  ::selection{background:var(--green); color:#fff}
   :focus-visible{outline:2px solid var(--green); outline-offset:2px}
+  input:focus-visible, select:focus-visible{outline:2px solid var(--green); outline-offset:1px; box-shadow:0 0 0 4px rgba(23,131,80,0.18)}
 
-  .btn-solid{background:var(--green); color:#07170f; font-weight:700; transition:transform .15s ease, background .15s ease}
-  .btn-solid:hover{background:#3fcf87}
+  .btn-solid{background:var(--green); color:#fff; font-weight:700; transition:transform .15s ease, background .15s ease}
+  .btn-solid:hover{background:#136b42}
   .btn-solid:active{transform:scale(0.97)}
   .btn-line{border:1px solid var(--line-strong); color:var(--ink); transition:all .15s ease}
-  .btn-line:hover{border-color:var(--ink2); background:rgba(237,233,224,0.04)}
+  .btn-line:hover{border-color:var(--green); background:rgba(23,131,80,0.06)}
   .btn-line:active{transform:scale(0.97)}
 
   .tab{position:relative; padding-bottom:8px; color:var(--ink3); font-weight:600; transition:color .15s}
@@ -69,39 +72,39 @@
 
 <!-- ============ BARRA SUPERIOR ============ -->
 <header class="sticky top-0 z-50 bg-[var(--bg)] border-b hairline">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center gap-4">
+  <div class="max-w-[1280px] mx-auto px-4 sm:px-6 py-3 flex flex-wrap sm:flex-nowrap items-center gap-3">
     <a href="#top" class="flex items-center gap-2 shrink-0">
       <span class="w-2 h-2 rounded-full bg-[var(--green)]"></span>
       <span class="font-black tracking-tight text-base">AKH Import</span>
     </a>
 
-    <div class="flex-1 flex items-center gap-2 border hairline rounded-full px-4 py-2 min-w-0 max-w-sm">
-      <i data-lucide="search" class="w-4 h-4 text-[var(--ink3)] shrink-0"></i>
-      <input id="searchInput" type="text" placeholder="Buscar por modelo…" class="bg-transparent outline-none text-sm w-full min-w-0">
-    </div>
-
-    <div class="flex-1"></div>
-
-    <button id="cartBtn" class="btn-line rounded-full px-4 py-2 text-sm font-semibold shrink-0 flex items-center gap-2">
+    <button id="cartBtn" class="order-2 sm:order-3 ml-auto sm:ml-0 btn-line rounded-xl px-4 py-2.5 text-sm font-semibold shrink-0 flex items-center gap-2">
       <i data-lucide="message-circle" class="w-4 h-4"></i> Mi lista <span id="cartCount" class="mono">(0)</span>
     </button>
+
+    <div class="order-3 sm:order-2 w-full sm:w-auto sm:flex-1 sm:max-w-sm flex items-center gap-2 border hairline rounded-xl px-4 py-2.5 min-w-0 focus-within:border-[var(--green)]">
+      <i data-lucide="search" class="w-4 h-4 text-[var(--ink3)] shrink-0"></i>
+      <label for="searchInput" class="sr-only">Buscar por modelo</label>
+      <input id="searchInput" type="text" placeholder="Buscar por modelo…" class="bg-transparent outline-none text-sm w-full min-w-0">
+    </div>
   </div>
 </header>
 
-<main id="top" class="max-w-6xl mx-auto px-4 sm:px-6 pb-20">
+<main id="top" class="max-w-[1280px] mx-auto px-4 sm:px-6 pb-24">
 
   <!-- ============ ENCABEZADO CORTO + FILTROS ============ -->
   <section class="pt-8 pb-6">
-    <p class="text-[var(--ink2)] text-sm sm:text-base mb-6">
-      Equipos 100% originales, revisados y con <span class="text-[var(--ink)] font-semibold">garantía escrita</span>.
-    </p>
+    <h1 class="text-lg sm:text-xl font-bold text-[var(--ink)] mb-6">
+      iPhones certificados en Venezuela <span class="font-normal text-[var(--ink3)]">· garantía escrita</span>
+    </h1>
 
     <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-8 border-b hairline pb-4">
       <div class="flex flex-wrap gap-x-5 gap-y-2" id="seriesFilters"></div>
       <div class="hidden md:block w-px h-4 bg-[var(--line-strong)]"></div>
       <div class="flex flex-wrap gap-x-5 gap-y-2" id="condFilters"></div>
       <div class="md:ml-auto">
-        <select id="sortSelect" class="bg-transparent border hairline rounded-lg mono text-xs px-3 py-2 outline-none cursor-pointer">
+        <label for="sortSelect" class="sr-only">Ordenar por precio</label>
+        <select id="sortSelect" class="bg-transparent border hairline rounded-lg mono text-xs px-3 py-2 outline-none cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--green)]">
           <option value="default" class="bg-[var(--paper)]">Relevancia</option>
           <option value="price-asc" class="bg-[var(--paper)]">Precio: menor a mayor</option>
           <option value="price-desc" class="bg-[var(--paper)]">Precio: mayor a menor</option>
@@ -119,11 +122,11 @@
 
 <!-- ============ MI LISTA (DRAWER) ============ -->
 <div id="cartOverlay" class="fixed inset-0 modal-backdrop z-[60] hidden" onclick="closeCart()"></div>
-<aside id="cartDrawer" class="drawer fixed top-0 right-0 h-full w-full sm:w-[380px] z-[70] translate-x-full bg-[var(--paper)] border-l hairline">
+<aside id="cartDrawer" inert class="drawer fixed top-0 right-0 h-full w-full sm:w-[380px] z-[70] translate-x-full bg-[var(--paper)] border-l hairline">
   <div class="flex flex-col h-full">
     <div class="flex items-center justify-between px-6 h-16 border-b hairline">
-      <h3 class="font-bold text-base">Mi lista</h3>
-      <button onclick="closeCart()" class="btn-line rounded-full p-1.5"><i data-lucide="x" class="w-4 h-4"></i></button>
+      <h2 class="font-bold text-base">Mi lista</h2>
+      <button onclick="closeCart()" aria-label="Cerrar" class="btn-line rounded-full p-1.5"><i data-lucide="x" class="w-4 h-4"></i></button>
     </div>
     <div id="cartItems" class="flex-1 overflow-y-auto px-6 py-2"></div>
     <p id="cartEmpty" class="text-[var(--ink3)] text-sm text-center py-10">Aún no has agregado equipos.</p>
@@ -133,8 +136,8 @@
         <span class="dotted-leader"></span>
         <span id="cartTotal" class="font-bold text-[var(--green)] text-lg">$0</span>
       </div>
-      <button onclick="sendCartToWhatsApp()" class="w-full btn-solid rounded-xl py-3.5 text-sm flex items-center justify-center gap-2">
-        <i data-lucide="message-circle" class="w-4 h-4"></i> Enviar por WhatsApp
+      <button onclick="sendCartToWhatsApp()" class="w-full btn-solid rounded-xl py-2.5 text-sm flex items-center justify-center gap-2">
+        <i data-lucide="message-circle" class="w-4 h-4"></i> Consultar por WhatsApp
       </button>
     </div>
   </div>
@@ -151,11 +154,11 @@
 
 <!-- ============ PIE DE PÁGINA ============ -->
 <footer class="border-t hairline">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 text-sm text-[var(--ink2)]">
+  <div class="max-w-[1280px] mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 text-sm text-[var(--ink2)]">
     <span><span class="text-[var(--ink3)]">Pagos:</span> Zelle, Binance/USDT, efectivo, transferencia</span>
     <span><span class="text-[var(--ink3)]">Entrega:</span> en persona o envío nacional con seguimiento</span>
-    <a href="#" id="footerWhatsapp" class="sm:ml-auto btn-line rounded-full px-4 py-2 text-sm font-semibold flex items-center gap-2 w-fit">
-      <i data-lucide="message-circle" class="w-4 h-4"></i> Escríbenos
+    <a href="https://wa.me/584120000000" target="_blank" rel="noopener" id="footerWhatsapp" class="sm:ml-auto btn-line rounded-xl px-4 py-2.5 text-sm font-semibold flex items-center gap-2 w-fit">
+      <i data-lucide="message-circle" class="w-4 h-4"></i> Consultar por WhatsApp
     </a>
   </div>
 </footer>
@@ -167,14 +170,14 @@
 const WHATSAPP_NUMBER = "584120000000"; // <-- EDITA ESTE NÚMERO
 
 const products = [
-  { id: 1, modelo: "iPhone 18 Pro Max", serie: "18", condicion: "sellado", almacenamiento: "256GB", color: "Negro Espacial", colorHex: "#1b1b1d", precio: 1450, bateria: 100, ciclos: 0, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://placehold.co/500x500/111110/EDE9E0?text=iPhone+18+Pro+Max" },
-  { id: 2, modelo: "iPhone 17 Pro Max", serie: "17", condicion: "sellado", almacenamiento: "256GB", color: "Titanio Desierto", colorHex: "#9c8063", precio: 1299, bateria: 100, ciclos: 0, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://placehold.co/500x500/111110/32B271?text=iPhone+17+Pro+Max" },
-  { id: 3, modelo: "iPhone 17 Pro", serie: "17", condicion: "openbox", almacenamiento: "128GB", color: "Ultramarino", colorHex: "#3a4a7a", precio: 1050, bateria: 100, ciclos: 2, estetica: "10/10", caja: "Caja abierta, accesorios completos", garantia: "6 meses escrita", img: "https://placehold.co/500x500/111110/EDE9E0?text=iPhone+17+Pro" },
-  { id: 4, modelo: "iPhone 16 Pro Max", serie: "16", condicion: "seminuevo", almacenamiento: "256GB", color: "Titanio Natural", colorHex: "#cabfae", precio: 870, bateria: 97, ciclos: 180, estetica: "9/10", caja: "Solo equipo + cable USB-C", garantia: "3 meses escrita", img: "https://placehold.co/500x500/111110/E8A33D?text=iPhone+16+Pro+Max" },
-  { id: 5, modelo: "iPhone 16", serie: "16", condicion: "seminuevo", almacenamiento: "128GB", color: "Negro Espacial", colorHex: "#1b1b1d", precio: 590, bateria: 95, ciclos: 240, estetica: "9/10", caja: "Solo equipo + cable USB-C", garantia: "3 meses escrita", img: "https://placehold.co/500x500/111110/E8A33D?text=iPhone+16" },
-  { id: 6, modelo: "iPhone 15 Pro Max", serie: "15", condicion: "seminuevo", almacenamiento: "256GB", color: "Titanio Azul", colorHex: "#3c5a73", precio: 720, bateria: 94, ciclos: 310, estetica: "9/10", caja: "Solo equipo + cable USB-C", garantia: "3 meses escrita", img: "https://placehold.co/500x500/111110/E8A33D?text=iPhone+15+Pro+Max" },
-  { id: 7, modelo: "iPhone 14 Pro", serie: "14", condicion: "seminuevo", almacenamiento: "128GB", color: "Morado Oscuro", colorHex: "#4b3c56", precio: 480, bateria: 91, ciclos: 420, estetica: "8/10", caja: "Solo equipo", garantia: "3 meses escrita", img: "https://placehold.co/500x500/111110/E8A33D?text=iPhone+14+Pro" },
-  { id: 8, modelo: "iPhone 13", serie: "13", condicion: "seminuevo", almacenamiento: "128GB", color: "Rosa", colorHex: "#e8c7cb", precio: 310, bateria: 88, ciclos: 560, estetica: "8/10", caja: "Solo equipo", garantia: "3 meses escrita", img: "https://placehold.co/500x500/111110/E8A33D?text=iPhone+13" },
+  { id: 1, modelo: "iPhone 18 Pro Max", serie: "18", condicion: "sellado", almacenamiento: "256GB", color: "Negro Espacial", colorHex: "#1b1b1d", precio: 1450, bateria: 100, ciclos: 0, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://placehold.co/500x500/F5F9F6/178350?text=iPhone+18+Pro+Max" },
+  { id: 2, modelo: "iPhone 17 Pro Max", serie: "17", condicion: "sellado", almacenamiento: "256GB", color: "Titanio Desierto", colorHex: "#9c8063", precio: 1299, bateria: 100, ciclos: 0, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://placehold.co/500x500/F5F9F6/9c8063?text=iPhone+17+Pro+Max" },
+  { id: 3, modelo: "iPhone 17 Pro", serie: "17", condicion: "openbox", almacenamiento: "128GB", color: "Ultramarino", colorHex: "#3a4a7a", precio: 1050, bateria: 100, ciclos: 2, estetica: "10/10", caja: "Caja abierta, accesorios completos", garantia: "6 meses escrita", img: "https://placehold.co/500x500/F5F9F6/3a4a7a?text=iPhone+17+Pro" },
+  { id: 4, modelo: "iPhone 16 Pro Max", serie: "16", condicion: "seminuevo", almacenamiento: "256GB", color: "Titanio Natural", colorHex: "#cabfae", precio: 870, bateria: 97, ciclos: 180, estetica: "9/10", caja: "Solo equipo + cable USB-C", garantia: "3 meses escrita", img: "https://placehold.co/500x500/F5F9F6/a89a7c?text=iPhone+16+Pro+Max" },
+  { id: 5, modelo: "iPhone 16", serie: "16", condicion: "seminuevo", almacenamiento: "128GB", color: "Negro Espacial", colorHex: "#1b1b1d", precio: 590, bateria: 95, ciclos: 240, estetica: "9/10", caja: "Solo equipo + cable USB-C", garantia: "3 meses escrita", img: "https://placehold.co/500x500/F5F9F6/1b1b1d?text=iPhone+16" },
+  { id: 6, modelo: "iPhone 15 Pro Max", serie: "15", condicion: "seminuevo", almacenamiento: "256GB", color: "Titanio Azul", colorHex: "#3c5a73", precio: 720, bateria: 94, ciclos: 310, estetica: "9/10", caja: "Solo equipo + cable USB-C", garantia: "3 meses escrita", img: "https://placehold.co/500x500/F5F9F6/3c5a73?text=iPhone+15+Pro+Max" },
+  { id: 7, modelo: "iPhone 14 Pro", serie: "14", condicion: "seminuevo", almacenamiento: "128GB", color: "Morado Oscuro", colorHex: "#4b3c56", precio: 480, bateria: 91, ciclos: 420, estetica: "8/10", caja: "Solo equipo", garantia: "3 meses escrita", img: "https://placehold.co/500x500/F5F9F6/4b3c56?text=iPhone+14+Pro" },
+  { id: 8, modelo: "iPhone 13", serie: "13", condicion: "seminuevo", almacenamiento: "128GB", color: "Rosa", colorHex: "#e8c7cb", precio: 310, bateria: 88, ciclos: 560, estetica: "8/10", caja: "Solo equipo", garantia: "3 meses escrita", img: "https://placehold.co/500x500/F5F9F6/9c6b12?text=iPhone+13" },
 ];
 /* ====================================================================== */
 
@@ -230,15 +233,15 @@ function renderProducts(){
       </div>
       <div class="p-4 flex flex-col flex-1">
         <span class="mono text-[10px] font-bold tracking-wide self-start mb-2" style="color:${CONDITION_COLOR[p.condicion]}">${CONDITION_LABEL[p.condicion]}${p.condicion==='seminuevo' ? ' · '+p.bateria+'% BAT' : ''}</span>
-        <h3 class="font-bold text-sm leading-snug mb-1">${p.modelo}</h3>
+        <h2 class="font-bold text-sm leading-snug mb-1">${p.modelo}</h2>
         <p class="text-[var(--ink3)] text-xs mb-3 flex items-center gap-1.5">
-          <span class="inline-block w-2.5 h-2.5 rounded-full border border-white/20 shrink-0" style="background:${p.colorHex}"></span>
+          <span class="inline-block w-2.5 h-2.5 rounded-full border border-black/15 shrink-0" style="background:${p.colorHex}"></span>
           ${p.almacenamiento} · ${p.color}
         </p>
         <p class="mono text-xl font-bold mb-4">$${p.precio.toLocaleString()}</p>
         <div class="flex gap-2 mt-auto">
-          <button onclick="openSpecModal(${p.id})" class="flex-1 btn-line rounded-lg py-2 text-xs font-semibold">Ver ficha</button>
-          <button onclick="addToCart(${p.id})" class="flex-1 btn-solid rounded-lg py-2 text-xs">Agregar</button>
+          <button onclick="openSpecModal(${p.id})" class="flex-1 btn-line rounded-xl py-2 text-xs font-semibold">Ver ficha</button>
+          <button onclick="addToCart(${p.id})" class="flex-1 btn-solid rounded-xl py-2 text-xs">Agregar</button>
         </div>
       </div>
     </div>`).join("");
@@ -258,13 +261,13 @@ function openSpecModal(id){
   document.getElementById("specModalContent").innerHTML = `
     <div class="flex items-center justify-between px-6 h-14 border-b hairline">
       <span class="mono text-[11px] tracking-[0.1em] font-bold" style="color:${CONDITION_COLOR[p.condicion]}">${CONDITION_LABEL[p.condicion]}</span>
-      <button onclick="closeSpecModal()" class="btn-line rounded-full p-1.5"><i data-lucide="x" class="w-4 h-4"></i></button>
+      <button onclick="closeSpecModal()" aria-label="Cerrar" class="btn-line rounded-full p-1.5"><i data-lucide="x" class="w-4 h-4"></i></button>
     </div>
     <div class="bg-[var(--bg)] aspect-[4/3] flex items-center justify-center border-b hairline">
       <img src="${p.img}" class="w-1/2 object-contain">
     </div>
     <div class="p-6">
-      <h3 class="text-xl font-black mb-1">${p.modelo}</h3>
+      <h2 class="text-xl font-black mb-1">${p.modelo}</h2>
       <p class="text-[var(--ink3)] text-sm mb-5">${p.color} · ${p.almacenamiento}</p>
       <div class="mono text-sm space-y-2.5 mb-6">
         <div class="flex items-center"><span class="text-[var(--ink3)]">Batería</span><span class="dotted-leader"></span><span>${p.bateria}%</span></div>
@@ -278,8 +281,8 @@ function openSpecModal(id){
         <span class="text-2xl font-black text-[var(--green)]">$${p.precio.toLocaleString()}</span>
       </div>
       <div class="flex gap-3">
-        <button onclick="addToCart(${p.id}); closeSpecModal();" class="flex-1 btn-line rounded-xl py-3 text-sm font-bold">Agregar</button>
-        <button onclick="sendSingleToWhatsApp(${p.id})" class="flex-1 btn-solid rounded-xl py-3 text-sm flex items-center justify-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> Consultar</button>
+        <button onclick="addToCart(${p.id}); closeSpecModal();" class="flex-1 btn-line rounded-xl py-2.5 text-sm font-bold">Agregar</button>
+        <button onclick="sendSingleToWhatsApp(${p.id})" class="flex-1 btn-solid rounded-xl py-2.5 text-sm flex items-center justify-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> Consultar por WhatsApp</button>
       </div>
     </div>`;
   document.getElementById("specModalOverlay").classList.remove("hidden");
@@ -316,8 +319,8 @@ function renderCart(){
   document.getElementById("cartTotal").textContent = `$${total.toLocaleString()}`;
   lucide.createIcons();
 }
-function openCart(){ document.getElementById("cartOverlay").classList.remove("hidden"); document.getElementById("cartDrawer").classList.remove("translate-x-full"); }
-function closeCart(){ document.getElementById("cartOverlay").classList.add("hidden"); document.getElementById("cartDrawer").classList.add("translate-x-full"); }
+function openCart(){ document.getElementById("cartOverlay").classList.remove("hidden"); const d=document.getElementById("cartDrawer"); d.classList.remove("translate-x-full"); d.removeAttribute("inert"); }
+function closeCart(){ document.getElementById("cartOverlay").classList.add("hidden"); const d=document.getElementById("cartDrawer"); d.classList.add("translate-x-full"); d.setAttribute("inert",""); }
 document.getElementById("cartBtn").addEventListener("click", openCart);
 
 function buildMessageForProducts(list){
@@ -336,10 +339,7 @@ function sendCartToWhatsApp(){
   if(cart.length===0){ showToast("Tu lista está vacía"); return; }
   window.open(waLink(buildMessageForProducts(cart)), "_blank");
 }
-document.getElementById("footerWhatsapp").addEventListener("click", (e) => {
-  e.preventDefault();
-  window.open(waLink("Hola AKH Import, quisiera más información."), "_blank");
-});
+document.getElementById("footerWhatsapp").href = waLink("Hola AKH Import, quisiera más información.");
 
 let toastTimer;
 function showToast(text){
