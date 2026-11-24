@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AKH Import — Catálogo Premium de iPhones</title>
+<meta name="description" content="AKH Import — iPhones certificados, sellados y seminuevos. Garantía escrita, 100% originales, envíos seguros.">
+
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com/3.4.13"></script>
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.js"></script>
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#050507;
+    --surface:rgba(255,255,255,0.03);
+    --surface-hover:rgba(255,255,255,0.06);
+    --border:rgba(255,255,255,0.08);
+    --border-strong:rgba(255,255,255,0.14);
+    --text:#F5F5F7;
+    --text2:#C7C7CC;
+    --text3:#86868B;
+    --accent:#2997FF;
+    --accent-glow:rgba(41,151,255,0.35);
+    --emerald:#32B271;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .mono{font-family:'JetBrains Mono',monospace}
+
+  /* background ambience */
+  .bg-glow{
+    position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background:
+      radial-gradient(60% 40% at 15% 0%, rgba(41,151,255,0.12), transparent 60%),
+      radial-gradient(50% 35% at 85% 10%, rgba(50,178,113,0.08), transparent 60%),
+      radial-gradient(80% 50% at 50% 100%, rgba(255,255,255,0.03), transparent 60%);
+  }
+
+  .glass{
+    background:var(--surface);
+    border:1px solid var(--border);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+  }
+  .glass-hover{transition:all .3s ease-out}
+  .glass-hover:hover{
+    background:var(--surface-hover);
+    border-color:var(--border-strong);
+    transform:translateY(-2px);
+  }
+
+  .island{
+    background:rgba(10,10,12,0.6);
+    border:1px solid var(--border);
+    backdrop-filter:blur(24px) saturate(140%);
+    -webkit-backdrop-filter:blur(24px) saturate(140%);
+  }
+
+  .btn-accent{
+    background:var(--accent);
+    color:#fff;
+    transition:all .25s ease-out;
+    box-shadow:0 0 0 0 var(--accent-glow);
+  }
+  .btn-accent:hover{
+    background:#4fa8ff;
+    box-shadow:0 4px 24px var(--accent-glow);
+    transform:translateY(-1px);
+  }
+  .btn-ghost{
+    background:rgba(255,255,255,0.04);
+    border:1px solid var(--border);
+    color:var(--text);
+    transition:all .25s ease-out;
+  }
+  .btn-ghost:hover{background:rgba(255,255,255,0.09); border-color:var(--border-strong);}
+
+  .card-img-wrap{
+    background:radial-gradient(circle at 50% 35%, rgba(255,255,255,0.07), transparent 65%);
+  }
+  .card-img-wrap img{transition:transform .4s ease-out}
+  .product-card:hover .card-img-wrap img{transform:scale(1.06)}
+
+  .shine{position:relative; overflow:hidden}
+  .shine::before{
+    content:"";
+    position:absolute; inset:-1px;
+    border-radius:inherit;
+    background:linear-gradient(120deg, transparent 30%, rgba(41,151,255,0.25), transparent 70%);
+    opacity:0; transition:opacity .4s;
+    pointer-events:none;
+  }
+  .shine:hover::before{opacity:1}
+
+  .badge-sellado{background:rgba(50,178,113,0.14); color:#5fe3a0; border:1px solid rgba(50,178,113,0.3)}
+  .badge-openbox{background:rgba(41,151,255,0.14); color:#6cb6ff; border:1px solid rgba(41,151,255,0.3)}
+  .badge-seminuevo{background:rgba(255,184,0,0.14); color:#ffcf5c; border:1px solid rgba(255,184,0,0.3)}
+
+  ::-webkit-scrollbar{width:10px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.12); border-radius:8px}
+
+  .fade-up{animation:fadeUp .6s ease-out both}
+  @keyframes fadeUp{from{opacity:0; transform:translateY(16px)} to{opacity:1; transform:translateY(0)}}
+
+  .modal-backdrop{background:rgba(2,2,4,0.7); backdrop-filter:blur(6px)}
+
+  .drawer{transition:transform .35s cubic-bezier(.22,.9,.3,1)}
+
+  .accordion-content{max-height:0; overflow:hidden; transition:max-height .35s ease-out}
+
+  .filter-chip.active{
+    background:var(--accent); color:#fff; border-color:var(--accent);
+  }
+
+  input[type="range"]{-webkit-appearance:none; height:4px; border-radius:4px; background:rgba(255,255,255,0.12)}
+  input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none; width:16px; height:16px; border-radius:50%;
+    background:var(--accent); cursor:pointer; box-shadow:0 0 0 4px rgba(41,151,255,0.2);
+  }
+</style>
+</head>
+<body class="min-h-screen">
+<div class="bg-glow"></div>
+
+<!-- ============ NAVBAR FLOTANTE (Dynamic Island) ============ -->
+<header class="fixed top-4 left-0 right-0 z-50 px-4">
+  <div class="island max-w-5xl mx-auto rounded-full px-5 py-2.5 flex items-center gap-4 shadow-2xl">
+    <!-- Logo -->
+    <a href="#top" class="flex items-center gap-2 shrink-0">
+      <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-[#2997FF] to-[#32B271] flex items-center justify-center">
+        <i data-lucide="smartphone" class="w-4 h-4 text-white"></i>
+      </div>
+      <span class="font-extrabold tracking-tight text-[15px] hidden sm:inline">AKH <span class="text-[var(--text3)] font-medium">Import</span></span>
+    </a>
+
+    <!-- Buscador -->
+    <div class="flex-1 flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-3 py-1.5 min-w-0">
+      <i data-lucide="search" class="w-4 h-4 text-[var(--text3)] shrink-0"></i>
+      <input id="searchInput" type="text" placeholder="Buscar modelo, color, almacenamiento…"
+        class="bg-transparent outline-none text-sm w-full placeholder:text-[var(--text3)] min-w-0">
+    </div>
+
+    <!-- Carrito -->
+    <button id="cartBtn" class="relative btn-ghost rounded-full p-2.5 shrink-0" aria-label="Carrito">
+      <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+      <span id="cartCount" class="absolute -top-1.5 -right-1.5 bg-[var(--accent)] text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center mono">0</span>
+    </button>
+  </div>
+</header>
+
+<main id="top" class="max-w-6xl mx-auto px-4 sm:px-6 pt-32 pb-24">
+
+  <!-- ============ HERO ============ -->
+  <section class="mb-16">
+    <div class="text-center max-w-2xl mx-auto mb-10 fade-up">
+      <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-wide uppercase text-[var(--accent)] bg-[var(--accent)]/10 border border-[var(--accent)]/30 rounded-full px-3 py-1 mb-5 mono">
+        <i data-lucide="sparkles" class="w-3 h-3"></i> Colección 2026
+      </span>
+      <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-[1.05] mb-4">
+        El iPhone que buscas,<br><span class="bg-gradient-to-r from-[#2997FF] to-[#32B271] bg-clip-text text-transparent">certificado y listo.</span>
+      </h1>
+      <p class="text-[var(--text3)] text-base sm:text-lg leading-relaxed">
+        Equipos originales revisados a fondo, con garantía escrita y envío seguro. Sellados, open box y seminuevos — todos verificados antes de llegar a ti.
+      </p>
+    </div>
+
+    <!-- Bento grid destacado -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 fade-up">
+      <!-- Destacado grande -->
+      <div class="sm:col-span-2 glass glass-hover shine rounded-3xl p-6 sm:p-8 relative overflow-hidden flex flex-col sm:flex-row items-center gap-6 cursor-pointer" onclick="scrollToCatalog()">
+        <img src="https://placehold.co/420x420/0a0a0c/2997FF?text=iPhone+17+Pro+Max&font=jetbrains-mono" alt="iPhone 17 Pro Max" class="w-40 sm:w-52 drop-shadow-2xl rounded-2xl">
+        <div class="flex-1 text-center sm:text-left">
+          <span class="badge-sellado text-[11px] font-bold px-2.5 py-1 rounded-full mono">SELLADO</span>
+          <h3 class="text-2xl font-bold mt-3 mb-1">iPhone 17 Pro Max</h3>
+          <p class="text-[var(--text3)] text-sm mb-4">Titanio Desierto · 256GB</p>
+          <p class="text-3xl font-extrabold mono text-[var(--accent)]">$1,299</p>
+        </div>
+      </div>
+      <!-- Badges de confianza -->
+      <div class="glass rounded-3xl p-6 flex flex-col justify-center gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-[var(--emerald)]/15 flex items-center justify-center shrink-0"><i data-lucide="shield-check" class="w-4 h-4 text-[var(--emerald)]"></i></div>
+          <span class="text-sm font-medium text-[var(--text2)]">Garantía escrita incluida</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-[var(--accent)]/15 flex items-center justify-center shrink-0"><i data-lucide="badge-check" class="w-4 h-4 text-[var(--accent)]"></i></div>
+          <span class="text-sm font-medium text-[var(--text2)]">100% equipos originales</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center shrink-0"><i data-lucide="truck" class="w-4 h-4 text-[var(--text2)]"></i></div>
+          <span class="text-sm font-medium text-[var(--text2)]">Envíos seguros y rápidos</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FILTROS ============ -->
+  <section id="catalogo" class="mb-8">
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+      <h2 class="text-2xl font-bold">Catálogo disponible</h2>
+      <div class="flex items-center gap-2">
+        <span class="text-xs text-[var(--text3)] mono">ORDENAR</span>
+        <select id="sortSelect" class="glass rounded-xl text-sm px-3 py-2 outline-none cursor-pointer">
+          <option value="default">Relevancia</option>
+          <option value="price-asc">Precio: menor a mayor</option>
+          <option value="price-desc">Precio: mayor a menor</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Chips Modelo/Serie -->
+    <div class="flex flex-wrap gap-2 mb-3" id="seriesFilters"></div>
+    <!-- Chips Condición -->
+    <div class="flex flex-wrap gap-2 mb-8" id="condFilters"></div>
+
+    <!-- ============ GRID DE PRODUCTOS ============ -->
+    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    <p id="emptyState" class="hidden text-center text-[var(--text3)] py-16">No encontramos equipos con esos filtros. Intenta ajustar la búsqueda.</p>
+  </section>
+
+  <!-- ============ CONFIANZA / FAQ ============ -->
+  <section class="mt-24">
+    <h2 class="text-2xl font-bold mb-6 text-center">Confianza & Preguntas frecuentes</h2>
+    <div class="max-w-2xl mx-auto space-y-3" id="faqAccordion"></div>
+  </section>
+</main>
+
+<!-- ============ DRAWER / CARRITO ============ -->
+<div id="cartOverlay" class="fixed inset-0 modal-backdrop z-[60] hidden" onclick="closeCart()"></div>
+<aside id="cartDrawer" class="drawer fixed top-0 right-0 h-full w-full sm:w-[400px] z-[70] translate-x-full glass border-l">
+  <div class="flex flex-col h-full p-6">
+    <div class="flex items-center justify-between mb-6">
+      <h3 class="text-lg font-bold flex items-center gap-2"><i data-lucide="shopping-bag" class="w-5 h-5"></i> Tu lista de pedido</h3>
+      <button onclick="closeCart()" class="btn-ghost rounded-full p-2"><i data-lucide="x" class="w-4 h-4"></i></button>
+    </div>
+    <div id="cartItems" class="flex-1 overflow-y-auto space-y-3"></div>
+    <p id="cartEmpty" class="text-[var(--text3)] text-sm text-center py-10">Aún no has agregado equipos.</p>
+    <div class="pt-4 border-t border-white/10 mt-4">
+      <div class="flex justify-between items-center mb-4">
+        <span class="text-sm text-[var(--text3)]">Total estimado</span>
+        <span id="cartTotal" class="text-xl font-extrabold mono text-[var(--accent)]">$0</span>
+      </div>
+      <button onclick="sendCartToWhatsApp()" class="w-full btn-accent rounded-2xl py-3.5 font-semibold flex items-center justify-center gap-2">
+        <i data-lucide="message-circle" class="w-4 h-4"></i> Consultar por WhatsApp
+      </button>
+    </div>
+  </div>
+</aside>
+
+<!-- ============ MODAL ESPECIFICACIONES ============ -->
+<div id="specModalOverlay" class="fixed inset-0 modal-backdrop z-[80] hidden items-center justify-center p-4" onclick="if(event.target===this)closeSpecModal()">
+  <div class="glass rounded-3xl max-w-lg w-full max-h-[88vh] overflow-y-auto p-6 sm:p-8 fade-up">
+    <div id="specModalContent"></div>
+  </div>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[90] island rounded-full px-5 py-3 text-sm font-medium opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2">
+  <i data-lucide="check-circle" class="w-4 h-4 text-[var(--emerald)]"></i> <span id="toastMsg"></span>
+</div>
+
+<footer class="text-center text-[var(--text3)] text-xs py-10 mono">
+  © 2026 AKH IMPORT — Todos los equipos pasan por revisión técnica antes del despliegue.
+</footer>
+
+<script>
+/* ======================================================================
+   CONFIGURACIÓN — EDITA AQUÍ
+   ====================================================================== */
+
+// 1) Tu número de WhatsApp en formato internacional SIN '+' ni espacios.
+//    Ejemplo Venezuela: "584121234567"
+const WHATSAPP_NUMBER = "584120000000"; // <-- EDITA ESTE NÚMERO
+
+// 2) Catálogo de productos (DATOS DE PRUEBA).
+//    Reemplaza / agrega objetos aquí con tu inventario real.
+//    condicion: "sellado" | "openbox" | "seminuevo"
+//    serie: "18" | "17" | "16" | "15" | "14" | "13"
+const products = [
+  {
+    id: 1, modelo: "iPhone 18 Pro Max", serie: "18", condicion: "sellado",
+    almacenamiento: "256GB", color: "Negro Espacial", colorHex: "#1b1b1d",
+    precio: 1450, bateria: 100, ciclos: 0, estetica: "10/10",
+    caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita",
+    img: "https://placehold.co/500x500/0a0a0c/2997FF?text=iPhone+18+Pro+Max"
+  },
+  {
+    id: 2, modelo: "iPhone 17 Pro Max", serie: "17", condicion: "sellado",
+    almacenamiento: "256GB", color: "Titanio Desierto", colorHex: "#9c8063",
+    precio: 1299, bateria: 100, ciclos: 0, estetica: "10/10",
+    caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita",
+    img: "https://placehold.co/500x500/0a0a0c/2997FF?text=iPhone+17+Pro+Max"
+  },
+  {
+    id: 3, modelo: "iPhone 17 Pro", serie: "17", condicion: "openbox",
+    almacenamiento: "128GB", color: "Ultramarino", colorHex: "#3a4a7a",
+    precio: 1050, bateria: 100, ciclos: 2, estetica: "10/10",
+    caja: "Caja abierta, accesorios completos", garantia: "6 meses escrita",
+    img: "https://placehold.co/500x500/0a0a0c/32B271?text=iPhone+17+Pro"
+  },
+  {
+    id: 4, modelo: "iPhone 16 Pro Max", serie: "16", condicion: "seminuevo",
+    almacenamiento: "256GB", color: "Titanio Natural", colorHex: "#cabfae",
+    precio: 870, bateria: 97, ciclos: 180, estetica: "9/10",
+    caja: "Solo equipo + cable USB-C", garantia: "3 meses escrita",
+    img: "https://placehold.co/500x500/0a0a0c/FFB800?text=iPhone+16+Pro+Max"
+  },
+  {
+    id: 5, modelo: "iPhone 16", serie: "16", condicion: "seminuevo",
+    almacenamiento: "128GB", color: "Negro Espacial", colorHex: "#1b1b1d",
+    precio: 590, bateria: 95, ciclos: 240, estetica: "9/10",
+    caja: "Solo equipo + cable USB-C", garantia: "3 meses escrita",
+    img: "https://placehold.co/500x500/0a0a0c/FFB800?text=iPhone+16"
+  },
+  {
+    id: 6, modelo: "iPhone 15 Pro Max", serie: "15", condicion: "seminuevo",
+    almacenamiento: "256GB", color: "Titanio Azul", colorHex: "#3c5a73",
+    precio: 720, bateria: 94, ciclos: 310, estetica: "9/10",
+    caja: "Solo equipo + cable USB-C", garantia: "3 meses escrita",
+    img: "https://placehold.co/500x500/0a0a0c/FFB800?text=iPhone+15+Pro+Max"
+  },
+  {
+    id: 7, modelo: "iPhone 14 Pro", serie: "14", condicion: "seminuevo",
+    almacenamiento: "128GB", color: "Morado Oscuro", colorHex: "#4b3c56",
+    precio: 480, bateria: 91, ciclos: 420, estetica: "8/10",
+    caja: "Solo equipo", garantia: "3 meses escrita",
+    img: "https://placehold.co/500x500/0a0a0c/FFB800?text=iPhone+14+Pro"
+  },
+  {
+    id: 8, modelo: "iPhone 13", serie: "13", condicion: "seminuevo",
+    almacenamiento: "128GB", color: "Rosa", colorHex: "#e8c7cb",
+    precio: 310, bateria: 88, ciclos: 560, estetica: "8/10",
+    caja: "Solo equipo", garantia: "3 meses escrita",
+    img: "https://placehold.co/500x500/0a0a0c/FFB800?text=iPhone+13"
+  },
+];
+
+/* ====================================================================== */
+
+const SERIES = [
+  { id: "todos", label: "Todos" },
+  { id: "18", label: "Serie 18" },
+  { id: "17", label: "Serie 17" },
+  { id: "16", label: "Serie 16" },
+  { id: "15", label: "Serie 15" },
+  { id: "14", label: "Serie 14" },
+  { id: "13", label: "Serie 13" },
+];
+const CONDS = [
+  { id: "todos", label: "Todos" },
+  { id: "sellado", label: "Sellado / Nuevo" },
+  { id: "openbox", label: "Open Box" },
+  { id: "seminuevo", label: "Seminuevo Certificado" },
+];
+const CONDITION_BADGE = {
+  sellado: { cls: "badge-sellado", text: "SELLADO" },
+  openbox: { cls: "badge-openbox", text: "OPEN BOX" },
+  seminuevo: { cls: "badge-seminuevo", text: "SEMINUEVO" },
+};
+
+let state = { serie: "todos", cond: "todos", sort: "default", search: "" };
+let cart = [];
+
+function renderChips(containerId, items, activeKey, onclickFn) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = items.map(it => `
+    <button data-id="${it.id}" class="filter-chip ${it.id===activeKey?'active':''} glass text-xs font-semibold px-4 py-2 rounded-full transition-all duration-300">
+      ${it.label}
+    </button>`).join("");
+  el.querySelectorAll("button").forEach(btn => btn.addEventListener("click", () => onclickFn(btn.dataset.id)));
+}
+
+function setSerie(id){ state.serie = id; renderAll(); }
+function setCond(id){ state.cond = id; renderAll(); }
+
+function filteredProducts() {
+  let list = products.filter(p => {
+    if (state.serie !== "todos" && p.serie !== state.serie) return false;
+    if (state.cond !== "todos" && p.condicion !== state.cond) return false;
+    if (state.search) {
+      const q = state.search.toLowerCase();
+      const hay = `${p.modelo} ${p.color} ${p.almacenamiento}`.toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  if (state.sort === "price-asc") list.sort((a,b) => a.precio - b.precio);
+  if (state.sort === "price-desc") list.sort((a,b) => b.precio - a.precio);
+  return list;
+}
+
+function renderProducts() {
+  const grid = document.getElementById("productGrid");
+  const list = filteredProducts();
+  document.getElementById("emptyState").classList.toggle("hidden", list.length > 0);
+  grid.innerHTML = list.map(p => {
+    const badge = CONDITION_BADGE[p.condicion];
+    return `
+    <div class="product-card glass glass-hover shine rounded-3xl p-5 flex flex-col fade-up">
+      <div class="card-img-wrap rounded-2xl overflow-hidden mb-4 flex items-center justify-center aspect-square cursor-pointer" onclick="openSpecModal(${p.id})">
+        <img src="${p.img}" alt="${p.modelo}" class="w-[78%] object-contain">
+      </div>
+      <span class="${badge.cls} self-start text-[10px] font-bold px-2.5 py-1 rounded-full mono mb-3">${badge.text}${p.condicion==='seminuevo' ? ' • '+p.bateria+'% BAT' : ''}</span>
+      <h3 class="font-bold text-base leading-snug mb-1">${p.modelo}</h3>
+      <div class="flex items-center gap-1.5 text-[var(--text3)] text-xs mb-4">
+        <span class="mono">${p.almacenamiento}</span>
+        <span>•</span>
+        <span class="inline-block w-2.5 h-2.5 rounded-full border border-white/20" style="background:${p.colorHex}"></span>
+        <span>${p.color}</span>
+      </div>
+      <p class="text-2xl font-extrabold mono mb-4">$${p.precio.toLocaleString()}</p>
+      <div class="flex gap-2 mt-auto">
+        <button onclick="openSpecModal(${p.id})" class="flex-1 btn-ghost rounded-xl py-2.5 text-sm font-semibold">Ver Specs</button>
+        <button onclick="addToCart(${p.id})" class="flex-1 btn-accent rounded-xl py-2.5 text-sm font-semibold">Pedir</button>
+      </div>
+    </div>`;
+  }).join("");
+  lucide.createIcons();
+}
+
+function renderAll() {
+  renderChips("seriesFilters", SERIES, state.serie, setSerie);
+  renderChips("condFilters", CONDS, state.cond, setCond);
+  renderProducts();
+  lucide.createIcons();
+}
+
+/* ---------- Modal de especificaciones ---------- */
+function openSpecModal(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  const badge = CONDITION_BADGE[p.condicion];
+  document.getElementById("specModalContent").innerHTML = `
+    <div class="flex items-start justify-between mb-5">
+      <div>
+        <span class="${badge.cls} text-[10px] font-bold px-2.5 py-1 rounded-full mono">${badge.text}</span>
+        <h3 class="text-2xl font-bold mt-2">${p.modelo}</h3>
+        <p class="text-[var(--text3)] text-sm">${p.color} · ${p.almacenamiento}</p>
+      </div>
+      <button onclick="closeSpecModal()" class="btn-ghost rounded-full p-2 shrink-0"><i data-lucide="x" class="w-4 h-4"></i></button>
+    </div>
+    <div class="card-img-wrap rounded-2xl overflow-hidden mb-5 flex items-center justify-center aspect-[16/10]">
+      <img src="${p.img}" alt="${p.modelo}" class="w-1/2 object-contain">
+    </div>
+    <div class="grid grid-cols-2 gap-3 mb-5">
+      <div class="glass rounded-2xl p-4">
+        <p class="text-[10px] text-[var(--text3)] mono uppercase mb-1">Batería</p>
+        <p class="text-lg font-bold mono">${p.bateria}%</p>
+      </div>
+      <div class="glass rounded-2xl p-4">
+        <p class="text-[10px] text-[var(--text3)] mono uppercase mb-1">Ciclos de carga</p>
+        <p class="text-lg font-bold mono">${p.ciclos}</p>
+      </div>
+      <div class="glass rounded-2xl p-4">
+        <p class="text-[10px] text-[var(--text3)] mono uppercase mb-1">Estética</p>
+        <p class="text-lg font-bold mono">${p.estetica}</p>
+      </div>
+      <div class="glass rounded-2xl p-4">
+        <p class="text-[10px] text-[var(--text3)] mono uppercase mb-1">Garantía</p>
+        <p class="text-sm font-semibold">${p.garantia}</p>
+      </div>
+    </div>
+    <div class="glass rounded-2xl p-4 mb-6">
+      <p class="text-[10px] text-[var(--text3)] mono uppercase mb-1">Incluye en la caja</p>
+      <p class="text-sm">${p.caja}</p>
+    </div>
+    <div class="flex items-center justify-between mb-5">
+      <span class="text-[var(--text3)] text-sm">Precio</span>
+      <span class="text-3xl font-extrabold mono text-[var(--accent)]">$${p.precio.toLocaleString()}</span>
+    </div>
+    <div class="flex gap-3">
+      <button onclick="addToCart(${p.id}); closeSpecModal();" class="flex-1 btn-ghost rounded-2xl py-3 font-semibold">Agregar a mi lista</button>
+      <button onclick="sendSingleToWhatsApp(${p.id})" class="flex-1 btn-accent rounded-2xl py-3 font-semibold flex items-center justify-center gap-2">
+        <i data-lucide="message-circle" class="w-4 h-4"></i> Consultar
+      </button>
+    </div>
+  `;
+  document.getElementById("specModalOverlay").classList.remove("hidden");
+  document.getElementById("specModalOverlay").classList.add("flex");
+  lucide.createIcons();
+}
+function closeSpecModal() {
+  document.getElementById("specModalOverlay").classList.add("hidden");
+  document.getElementById("specModalOverlay").classList.remove("flex");
+}
+
+/* ---------- Carrito / Drawer ---------- */
+function addToCart(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  if (cart.find(c => c.id === id)) { showToast(`${p.modelo} ya está en tu lista`); return; }
+  cart.push(p);
+  renderCart();
+  showToast(`${p.modelo} agregado a tu lista`);
+}
+function removeFromCart(id) {
+  cart = cart.filter(c => c.id !== id);
+  renderCart();
+}
+function renderCart() {
+  document.getElementById("cartCount").textContent = cart.length;
+  const itemsEl = document.getElementById("cartItems");
+  document.getElementById("cartEmpty").classList.toggle("hidden", cart.length > 0);
+  itemsEl.innerHTML = cart.map(p => `
+    <div class="glass rounded-2xl p-3 flex items-center gap-3">
+      <img src="${p.img}" class="w-14 h-14 object-contain rounded-xl bg-white/5 shrink-0">
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-semibold truncate">${p.modelo}</p>
+        <p class="text-xs text-[var(--text3)]">${p.almacenamiento} · ${p.color}</p>
+        <p class="text-sm font-bold mono text-[var(--accent)]">$${p.precio.toLocaleString()}</p>
+      </div>
+      <button onclick="removeFromCart(${p.id})" class="btn-ghost rounded-full p-1.5 shrink-0"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+    </div>`).join("");
+  const total = cart.reduce((s,p) => s + p.precio, 0);
+  document.getElementById("cartTotal").textContent = `$${total.toLocaleString()}`;
+  lucide.createIcons();
+}
+function openCart() {
+  document.getElementById("cartOverlay").classList.remove("hidden");
+  document.getElementById("cartDrawer").classList.remove("translate-x-full");
+}
+function closeCart() {
+  document.getElementById("cartOverlay").classList.add("hidden");
+  document.getElementById("cartDrawer").classList.add("translate-x-full");
+}
+document.getElementById("cartBtn").addEventListener("click", openCart);
+
+/* ---------- WhatsApp ---------- */
+function buildMessageForProducts(list) {
+  let msg = "Hola AKH Import 👋, quiero consultar por:\n\n";
+  list.forEach(p => {
+    msg += `• ${p.modelo} — ${p.almacenamiento} — ${p.color} — ${p.condicion.toUpperCase()} — $${p.precio.toLocaleString()}\n`;
+  });
+  const total = list.reduce((s,p) => s + p.precio, 0);
+  if (list.length > 1) msg += `\nTotal estimado: $${total.toLocaleString()}`;
+  return msg;
+}
+function sendSingleToWhatsApp(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  const msg = buildMessageForProducts([p]);
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
+}
+function sendCartToWhatsApp() {
+  if (cart.length === 0) { showToast("Tu lista está vacía"); return; }
+  const msg = buildMessageForProducts(cart);
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
+}
+
+/* ---------- Toast ---------- */
+let toastTimer;
+function showToast(text) {
+  const t = document.getElementById("toast");
+  document.getElementById("toastMsg").textContent = text;
+  t.classList.remove("opacity-0");
+  t.classList.add("opacity-100");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.classList.add("opacity-0"); t.classList.remove("opacity-100"); }, 2400);
+}
+
+/* ---------- FAQ Accordion ---------- */
+const faqs = [
+  { q: "¿Qué métodos de pago aceptan?", a: "Zelle, Binance/USDT, efectivo y transferencias bancarias nacionales. Te confirmamos disponibilidad al coordinar por WhatsApp." },
+  { q: "¿Qué garantía tienen los equipos?", a: "Equipos sellados y open box incluyen 6 meses de garantía escrita. Equipos seminuevos certificados incluyen 3 meses de garantía escrita por defectos de fábrica." },
+  { q: "¿Cómo es el proceso de entrega o envío?", a: "Entregas en persona en puntos seguros coordinados, y envíos nacionales mediante empresas de encomienda de confianza, con seguimiento incluido." },
+  { q: "¿Los equipos son originales?", a: "Sí, el 100% de nuestro inventario es original de fábrica. Cada equipo pasa por una revisión técnica (batería, ciclos, IMEI, iCloud) antes de publicarse." },
+];
+function renderFaq() {
+  const el = document.getElementById("faqAccordion");
+  el.innerHTML = faqs.map((f,i) => `
+    <div class="glass rounded-2xl overflow-hidden">
+      <button class="w-full flex items-center justify-between px-5 py-4 text-left" onclick="toggleFaq(${i})">
+        <span class="font-semibold text-sm">${f.q}</span>
+        <i data-lucide="chevron-down" id="faq-icon-${i}" class="w-4 h-4 text-[var(--text3)] transition-transform duration-300 shrink-0"></i>
+      </button>
+      <div class="accordion-content px-5" id="faq-content-${i}">
+        <p class="text-sm text-[var(--text3)] pb-4 leading-relaxed">${f.a}</p>
+      </div>
+    </div>`).join("");
+  lucide.createIcons();
+}
+function toggleFaq(i) {
+  const content = document.getElementById(`faq-content-${i}`);
+  const icon = document.getElementById(`faq-icon-${i}`);
+  const isOpen = content.style.maxHeight && content.style.maxHeight !== "0px";
+  document.querySelectorAll(".accordion-content").forEach(c => c.style.maxHeight = "0px");
+  document.querySelectorAll('[id^="faq-icon-"]').forEach(ic => ic.style.transform = "rotate(0deg)");
+  if (!isOpen) { content.style.maxHeight = content.scrollHeight + "px"; icon.style.transform = "rotate(180deg)"; }
+}
+
+function scrollToCatalog(){ document.getElementById("catalogo").scrollIntoView({behavior:"smooth"}); }
+
+/* ---------- Listeners ---------- */
+document.getElementById("searchInput").addEventListener("input", (e) => { state.search = e.target.value; renderProducts(); });
+document.getElementById("sortSelect").addEventListener("change", (e) => { state.sort = e.target.value; renderProducts(); });
+
+/* ---------- Init ---------- */
+renderAll();
+renderCart();
+renderFaq();
+lucide.createIcons();
+</script>
+</body>
+</html>
