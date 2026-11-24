@@ -24,6 +24,9 @@
     --green:#178350;
     --green-bright:#32B271;
     --amber:#9C6B12;
+    --ease-out:cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out:cubic-bezier(0.77, 0, 0.175, 1);
+    --ease-drawer:cubic-bezier(0.32, 0.72, 0, 1);
   }
   *{box-sizing:border-box}
   html,body{overflow-x:hidden}
@@ -40,32 +43,52 @@
   :focus-visible{outline:2px solid var(--green); outline-offset:2px}
   input:focus-visible, select:focus-visible{outline:2px solid var(--green); outline-offset:1px; box-shadow:0 0 0 4px rgba(23,131,80,0.18)}
 
-  .btn-solid{background:var(--green); color:#fff; font-weight:700; transition:transform .15s ease, background .15s ease}
+  .btn-solid{background:var(--green); color:#fff; font-weight:700; transition:transform 120ms ease, background 150ms ease}
   .btn-solid:hover{background:#136b42}
-  .btn-solid:active{transform:scale(0.97)}
-  .btn-line{border:1px solid var(--line-strong); color:var(--ink); transition:all .15s ease}
+  .btn-solid:active{transform:scale(0.96)}
+  .btn-line{border:1px solid var(--line-strong); color:var(--ink); transition:border-color 150ms ease, background 150ms ease, transform 120ms ease}
   .btn-line:hover{border-color:var(--green); background:rgba(23,131,80,0.06)}
-  .btn-line:active{transform:scale(0.97)}
+  .btn-line:active{transform:scale(0.96)}
 
-  .tab{position:relative; padding-bottom:8px; color:var(--ink3); font-weight:600; transition:color .15s}
+  .tab{position:relative; padding-bottom:8px; color:var(--ink3); font-weight:600; transition:color 150ms ease}
   .tab:hover{color:var(--ink2)}
   .tab.active{color:var(--ink)}
-  .tab.active::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--green)}
+  .tab.active::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--green);
+    animation:underline-in 220ms var(--ease-out) both}
+  @keyframes underline-in{from{transform:scaleX(0)} to{transform:scaleX(1)}}
 
-  .card{background:var(--paper); border:1px solid var(--line); transition:border-color .2s ease, transform .2s ease}
-  .card:hover{border-color:var(--line-strong); transform:translateY(-2px)}
-  .card img{transition:transform .3s ease}
-  .card:hover img{transform:scale(1.03)}
+  .card{background:var(--paper); border:1px solid var(--line); transition:border-color 200ms ease, transform 200ms var(--ease-out);
+    opacity:0; animation:card-in 320ms var(--ease-out) both; animation-delay:calc(var(--i, 0) * 40ms)}
+  @keyframes card-in{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:translateY(0)}}
+  .card img{transition:transform 300ms var(--ease-out); opacity:0; transition-property:transform,opacity}
+  .card img.loaded{opacity:1}
+  @media (hover:hover) and (pointer:fine){
+    .card:hover{border-color:var(--line-strong); transform:translateY(-3px)}
+    .card:hover img{transform:scale(1.04)}
+  }
 
-  .modal-backdrop{background:rgba(5,5,4,0.75)}
-  .drawer{transition:transform .25s cubic-bezier(.22,.9,.3,1)}
-  .modal-pop{animation:pop .18s cubic-bezier(.2,.9,.3,1.1) both}
-  @keyframes pop{from{opacity:0; transform:scale(.97) translateY(6px)} to{opacity:1; transform:scale(1) translateY(0)}}
+  .modal-backdrop{background:rgba(5,5,4,0.75); animation:fade-in 180ms ease both}
+  @keyframes fade-in{from{opacity:0} to{opacity:1}}
+  .drawer{transition:transform 280ms var(--ease-drawer)}
+  .modal-pop{animation:pop 220ms var(--ease-out) both}
+  @keyframes pop{from{opacity:0; transform:scale(.96) translateY(8px)} to{opacity:1; transform:scale(1) translateY(0)}}
+
+  #toast{transition:opacity 200ms var(--ease-out), transform 200ms var(--ease-out); transform:translateY(6px)}
+  #toast.opacity-100{transform:translateY(0)}
 
   ::-webkit-scrollbar{width:10px}
   ::-webkit-scrollbar-track{background:transparent}
   ::-webkit-scrollbar-thumb{background:var(--line-strong)}
   input[type="text"]::placeholder{color:var(--ink3)}
+
+  @media (prefers-reduced-motion: reduce){
+    .card{animation:none; opacity:1}
+    .card img{animation:none; opacity:1; transition:none}
+    .card:hover, .card:hover img{transform:none}
+    .modal-pop, .modal-backdrop, .tab.active::after{animation:none}
+    .btn-solid:active, .btn-line:active{transform:none}
+    .drawer, #toast{transition-duration:1ms}
+  }
 </style>
 </head>
 <body class="min-h-screen">
@@ -226,10 +249,10 @@ function renderProducts(){
   const grid = document.getElementById("productGrid");
   const list = filteredProducts();
   document.getElementById("emptyState").classList.toggle("hidden", list.length>0);
-  grid.innerHTML = list.map(p => `
-    <div class="card rounded-2xl overflow-hidden flex flex-col">
+  grid.innerHTML = list.map((p,i) => `
+    <div class="card rounded-2xl overflow-hidden flex flex-col" style="--i:${i % 9}">
       <div class="bg-[var(--bg)] aspect-square overflow-hidden flex items-center justify-center cursor-pointer" onclick="openSpecModal(${p.id})">
-        <img src="${p.img}" alt="${p.modelo}" class="w-[72%] object-contain">
+        <img src="${p.img}" alt="${p.modelo}" class="w-[72%] object-contain" onload="this.classList.add('loaded')">
       </div>
       <div class="p-4 flex flex-col flex-1">
         <span class="mono text-[10px] font-bold tracking-wide self-start mb-2" style="color:${CONDITION_COLOR[p.condicion]}">${CONDITION_LABEL[p.condicion]}${p.condicion==='seminuevo' ? ' · '+p.bateria+'% BAT' : ''}</span>
@@ -245,6 +268,7 @@ function renderProducts(){
         </div>
       </div>
     </div>`).join("");
+  grid.querySelectorAll("img").forEach(img => { if(img.complete) img.classList.add("loaded"); });
   lucide.createIcons();
 }
 
