@@ -210,6 +210,8 @@ const WHATSAPP_NUMBER = "584121251918"; // <-- EDITA ESTE NÚMERO
 // Tasa BCV del día (DolarVZLA), en Bs por 1 USD. Se actualiza sola en cada sincronización.
 const BCV_RATE = 922.56; // <-- actualizado automáticamente
 const BCV_DATE = "2026-11-25";
+// Tasa Binance P2P USDT/VES. Precio a tasa BCV = dólares × BINANCE_RATE ÷ BCV_RATE.
+const BINANCE_RATE = 1110.23;
 
 const products = [
   { id: 12, modelo: "iPhone 12", serie: "12", condicion: "sellado", almacenamiento: "64 GB", color: "Black", colorHex: "#1b1b1d", precio: 230.0, piezasOriginales: true, bateria: 92, ciclos: 69, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/fVmX3fqB/catalogo-i-Phone-12-Black.png", imgs: ["https://i.ibb.co/fVmX3fqB/catalogo-i-Phone-12-Black.png"] },
@@ -294,7 +296,7 @@ function renderProducts(){
           <span class="truncate">${p.almacenamiento} · ${p.color}</span>
         </p>
         <p class="mono text-sm sm:text-xl font-bold">$${p.precio.toLocaleString()}</p>
-        <p class="mono text-[9px] sm:text-[11px] text-[var(--ink3)] mb-2 sm:mb-4">Bs. ${bsPrice(p.precio)}</p>
+        <p class="mono text-[9px] sm:text-[11px] text-[var(--ink3)] mb-2 sm:mb-4">$${bcvUsdPrice(p.precio)} a tasa BCV</p>
         <div class="flex gap-1.5 sm:gap-2 mt-auto">
           <button onclick="openSpecModal(${p.id})" class="flex-1 btn-line rounded-lg sm:rounded-xl py-1.5 sm:py-2 text-[10px] sm:text-xs font-semibold">Ver</button>
           <button onclick="addToCart(${p.id})" class="flex-1 btn-solid rounded-lg sm:rounded-xl py-1.5 sm:py-2 text-[10px] sm:text-xs">Agregar</button>
@@ -305,7 +307,11 @@ function renderProducts(){
   lucide.createIcons();
 }
 
-function bsPrice(usd){ return (usd*BCV_RATE).toLocaleString("es-VE", {minimumFractionDigits:2, maximumFractionDigits:2}); }
+// Precio en dólares a tasa BCV = dólares × tasa Binance ÷ tasa BCV
+function bcvUsdPrice(usd){
+  const binance = (typeof BINANCE_RATE === "number" && BINANCE_RATE > 0) ? BINANCE_RATE : BCV_RATE;
+  return (usd * binance / BCV_RATE).toLocaleString("es-VE", {minimumFractionDigits:2, maximumFractionDigits:2});
+}
 
 function renderAll(){
   renderChips("seriesFilters", SERIES_VISIBLE, state.serie, setSerie);
@@ -345,7 +351,7 @@ function openSpecModal(id){
           <span class="text-[var(--ink3)] text-sm">Precio</span><span class="dotted-leader"></span>
           <span class="text-2xl font-black text-[var(--green)]">$${p.precio.toLocaleString()}</span>
         </div>
-        <p class="text-right text-xs text-[var(--ink3)] mt-1">Bs. ${bsPrice(p.precio)} a tasa BCV</p>
+        <p class="text-right text-xs text-[var(--ink3)] mt-1">$${bcvUsdPrice(p.precio)} a tasa BCV</p>
       </div>
       <div class="flex gap-3">
         <button onclick="addToCart(${p.id}); closeSpecModal();" class="flex-1 btn-line rounded-xl py-2.5 text-sm font-bold">Agregar</button>
