@@ -120,7 +120,10 @@
   <!-- ============ ENCABEZADO CORTO + FILTROS ============ -->
   <section class="pt-8 pb-6">
     <div class="flex items-center justify-between gap-4 mb-6">
-      <h1 class="text-lg sm:text-xl font-bold text-[var(--ink)]">iPhones disponibles</h1>
+      <div class="min-w-0">
+        <h1 class="text-lg sm:text-xl font-bold text-[var(--ink)]">iPhones disponibles</h1>
+        <p id="bcvBadge" class="mono text-[11px] sm:text-xs text-[var(--ink3)] mt-0.5"></p>
+      </div>
       <a href="https://wa.me/584120000000" target="_blank" rel="noopener" id="heroWhatsapp" class="btn-solid rounded-xl px-4 py-2.5 text-sm shrink-0 flex items-center gap-2">
         <i data-lucide="message-circle" class="w-4 h-4"></i> <span class="hidden sm:inline">Consultar por</span> WhatsApp
       </a>
@@ -204,25 +207,26 @@
 /* AKH_SYNC_START */
 const WHATSAPP_NUMBER = "584121251918"; // <-- EDITA ESTE NÚMERO
 
-// Tasa BCV del día, en Bs por 1 USD. Se actualiza sola en cada sincronización.
-const BCV_RATE = 50.0; // <-- actualizado automáticamente
+// Tasa BCV del día (DolarVZLA), en Bs por 1 USD. Se actualiza sola en cada sincronización.
+const BCV_RATE = 922.56; // <-- actualizado automáticamente
+const BCV_DATE = "2026-11-25";
 
 const products = [
-  { id: 12, modelo: "iPhone 12", serie: "12", condicion: "sellado", almacenamiento: "64 GB", color: "Black", colorHex: "#1b1b1d", precio: 230.0, piezasOriginales: true, bateria: 92, ciclos: 69, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/Fk8yJwRK" },
-  { id: 15, modelo: "iPhone 13 Pro Max", serie: "13", condicion: "sellado", almacenamiento: "128 GB", color: "Gold", colorHex: "#d9c6a5", precio: 415.0, piezasOriginales: false, bateria: 89, ciclos: 398, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/8nJxkpTM" },
-  { id: 14, modelo: "iPhone 13 Pro Max", serie: "13", condicion: "sellado", almacenamiento: "128 GB", color: "Azul Sierra", colorHex: "#8a8f87", precio: 440.0, piezasOriginales: false, bateria: 100, ciclos: 158, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/NXGQzRJ" },
-  { id: 1, modelo: "iPhone 14 Pro Max", serie: "14", condicion: "sellado", almacenamiento: "256 GB", color: "Space Black", colorHex: "#1b1b1d", precio: 500.0, piezasOriginales: true, bateria: 100, ciclos: 0, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/SXL4j1mM" },
-  { id: 11, modelo: "iPhone 15 Pro", serie: "15", condicion: "sellado", almacenamiento: "128 GB", color: "Black", colorHex: "#1b1b1d", precio: 530.0, piezasOriginales: true, bateria: 82, ciclos: 1090, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/7NC3Z3Zj" },
-  { id: 13, modelo: "iPhone 15 Pro", serie: "15", condicion: "sellado", almacenamiento: "128 GB", color: "Black", colorHex: "#1b1b1d", precio: 560.0, piezasOriginales: true, bateria: 87, ciclos: 795, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/7NC3Z3Zj" },
-  { id: 7, modelo: "iPhone 15 Pro", serie: "15", condicion: "sellado", almacenamiento: "128 GB", color: "Natural", colorHex: "#8a8f87", precio: 570.0, piezasOriginales: true, bateria: 99, ciclos: 170, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/fz5ty3qM" },
-  { id: 3, modelo: "iPhone 15 Pro Max", serie: "15", condicion: "sellado", almacenamiento: "512 GB", color: "Black", colorHex: "#1b1b1d", precio: 715.0, piezasOriginales: true, bateria: 100, ciclos: 185, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/pvNcXpnF" },
-  { id: 2, modelo: "iPhone 15 Pro Max", serie: "15", condicion: "sellado", almacenamiento: "1 TB", color: "Black", colorHex: "#1b1b1d", precio: 730.0, piezasOriginales: true, bateria: 99, ciclos: 234, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/pvNcXpnF" },
-  { id: 4, modelo: "iPhone 15 Pro Max", serie: "15", condicion: "sellado", almacenamiento: "1 TB", color: "Natural", colorHex: "#8a8f87", precio: 730.0, piezasOriginales: true, bateria: 100, ciclos: 112, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/QF5dZnkw" },
-  { id: 8, modelo: "iPhone 16", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "White", colorHex: "#f2f2f2", precio: 600.0, piezasOriginales: true, bateria: 91, ciclos: 726, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/gbpsJxjH" },
-  { id: 9, modelo: "iPhone 16", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "White", colorHex: "#f2f2f2", precio: 620.0, piezasOriginales: false, bateria: 90, ciclos: 439, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/gbpsJxjH" },
-  { id: 10, modelo: "iPhone 16", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "Teal", colorHex: "#3c6b6b", precio: 620.0, piezasOriginales: true, bateria: 92, ciclos: 498, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/gbpsJxjH" },
-  { id: 6, modelo: "iPhone 16 Plus", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "Black", colorHex: "#1b1b1d", precio: 620.0, piezasOriginales: true, bateria: 91, ciclos: 273, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/gbpsJxjH" },
-  { id: 5, modelo: "iPhone 16 Pro Max", serie: "16", condicion: "sellado", almacenamiento: "256 GB", color: "White", colorHex: "#f2f2f2", precio: 750.0, piezasOriginales: true, bateria: 90, ciclos: 439, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/Y9KMgH3" },
+  { id: 12, modelo: "iPhone 12", serie: "12", condicion: "sellado", almacenamiento: "64 GB", color: "Black", colorHex: "#1b1b1d", precio: 230.0, piezasOriginales: true, bateria: 92, ciclos: 69, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/fVmX3fqB/catalogo-i-Phone-12-Black.png", imgs: ["https://i.ibb.co/fVmX3fqB/catalogo-i-Phone-12-Black.png"] },
+  { id: 15, modelo: "iPhone 13 Pro Max", serie: "13", condicion: "sellado", almacenamiento: "128 GB", color: "Gold", colorHex: "#d9c6a5", precio: 415.0, piezasOriginales: false, bateria: 89, ciclos: 398, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/m5Wn5qhK/catalogo-i-Phone-13-Pro-Max-Gold.png", imgs: ["https://i.ibb.co/m5Wn5qhK/catalogo-i-Phone-13-Pro-Max-Gold.png"] },
+  { id: 14, modelo: "iPhone 13 Pro Max", serie: "13", condicion: "sellado", almacenamiento: "128 GB", color: "Azul Sierra", colorHex: "#8a8f87", precio: 440.0, piezasOriginales: false, bateria: 100, ciclos: 158, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/4R2cpsgR/catalogo-i-Phone-13-Pro-Max-Azul-Sierra.png", imgs: ["https://i.ibb.co/4R2cpsgR/catalogo-i-Phone-13-Pro-Max-Azul-Sierra.png"] },
+  { id: 1, modelo: "iPhone 14 Pro Max", serie: "14", condicion: "sellado", almacenamiento: "256 GB", color: "Space Black", colorHex: "#1b1b1d", precio: 500.0, piezasOriginales: true, bateria: 100, ciclos: 0, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/4Rv44Wcs/catalogo-i-Phone-14-Pro-Max-Space-Black.png", imgs: ["https://i.ibb.co/4Rv44Wcs/catalogo-i-Phone-14-Pro-Max-Space-Black.png"] },
+  { id: 11, modelo: "iPhone 15 Pro", serie: "15", condicion: "sellado", almacenamiento: "128 GB", color: "Black", colorHex: "#1b1b1d", precio: 530.0, piezasOriginales: true, bateria: 82, ciclos: 1090, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/1YnFhr6v/catalogo-i-Phone-15-Pro-Black.png", imgs: ["https://i.ibb.co/1YnFhr6v/catalogo-i-Phone-15-Pro-Black.png"] },
+  { id: 13, modelo: "iPhone 15 Pro", serie: "15", condicion: "sellado", almacenamiento: "128 GB", color: "Black", colorHex: "#1b1b1d", precio: 560.0, piezasOriginales: true, bateria: 87, ciclos: 795, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/1YnFhr6v/catalogo-i-Phone-15-Pro-Black.png", imgs: ["https://i.ibb.co/1YnFhr6v/catalogo-i-Phone-15-Pro-Black.png"] },
+  { id: 7, modelo: "iPhone 15 Pro", serie: "15", condicion: "sellado", almacenamiento: "128 GB", color: "Natural", colorHex: "#8a8f87", precio: 570.0, piezasOriginales: true, bateria: 99, ciclos: 170, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/ZpjMPxr8/catalogo-i-Phone-15-Pro-Natural.png", imgs: ["https://i.ibb.co/ZpjMPxr8/catalogo-i-Phone-15-Pro-Natural.png"] },
+  { id: 3, modelo: "iPhone 15 Pro Max", serie: "15", condicion: "sellado", almacenamiento: "512 GB", color: "Black", colorHex: "#1b1b1d", precio: 715.0, piezasOriginales: true, bateria: 100, ciclos: 185, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/xKCVfCpX/catalogo-i-Phone-15-Pro-Max-Black.png", imgs: ["https://i.ibb.co/xKCVfCpX/catalogo-i-Phone-15-Pro-Max-Black.png"] },
+  { id: 2, modelo: "iPhone 15 Pro Max", serie: "15", condicion: "sellado", almacenamiento: "1 TB", color: "Black", colorHex: "#1b1b1d", precio: 730.0, piezasOriginales: true, bateria: 99, ciclos: 234, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/xKCVfCpX/catalogo-i-Phone-15-Pro-Max-Black.png", imgs: ["https://i.ibb.co/xKCVfCpX/catalogo-i-Phone-15-Pro-Max-Black.png"] },
+  { id: 4, modelo: "iPhone 15 Pro Max", serie: "15", condicion: "sellado", almacenamiento: "1 TB", color: "Natural", colorHex: "#8a8f87", precio: 730.0, piezasOriginales: true, bateria: 100, ciclos: 112, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/DfnmDTHj/catalogo-i-Phone-15-Pro-Max-Natural.png", imgs: ["https://i.ibb.co/DfnmDTHj/catalogo-i-Phone-15-Pro-Max-Natural.png"] },
+  { id: 8, modelo: "iPhone 16", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "White", colorHex: "#f2f2f2", precio: 600.0, piezasOriginales: true, bateria: 91, ciclos: 726, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/QvY6ZmPk/catalogo-i-Phone-16-Plus-Black.png", imgs: ["https://i.ibb.co/QvY6ZmPk/catalogo-i-Phone-16-Plus-Black.png"] },
+  { id: 9, modelo: "iPhone 16", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "White", colorHex: "#f2f2f2", precio: 620.0, piezasOriginales: false, bateria: 90, ciclos: 439, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/QvY6ZmPk/catalogo-i-Phone-16-Plus-Black.png", imgs: ["https://i.ibb.co/QvY6ZmPk/catalogo-i-Phone-16-Plus-Black.png"] },
+  { id: 10, modelo: "iPhone 16", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "Teal", colorHex: "#3c6b6b", precio: 620.0, piezasOriginales: true, bateria: 92, ciclos: 498, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/QvY6ZmPk/catalogo-i-Phone-16-Plus-Black.png", imgs: ["https://i.ibb.co/QvY6ZmPk/catalogo-i-Phone-16-Plus-Black.png"] },
+  { id: 6, modelo: "iPhone 16 Plus", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "Black", colorHex: "#1b1b1d", precio: 620.0, piezasOriginales: true, bateria: 91, ciclos: 273, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/QvY6ZmPk/catalogo-i-Phone-16-Plus-Black.png", imgs: ["https://i.ibb.co/QvY6ZmPk/catalogo-i-Phone-16-Plus-Black.png"] },
+  { id: 5, modelo: "iPhone 16 Pro Max", serie: "16", condicion: "sellado", almacenamiento: "256 GB", color: "White", colorHex: "#f2f2f2", precio: 750.0, piezasOriginales: true, bateria: 90, ciclos: 439, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/9mNk8ccq/catalogo-i-Phone-16-Pro-Max-White.png", imgs: ["https://i.ibb.co/9mNk8ccq/catalogo-i-Phone-16-Pro-Max-White.png"] },
 ];
 /* AKH_SYNC_END */
 /* ====================================================================== */
@@ -332,9 +336,9 @@ function openSpecModal(id){
         <div class="flex items-center"><span class="text-[var(--ink3)]">Piezas</span><span class="dotted-leader"></span><span>${p.piezasOriginales ? "Originales" : "No originales"}</span></div>
         <div class="flex items-center"><span class="text-[var(--ink3)]">Batería</span><span class="dotted-leader"></span><span>${p.bateria}%</span></div>
         <div class="flex items-center"><span class="text-[var(--ink3)]">Ciclos de carga</span><span class="dotted-leader"></span><span>${p.ciclos}</span></div>
-        <div class="flex items-center"><span class="text-[var(--ink3)]">Estética</span><span class="dotted-leader"></span><span>${p.estetica}</span></div>
-        <div class="flex items-center"><span class="text-[var(--ink3)]">Garantía</span><span class="dotted-leader"></span><span>${p.garantia}</span></div>
-        <div class="flex items-center"><span class="text-[var(--ink3)]">Incluye</span><span class="dotted-leader"></span><span class="text-right">${p.caja}</span></div>
+        ${p.grado ? `<div class="flex items-center"><span class="text-[var(--ink3)]">Grado</span><span class="dotted-leader"></span><span>${p.grado}</span></div>` : ""}
+        ${p.caja ? `<div class="flex items-center"><span class="text-[var(--ink3)]">Caja</span><span class="dotted-leader"></span><span>${p.caja}</span></div>` : ""}
+        ${p.garantia ? `<div class="flex items-center"><span class="text-[var(--ink3)]">Garantía</span><span class="dotted-leader"></span><span>${p.garantia}</span></div>` : ""}
       </div>
       <div class="pt-4 border-t hairline mono mb-6">
         <div class="flex items-center">
@@ -413,6 +417,11 @@ function sendCartToWhatsApp(){
 }
 document.getElementById("footerWhatsapp").href = waLink("Hola AKH Import, quisiera más información.");
 document.getElementById("heroWhatsapp").href = waLink("Hola AKH Import, quisiera más información.");
+(function(){
+  const rate = BCV_RATE.toLocaleString("es-VE", {minimumFractionDigits:2, maximumFractionDigits:2});
+  const d = (typeof BCV_DATE === "string" && BCV_DATE) ? BCV_DATE.split("-") : null;
+  document.getElementById("bcvBadge").textContent = "Tasa BCV: Bs. " + rate + (d ? " · " + d[2] + "/" + d[1] : "");
+})();
 
 let toastTimer;
 function showToast(text){
