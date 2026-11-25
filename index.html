@@ -194,23 +194,34 @@
 <script>
 /* ======================================================================
    CONFIGURACIÓN — EDITA AQUÍ
+   Este bloque (entre AKH_SYNC_START y AKH_SYNC_END) se regenera solo
+   cuando corre la sincronización automática con el inventario de
+   akh_desktop. Si lo editas a mano mientras esa sincronización está
+   activa, tu cambio se sobrescribirá en el próximo ciclo.
    ====================================================================== */
-const WHATSAPP_NUMBER = "584120000000"; // <-- EDITA ESTE NÚMERO
+/* AKH_SYNC_START */
+const WHATSAPP_NUMBER = "584121251918"; // <-- EDITA ESTE NÚMERO
 
-// Tasa BCV del día, en Bs por 1 USD. Actualízala a diario.
-const BCV_RATE = 52.03; // <-- EDITA ESTA TASA
+// Tasa BCV del día, en Bs por 1 USD. Se actualiza sola en cada sincronización.
+const BCV_RATE = 50.0; // <-- actualizado automáticamente
 
 const products = [
-  // piezasOriginales: true = pantalla/batería originales de fábrica; false = reemplazadas con repuesto genérico
-  { id: 1, modelo: "iPhone 18 Pro Max", serie: "18", condicion: "sellado", almacenamiento: "256GB", color: "Negro Espacial", colorHex: "#1b1b1d", precio: 1450, piezasOriginales: true, bateria: 100, ciclos: 0, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://placehold.co/500x500/F5F9F6/178350?text=iPhone+18+Pro+Max" },
-  { id: 2, modelo: "iPhone 17 Pro Max", serie: "17", condicion: "sellado", almacenamiento: "256GB", color: "Titanio Desierto", colorHex: "#9c8063", precio: 1299, piezasOriginales: true, bateria: 100, ciclos: 0, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://placehold.co/500x500/F5F9F6/9c8063?text=iPhone+17+Pro+Max" },
-  { id: 3, modelo: "iPhone 17 Pro", serie: "17", condicion: "openbox", almacenamiento: "128GB", color: "Ultramarino", colorHex: "#3a4a7a", precio: 1050, piezasOriginales: true, bateria: 100, ciclos: 2, estetica: "10/10", caja: "Caja abierta, accesorios completos", garantia: "6 meses escrita", img: "https://placehold.co/500x500/F5F9F6/3a4a7a?text=iPhone+17+Pro" },
-  { id: 4, modelo: "iPhone 16 Pro Max", serie: "16", condicion: "seminuevo", almacenamiento: "256GB", color: "Titanio Natural", colorHex: "#cabfae", precio: 870, piezasOriginales: true, bateria: 97, ciclos: 180, estetica: "9/10", caja: "Solo equipo + cable USB-C", garantia: "3 meses escrita", img: "https://placehold.co/500x500/F5F9F6/a89a7c?text=iPhone+16+Pro+Max" },
-  { id: 5, modelo: "iPhone 16", serie: "16", condicion: "seminuevo", almacenamiento: "128GB", color: "Negro Espacial", colorHex: "#1b1b1d", precio: 590, piezasOriginales: false, bateria: 95, ciclos: 240, estetica: "9/10", caja: "Solo equipo + cable USB-C", garantia: "3 meses escrita", img: "https://placehold.co/500x500/F5F9F6/1b1b1d?text=iPhone+16" },
-  { id: 6, modelo: "iPhone 15 Pro Max", serie: "15", condicion: "seminuevo", almacenamiento: "256GB", color: "Titanio Azul", colorHex: "#3c5a73", precio: 720, piezasOriginales: true, bateria: 94, ciclos: 310, estetica: "9/10", caja: "Solo equipo + cable USB-C", garantia: "3 meses escrita", img: "https://placehold.co/500x500/F5F9F6/3c5a73?text=iPhone+15+Pro+Max" },
-  { id: 7, modelo: "iPhone 14 Pro", serie: "14", condicion: "seminuevo", almacenamiento: "128GB", color: "Morado Oscuro", colorHex: "#4b3c56", precio: 480, piezasOriginales: false, bateria: 91, ciclos: 420, estetica: "8/10", caja: "Solo equipo", garantia: "3 meses escrita", img: "https://placehold.co/500x500/F5F9F6/4b3c56?text=iPhone+14+Pro" },
-  { id: 8, modelo: "iPhone 13", serie: "13", condicion: "seminuevo", almacenamiento: "128GB", color: "Rosa", colorHex: "#e8c7cb", precio: 310, piezasOriginales: false, bateria: 88, ciclos: 560, estetica: "8/10", caja: "Solo equipo", garantia: "3 meses escrita", img: "https://placehold.co/500x500/F5F9F6/9c6b12?text=iPhone+13" },
+  { id: 9, modelo: "iPhone 12", serie: "12", condicion: "sellado", almacenamiento: "64 GB", color: "Black", colorHex: "#1b1b1d", precio: 230.0, piezasOriginales: true, bateria: 92, ciclos: 69, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/Fk8yJwRK" },
+  { id: 11, modelo: "iPhone 12", serie: "12", condicion: "sellado", almacenamiento: "64 GB", color: "Blue", colorHex: "#3c5a73", precio: 230.0, piezasOriginales: true, bateria: 95, ciclos: 205, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/Fk8yJwRK" },
+  { id: 13, modelo: "iPhone 13 Pro Max", serie: "13", condicion: "sellado", almacenamiento: "128 GB", color: "Gold", colorHex: "#d9c6a5", precio: 415.0, piezasOriginales: false, bateria: 87, ciclos: 919, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/8nJxkpTM" },
+  { id: 14, modelo: "iPhone 13 Pro Max", serie: "13", condicion: "sellado", almacenamiento: "128 GB", color: "Gold", colorHex: "#d9c6a5", precio: 415.0, piezasOriginales: false, bateria: 89, ciclos: 398, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/8nJxkpTM" },
+  { id: 12, modelo: "iPhone 13 Pro Max", serie: "13", condicion: "sellado", almacenamiento: "128 GB", color: "Azul Sierra", colorHex: "#8a8f87", precio: 440.0, piezasOriginales: false, bateria: 100, ciclos: 158, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/NXGQzRJ" },
+  { id: 8, modelo: "iPhone 15 Pro", serie: "15", condicion: "sellado", almacenamiento: "128 GB", color: "Black", colorHex: "#1b1b1d", precio: 530.0, piezasOriginales: true, bateria: 82, ciclos: 1090, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/7NC3Z3Zj" },
+  { id: 10, modelo: "iPhone 15 Pro", serie: "15", condicion: "sellado", almacenamiento: "128 GB", color: "Black", colorHex: "#1b1b1d", precio: 560.0, piezasOriginales: true, bateria: 87, ciclos: 795, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/7NC3Z3Zj" },
+  { id: 4, modelo: "iPhone 15 Pro", serie: "15", condicion: "sellado", almacenamiento: "128 GB", color: "Natural", colorHex: "#8a8f87", precio: 570.0, piezasOriginales: true, bateria: 99, ciclos: 170, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/fz5ty3qM" },
+  { id: 3, modelo: "iPhone 15 Pro Max", serie: "15", condicion: "sellado", almacenamiento: "512 GB", color: "Black", colorHex: "#1b1b1d", precio: 720.0, piezasOriginales: true, bateria: 99, ciclos: 197, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/pvNcXpnF" },
+  { id: 5, modelo: "iPhone 16", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "White", colorHex: "#f2f2f2", precio: 600.0, piezasOriginales: true, bateria: 91, ciclos: 726, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/gbpsJxjH" },
+  { id: 6, modelo: "iPhone 16", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "White", colorHex: "#f2f2f2", precio: 620.0, piezasOriginales: false, bateria: 90, ciclos: 439, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/gbpsJxjH" },
+  { id: 7, modelo: "iPhone 16", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "Teal", colorHex: "#3c6b6b", precio: 620.0, piezasOriginales: true, bateria: 92, ciclos: 498, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/gbpsJxjH" },
+  { id: 2, modelo: "iPhone 16 Plus", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "Black", colorHex: "#1b1b1d", precio: 620.0, piezasOriginales: true, bateria: 91, ciclos: 273, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/gbpsJxjH" },
+  { id: 1, modelo: "iPhone 16 Pro Max", serie: "16", condicion: "sellado", almacenamiento: "256 GB", color: "White", colorHex: "#f2f2f2", precio: 750.0, piezasOriginales: false, bateria: 90, ciclos: 439, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/Y9KMgH3" },
 ];
+/* AKH_SYNC_END */
 /* ====================================================================== */
 
 const SERIES = [{id:"todos",label:"Todos"},{id:"18",label:"18"},{id:"17",label:"17"},{id:"16",label:"16"},{id:"15",label:"15"},{id:"14",label:"14/13"},{id:"13",label:null}];
