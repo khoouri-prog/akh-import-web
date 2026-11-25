@@ -145,7 +145,7 @@
 
   <!-- ============ CUADRÍCULA DE EQUIPOS ============ -->
   <section id="catalogo">
-    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5"></div>
     <p id="emptyState" class="hidden text-center text-[var(--ink3)] py-20 text-sm">No encontramos equipos con esos filtros.</p>
   </section>
 </main>
@@ -208,21 +208,21 @@ const WHATSAPP_NUMBER = "584121251918"; // <-- EDITA ESTE NÚMERO
 const BCV_RATE = 50.0; // <-- actualizado automáticamente
 
 const products = [
-  { id: 10, modelo: "iPhone 12", serie: "12", condicion: "sellado", almacenamiento: "64 GB", color: "Black", colorHex: "#1b1b1d", precio: 230.0, piezasOriginales: true, bateria: 92, ciclos: 69, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/Fk8yJwRK" },
-  { id: 12, modelo: "iPhone 12", serie: "12", condicion: "sellado", almacenamiento: "64 GB", color: "Blue", colorHex: "#3c5a73", precio: 230.0, piezasOriginales: true, bateria: 95, ciclos: 205, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/fVhC4Qvj" },
-  { id: 14, modelo: "iPhone 13 Pro Max", serie: "13", condicion: "sellado", almacenamiento: "128 GB", color: "Gold", colorHex: "#d9c6a5", precio: 415.0, piezasOriginales: false, bateria: 87, ciclos: 919, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/8nJxkpTM" },
+  { id: 12, modelo: "iPhone 12", serie: "12", condicion: "sellado", almacenamiento: "64 GB", color: "Black", colorHex: "#1b1b1d", precio: 230.0, piezasOriginales: true, bateria: 92, ciclos: 69, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/Fk8yJwRK" },
   { id: 15, modelo: "iPhone 13 Pro Max", serie: "13", condicion: "sellado", almacenamiento: "128 GB", color: "Gold", colorHex: "#d9c6a5", precio: 415.0, piezasOriginales: false, bateria: 89, ciclos: 398, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/8nJxkpTM" },
-  { id: 13, modelo: "iPhone 13 Pro Max", serie: "13", condicion: "sellado", almacenamiento: "128 GB", color: "Azul Sierra", colorHex: "#8a8f87", precio: 440.0, piezasOriginales: false, bateria: 100, ciclos: 158, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/NXGQzRJ" },
-  { id: 1, modelo: "iPhone 15", serie: "15", condicion: "sellado", almacenamiento: "128 GB", color: "Black", colorHex: "#1b1b1d", precio: 480.0, piezasOriginales: true, bateria: 100, ciclos: 13, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/5g78Q6My" },
-  { id: 9, modelo: "iPhone 15 Pro", serie: "15", condicion: "sellado", almacenamiento: "128 GB", color: "Black", colorHex: "#1b1b1d", precio: 530.0, piezasOriginales: true, bateria: 82, ciclos: 1090, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/7NC3Z3Zj" },
-  { id: 11, modelo: "iPhone 15 Pro", serie: "15", condicion: "sellado", almacenamiento: "128 GB", color: "Black", colorHex: "#1b1b1d", precio: 560.0, piezasOriginales: true, bateria: 87, ciclos: 795, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/7NC3Z3Zj" },
-  { id: 5, modelo: "iPhone 15 Pro", serie: "15", condicion: "sellado", almacenamiento: "128 GB", color: "Natural", colorHex: "#8a8f87", precio: 570.0, piezasOriginales: true, bateria: 99, ciclos: 170, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/fz5ty3qM" },
-  { id: 4, modelo: "iPhone 15 Pro Max", serie: "15", condicion: "sellado", almacenamiento: "512 GB", color: "Black", colorHex: "#1b1b1d", precio: 720.0, piezasOriginales: true, bateria: 99, ciclos: 197, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/pvNcXpnF" },
-  { id: 6, modelo: "iPhone 16", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "White", colorHex: "#f2f2f2", precio: 600.0, piezasOriginales: true, bateria: 91, ciclos: 726, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/gbpsJxjH" },
-  { id: 7, modelo: "iPhone 16", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "White", colorHex: "#f2f2f2", precio: 620.0, piezasOriginales: false, bateria: 90, ciclos: 439, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/gbpsJxjH" },
-  { id: 8, modelo: "iPhone 16", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "Teal", colorHex: "#3c6b6b", precio: 620.0, piezasOriginales: true, bateria: 92, ciclos: 498, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/gbpsJxjH" },
-  { id: 3, modelo: "iPhone 16 Plus", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "Black", colorHex: "#1b1b1d", precio: 620.0, piezasOriginales: true, bateria: 91, ciclos: 273, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/gbpsJxjH" },
-  { id: 2, modelo: "iPhone 16 Pro Max", serie: "16", condicion: "sellado", almacenamiento: "256 GB", color: "White", colorHex: "#f2f2f2", precio: 750.0, piezasOriginales: false, bateria: 90, ciclos: 439, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/Y9KMgH3" },
+  { id: 14, modelo: "iPhone 13 Pro Max", serie: "13", condicion: "sellado", almacenamiento: "128 GB", color: "Azul Sierra", colorHex: "#8a8f87", precio: 440.0, piezasOriginales: false, bateria: 100, ciclos: 158, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/NXGQzRJ" },
+  { id: 1, modelo: "iPhone 14 Pro Max", serie: "14", condicion: "sellado", almacenamiento: "256 GB", color: "Space Black", colorHex: "#1b1b1d", precio: 500.0, piezasOriginales: true, bateria: 100, ciclos: 0, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/SXL4j1mM" },
+  { id: 11, modelo: "iPhone 15 Pro", serie: "15", condicion: "sellado", almacenamiento: "128 GB", color: "Black", colorHex: "#1b1b1d", precio: 530.0, piezasOriginales: true, bateria: 82, ciclos: 1090, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/7NC3Z3Zj" },
+  { id: 13, modelo: "iPhone 15 Pro", serie: "15", condicion: "sellado", almacenamiento: "128 GB", color: "Black", colorHex: "#1b1b1d", precio: 560.0, piezasOriginales: true, bateria: 87, ciclos: 795, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/7NC3Z3Zj" },
+  { id: 7, modelo: "iPhone 15 Pro", serie: "15", condicion: "sellado", almacenamiento: "128 GB", color: "Natural", colorHex: "#8a8f87", precio: 570.0, piezasOriginales: true, bateria: 99, ciclos: 170, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/fz5ty3qM" },
+  { id: 3, modelo: "iPhone 15 Pro Max", serie: "15", condicion: "sellado", almacenamiento: "512 GB", color: "Black", colorHex: "#1b1b1d", precio: 715.0, piezasOriginales: true, bateria: 100, ciclos: 185, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/pvNcXpnF" },
+  { id: 2, modelo: "iPhone 15 Pro Max", serie: "15", condicion: "sellado", almacenamiento: "1 TB", color: "Black", colorHex: "#1b1b1d", precio: 730.0, piezasOriginales: true, bateria: 99, ciclos: 234, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/pvNcXpnF" },
+  { id: 4, modelo: "iPhone 15 Pro Max", serie: "15", condicion: "sellado", almacenamiento: "1 TB", color: "Natural", colorHex: "#8a8f87", precio: 730.0, piezasOriginales: true, bateria: 100, ciclos: 112, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/QF5dZnkw" },
+  { id: 8, modelo: "iPhone 16", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "White", colorHex: "#f2f2f2", precio: 600.0, piezasOriginales: true, bateria: 91, ciclos: 726, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/gbpsJxjH" },
+  { id: 9, modelo: "iPhone 16", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "White", colorHex: "#f2f2f2", precio: 620.0, piezasOriginales: false, bateria: 90, ciclos: 439, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/gbpsJxjH" },
+  { id: 10, modelo: "iPhone 16", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "Teal", colorHex: "#3c6b6b", precio: 620.0, piezasOriginales: true, bateria: 92, ciclos: 498, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/gbpsJxjH" },
+  { id: 6, modelo: "iPhone 16 Plus", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "Black", colorHex: "#1b1b1d", precio: 620.0, piezasOriginales: true, bateria: 91, ciclos: 273, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/gbpsJxjH" },
+  { id: 5, modelo: "iPhone 16 Pro Max", serie: "16", condicion: "sellado", almacenamiento: "256 GB", color: "White", colorHex: "#f2f2f2", precio: 750.0, piezasOriginales: true, bateria: 90, ciclos: 439, estetica: "10/10", caja: "Caja sellada, cargador y cable USB-C", garantia: "6 meses escrita", img: "https://ibb.co/Y9KMgH3" },
 ];
 /* AKH_SYNC_END */
 /* ====================================================================== */
@@ -282,18 +282,18 @@ function renderProducts(){
       <div class="bg-[var(--bg)] aspect-square overflow-hidden flex items-center justify-center cursor-pointer" onclick="openSpecModal(${p.id})">
         <img src="${p.img}" alt="${p.modelo}" class="w-[72%] object-contain" onload="this.classList.add('loaded')">
       </div>
-      <div class="p-4 flex flex-col flex-1">
-        <span class="mono text-[10px] font-bold tracking-wide self-start mb-2" style="color:${CONDITION_COLOR[p.condicion]}">${CONDITION_LABEL[p.condicion]}${p.condicion==='seminuevo' ? ' · '+p.bateria+'% BAT' : ''}</span>
-        <h2 class="font-bold text-sm leading-snug mb-1">${p.modelo}</h2>
-        <p class="text-[var(--ink3)] text-xs mb-3 flex items-center gap-1.5">
-          <span class="inline-block w-2.5 h-2.5 rounded-full border border-black/15 shrink-0" style="background:${p.colorHex}"></span>
-          ${p.almacenamiento} · ${p.color}
+      <div class="p-2.5 sm:p-4 flex flex-col flex-1">
+        <span class="mono text-[8px] sm:text-[10px] font-bold tracking-wide self-start mb-1 sm:mb-2 truncate max-w-full" style="color:${CONDITION_COLOR[p.condicion]}">${CONDITION_LABEL[p.condicion]}${p.condicion==='seminuevo' ? ' · '+p.bateria+'% BAT' : ''}</span>
+        <h2 class="font-bold text-[11px] sm:text-sm leading-snug mb-0.5 sm:mb-1">${p.modelo}</h2>
+        <p class="text-[var(--ink3)] text-[10px] sm:text-xs mb-1.5 sm:mb-3 flex items-center gap-1 sm:gap-1.5">
+          <span class="inline-block w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full border border-black/15 shrink-0" style="background:${p.colorHex}"></span>
+          <span class="truncate">${p.almacenamiento} · ${p.color}</span>
         </p>
-        <p class="mono text-xl font-bold">$${p.precio.toLocaleString()}</p>
-        <p class="mono text-[11px] text-[var(--ink3)] mb-4">Bs. ${bsPrice(p.precio)}</p>
-        <div class="flex gap-2 mt-auto">
-          <button onclick="openSpecModal(${p.id})" class="flex-1 btn-line rounded-xl py-2 text-xs font-semibold">Ver ficha</button>
-          <button onclick="addToCart(${p.id})" class="flex-1 btn-solid rounded-xl py-2 text-xs">Agregar</button>
+        <p class="mono text-sm sm:text-xl font-bold">$${p.precio.toLocaleString()}</p>
+        <p class="mono text-[9px] sm:text-[11px] text-[var(--ink3)] mb-2 sm:mb-4">Bs. ${bsPrice(p.precio)}</p>
+        <div class="flex gap-1.5 sm:gap-2 mt-auto">
+          <button onclick="openSpecModal(${p.id})" class="flex-1 btn-line rounded-lg sm:rounded-xl py-1.5 sm:py-2 text-[10px] sm:text-xs font-semibold">Ver</button>
+          <button onclick="addToCart(${p.id})" class="flex-1 btn-solid rounded-lg sm:rounded-xl py-1.5 sm:py-2 text-[10px] sm:text-xs">Agregar</button>
         </div>
       </div>
     </div>`).join("");
