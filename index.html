@@ -124,9 +124,15 @@
         <h1 class="text-lg sm:text-xl font-bold text-[var(--ink)]">iPhones disponibles</h1>
         <p id="bcvBadge" class="mono text-[11px] sm:text-xs text-[var(--ink3)] mt-0.5"></p>
       </div>
-      <a href="https://wa.me/584120000000" target="_blank" rel="noopener" id="heroWhatsapp" class="btn-solid rounded-xl px-4 py-2.5 text-sm shrink-0 flex items-center gap-2">
-        <i data-lucide="message-circle" class="w-4 h-4"></i> <span class="hidden sm:inline">Consultar por</span> WhatsApp
-      </a>
+      <div class="flex items-center gap-2 shrink-0">
+        <!-- Instagram: cambia el enlace en INSTAGRAM_URL (más abajo, junto a heroWhatsapp) -->
+        <a href="https://www.instagram.com/akhimport/" target="_blank" rel="noopener" id="heroInstagram" aria-label="Instagram de AKH Import" class="btn-line rounded-xl px-3 py-2.5 text-sm flex items-center gap-2">
+          <i data-lucide="instagram" class="w-4 h-4"></i> <span class="hidden sm:inline">Instagram</span>
+        </a>
+        <a href="https://wa.me/584120000000" target="_blank" rel="noopener" id="heroWhatsapp" class="btn-solid rounded-xl px-4 py-2.5 text-sm flex items-center gap-2">
+          <i data-lucide="message-circle" class="w-4 h-4"></i> <span class="hidden sm:inline">Consultar por</span> WhatsApp
+        </a>
+      </div>
     </div>
 
     <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-8 border-b hairline pb-4">
@@ -211,7 +217,7 @@ const WHATSAPP_NUMBER = "584121251918"; // <-- EDITA ESTE NÚMERO
 const BCV_RATE = 924.35; // <-- actualizado automáticamente
 const BCV_DATE = "2026-11-26";
 // Tasa Binance P2P USDT/VES. Precio a tasa BCV = dólares × BINANCE_RATE ÷ BCV_RATE.
-const BINANCE_RATE = 1107.9;
+const BINANCE_RATE = 1106.95;
 
 const products = [
   { id: 12, modelo: "iPhone 12", serie: "12", condicion: "sellado", almacenamiento: "64 GB", color: "Black", colorHex: "#1b1b1d", precio: 230.0, piezasOriginales: true, bateria: 92, ciclos: 69, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/fVmX3fqB/catalogo-i-Phone-12-Black.png", imgs: ["https://i.ibb.co/fVmX3fqB/catalogo-i-Phone-12-Black.png"], ficha: "https://i.ibb.co/jZG225PK/ficha-89516fcf3e567d45.png" },
@@ -483,6 +489,8 @@ function sendCartToWhatsApp(){
 }
 document.getElementById("footerWhatsapp").href = waLink("Hola AKH Import, quisiera más información.");
 document.getElementById("heroWhatsapp").href = waLink("Hola AKH Import, quisiera más información.");
+const INSTAGRAM_URL = "https://www.instagram.com/akhimport/"; // <-- tu perfil de Instagram
+document.getElementById("heroInstagram").href = INSTAGRAM_URL;
 (function(){
   const rate = BCV_RATE.toLocaleString("es-VE", {minimumFractionDigits:2, maximumFractionDigits:2});
   const d = (typeof BCV_DATE === "string" && BCV_DATE) ? BCV_DATE.split("-") : null;
