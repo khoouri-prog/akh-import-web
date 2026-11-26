@@ -50,6 +50,12 @@
   .pay-sm{justify-content:flex-end;gap:4px}
   .pay-sm .pay-chip{padding:4px 7px;font-size:0;gap:0}
   .pay-sm .pay-chip span{display:none}
+  /* Franja "Vendidos recientemente": se desliza sola en bucle; se pausa al tocarla */
+  .marquee{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent)}
+  .marquee-track{display:flex;gap:8px;width:max-content;animation:marquee var(--marquee-dur,40s) linear infinite}
+  .marquee:hover .marquee-track,.marquee:active .marquee-track{animation-play-state:paused}
+  @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(calc(-50% - 4px))}}
+  @media (prefers-reduced-motion:reduce){.marquee{overflow-x:auto}.marquee-track{animation:none}}
   .no-scrollbar{scrollbar-width:none}
   .no-scrollbar::-webkit-scrollbar{display:none}
   body{
@@ -178,7 +184,7 @@
       <span class="relative flex w-2 h-2"><span class="absolute inset-0 rounded-full bg-[var(--green-bright)] opacity-60 animate-ping motion-reduce:animate-none"></span><span class="relative w-2 h-2 rounded-full bg-[var(--green-bright)]"></span></span>
       <h2 class="text-xs font-bold tracking-wide uppercase text-[var(--ink2)]">Vendidos recientemente</h2>
     </div>
-    <div id="vendidosRow" class="flex gap-2 overflow-x-auto no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0 snap-x"></div>
+    <div class="marquee -mx-4 sm:mx-0"><div id="vendidosRow" class="marquee-track"></div></div>
   </section>
 
   <!-- ============ CUADRÍCULA DE EQUIPOS ============ -->
@@ -250,7 +256,7 @@ const WHATSAPP_NUMBER = "584121251918"; // <-- EDITA ESTE NÚMERO
 const BCV_RATE = 924.35; // <-- actualizado automáticamente
 const BCV_DATE = "2026-11-26";
 // Tasa Binance P2P USDT/VES. Precio a tasa BCV = dólares × BINANCE_RATE ÷ BCV_RATE.
-const BINANCE_RATE = 1105.24;
+const BINANCE_RATE = 1105.13;
 
 const products = [
   { id: 12, slug: "iphone-12-64gb-black-3ada", modelo: "iPhone 12", serie: "12", condicion: "sellado", almacenamiento: "64 GB", color: "Black", colorHex: "#1b1b1d", precio: 230.0, piezasOriginales: true, bateria: 92, ciclos: 69, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/fVmX3fqB/catalogo-i-Phone-12-Black.png", imgs: ["https://i.ibb.co/fVmX3fqB/catalogo-i-Phone-12-Black.png"], ficha: "https://i.ibb.co/jZG225PK/ficha-89516fcf3e567d45.png" },
@@ -524,14 +530,19 @@ function haceCuanto(iso){
 function renderVendidos(){
   const list = (typeof vendidos !== "undefined" && Array.isArray(vendidos)) ? vendidos : [];
   if(!list.length) return;
-  document.getElementById("vendidosRow").innerHTML = list.map(v => `
-    <div class="snap-start shrink-0 flex items-center gap-2.5 bg-[var(--paper)] border hairline rounded-xl pl-2.5 pr-3.5 py-2">
+  const row = document.getElementById("vendidosRow");
+  const item = v => `
+    <div class="shrink-0 flex items-center gap-2.5 bg-[var(--paper)] border hairline rounded-xl pl-2.5 pr-3.5 py-2">
       <span class="w-7 h-7 rounded-full bg-[rgba(23,131,80,0.1)] text-[var(--green)] flex items-center justify-center shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
       <div class="leading-tight">
         <p class="text-xs font-bold whitespace-nowrap">${v.modelo}${v.almacenamiento ? " · " + v.almacenamiento : ""}</p>
         <p class="mono text-[10px] text-[var(--ink3)] whitespace-nowrap">${v.color ? v.color + " · " : ""}vendido ${haceCuanto(v.fecha)}</p>
       </div>
-    </div>`).join("");
+    </div>`;
+  // la lista va dos veces seguidas para que el bucle no tenga corte
+  const una = list.map(item).join("");
+  row.innerHTML = una + una.replace(/<div class="shrink-0/g, '<div aria-hidden="true" class="shrink-0');
+  row.style.setProperty("--marquee-dur", Math.max(20, list.length * 5) + "s");   // ~5 s por equipo
   document.getElementById("vendidosSec").classList.remove("hidden");
 }
 
