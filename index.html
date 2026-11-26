@@ -47,6 +47,10 @@
   .pay-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line-strong);border-radius:999px;padding:5px 10px 5px 7px;font-size:12px;font-weight:600;color:var(--ink);background:#fff;white-space:nowrap}
   .pay-chip img{width:16px;height:16px;display:block}
   .pay-bs{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:5px;background:#10140F;color:#fff;font-size:9px;font-weight:800;letter-spacing:-.02em}
+  .ship-free{background:var(--green);color:#fff;font-size:9px;font-weight:800;letter-spacing:.06em;border-radius:999px;padding:2px 6px;margin-left:-1px}
+  .ship-logo{display:inline-flex;align-items:center;height:18px;border-radius:4px;padding:0 5px;font-size:10px;font-weight:900;letter-spacing:.02em;color:#fff}
+  .ship-zoom{background:#0B3C8C;font-style:italic}   /* reemplazable por el logo oficial de Zoom */
+  .ship-mrw{background:#E30613}                       /* reemplazable por el logo oficial de MRW */
   .pay-sm{justify-content:flex-end;gap:4px}
   .pay-sm .pay-chip{padding:4px 7px;font-size:0;gap:0}
   .pay-sm .pay-chip span{display:none}
@@ -234,7 +238,14 @@
       <span class="text-[var(--ink3)]">Métodos de pago</span>
       <div class="pay-row" data-pagos></div>
     </div>
-    <span><span class="text-[var(--ink3)]">Entrega:</span> en persona o envío nacional con seguimiento</span>
+    <div class="flex flex-col gap-2">
+      <span class="text-[var(--ink3)]">Entregas</span>
+      <div class="pay-row">
+        <span class="pay-chip"><i data-lucide="bike" class="w-4 h-4 text-[var(--green)]"></i><span>Delivery</span><b class="ship-free">GRATIS</b></span>
+        <span class="pay-chip" title="Envíos nacionales con Zoom"><b class="ship-logo ship-zoom">ZOOM</b><span>Envío nacional</span></span>
+        <span class="pay-chip" title="Envíos nacionales con MRW"><b class="ship-logo ship-mrw">MRW</b><span>Envío nacional</span></span>
+      </div>
+    </div>
     <a href="https://wa.me/584120000000" target="_blank" rel="noopener" id="footerWhatsapp" class="sm:ml-auto btn-line rounded-xl px-4 py-2.5 text-sm font-semibold flex items-center gap-2 w-fit">
       <i data-lucide="message-circle" class="w-4 h-4"></i> Consultar por WhatsApp
     </a>
