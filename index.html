@@ -172,6 +172,15 @@
     </div>
   </section>
 
+  <!-- ============ VENDIDOS RECIENTEMENTE (se llena solo desde las ventas) ============ -->
+  <section id="vendidosSec" class="hidden mb-5" aria-label="Vendidos recientemente">
+    <div class="flex items-center gap-2 mb-2">
+      <span class="relative flex w-2 h-2"><span class="absolute inset-0 rounded-full bg-[var(--green-bright)] opacity-60 animate-ping motion-reduce:animate-none"></span><span class="relative w-2 h-2 rounded-full bg-[var(--green-bright)]"></span></span>
+      <h2 class="text-xs font-bold tracking-wide uppercase text-[var(--ink2)]">Vendidos recientemente</h2>
+    </div>
+    <div id="vendidosRow" class="flex gap-2 overflow-x-auto no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0 snap-x"></div>
+  </section>
+
   <!-- ============ CUADRÍCULA DE EQUIPOS ============ -->
   <section id="catalogo">
     <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5"></div>
@@ -241,24 +250,27 @@ const WHATSAPP_NUMBER = "584121251918"; // <-- EDITA ESTE NÚMERO
 const BCV_RATE = 924.35; // <-- actualizado automáticamente
 const BCV_DATE = "2026-11-26";
 // Tasa Binance P2P USDT/VES. Precio a tasa BCV = dólares × BINANCE_RATE ÷ BCV_RATE.
-const BINANCE_RATE = 1095.66;
+const BINANCE_RATE = 1105.24;
 
 const products = [
-  { id: 12, modelo: "iPhone 12", serie: "12", condicion: "sellado", almacenamiento: "64 GB", color: "Black", colorHex: "#1b1b1d", precio: 230.0, piezasOriginales: true, bateria: 92, ciclos: 69, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/fVmX3fqB/catalogo-i-Phone-12-Black.png", imgs: ["https://i.ibb.co/fVmX3fqB/catalogo-i-Phone-12-Black.png"], ficha: "https://i.ibb.co/jZG225PK/ficha-89516fcf3e567d45.png" },
-  { id: 14, modelo: "iPhone 13 Pro Max", serie: "13", condicion: "sellado", almacenamiento: "128 GB", color: "Gold", colorHex: "#d9c6a5", precio: 415.0, piezasOriginales: false, bateria: 89, ciclos: 398, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/m5Wn5qhK/catalogo-i-Phone-13-Pro-Max-Gold.png", imgs: ["https://i.ibb.co/m5Wn5qhK/catalogo-i-Phone-13-Pro-Max-Gold.png"], ficha: "https://i.ibb.co/Vc6tPt9n/ficha-b09e6bc3f810197c.png" },
-  { id: 1, modelo: "iPhone 14 Pro Max", serie: "14", condicion: "sellado", almacenamiento: "256 GB", color: "Space Black", colorHex: "#1b1b1d", precio: 500.0, piezasOriginales: true, bateria: 100, ciclos: 0, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/jvJK52ZJ/equipo-a5c0b95bf736486c-052e69c387e1-jpg.png", imgs: ["https://i.ibb.co/jvJK52ZJ/equipo-a5c0b95bf736486c-052e69c387e1-jpg.png", "https://i.ibb.co/scHpwb7/equipo-a5c0b95bf736486c-d2243708faa6-jpg.png", "https://i.ibb.co/tPnSFZ82/equipo-a5c0b95bf736486c-a1fabb56dc05-jpg.png", "https://i.ibb.co/mV0Mx2FV/equipo-a5c0b95bf736486c-a740fec31a81-jpg.png", "https://i.ibb.co/BKGVNyTG/equipo-a5c0b95bf736486c-519d1a0e5613-jpg.png", "https://i.ibb.co/KzQpvLcd/equipo-a5c0b95bf736486c-afa93abae283-jpg.png", "https://i.ibb.co/Kj4jM96B/equipo-a5c0b95bf736486c-cd0f164becd8-jpg.png", "https://i.ibb.co/TqqC3Zjb/equipo-a5c0b95bf736486c-9001fc3ba958-jpg.png", "https://i.ibb.co/HLdyvPVY/equipo-a5c0b95bf736486c-9e17ebe6a212-jpg.png"], ficha: "https://i.ibb.co/Z1bWCYyD/ficha-a5c0b95bf736486c.png" },
-  { id: 11, modelo: "iPhone 15 Pro", serie: "15", condicion: "sellado", almacenamiento: "128 GB", color: "Black", colorHex: "#1b1b1d", precio: 530.0, piezasOriginales: true, bateria: 82, ciclos: 1090, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/1YnFhr6v/catalogo-i-Phone-15-Pro-Black.png", imgs: ["https://i.ibb.co/1YnFhr6v/catalogo-i-Phone-15-Pro-Black.png"], ficha: "https://i.ibb.co/RGszL9sY/ficha-61c09a7cc260460d.png" },
-  { id: 13, modelo: "iPhone 15 Pro", serie: "15", condicion: "sellado", almacenamiento: "128 GB", color: "Black", colorHex: "#1b1b1d", precio: 560.0, piezasOriginales: true, bateria: 87, ciclos: 795, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/1YnFhr6v/catalogo-i-Phone-15-Pro-Black.png", imgs: ["https://i.ibb.co/1YnFhr6v/catalogo-i-Phone-15-Pro-Black.png"], ficha: "https://i.ibb.co/KpjRmNVD/ficha-7751f869dc6a12c9.png" },
-  { id: 7, modelo: "iPhone 15 Pro", serie: "15", condicion: "sellado", almacenamiento: "128 GB", color: "Natural", colorHex: "#8a8f87", precio: 570.0, piezasOriginales: true, bateria: 99, ciclos: 170, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/6JbGLTmP/equipo-5bf4c0c1a4632713-8f5f8013ea3c-jpg.png", imgs: ["https://i.ibb.co/6JbGLTmP/equipo-5bf4c0c1a4632713-8f5f8013ea3c-jpg.png", "https://i.ibb.co/ks7t1gfz/equipo-5bf4c0c1a4632713-746fd3ced753-jpg.png", "https://i.ibb.co/NnGWTYvq/equipo-5bf4c0c1a4632713-8aa8ea9d7681-jpg.png", "https://i.ibb.co/tp13tjRh/equipo-5bf4c0c1a4632713-905257d6826c-jpg.png", "https://i.ibb.co/tTmXpxqs/equipo-5bf4c0c1a4632713-4880b9f4d025-jpg.png", "https://i.ibb.co/pr598Krh/equipo-5bf4c0c1a4632713-03bbc5645248-jpg.png", "https://i.ibb.co/ynQsbDLG/equipo-5bf4c0c1a4632713-423b1b812e0d-jpg.png", "https://i.ibb.co/23KPXMLT/equipo-5bf4c0c1a4632713-9e9191f3496c-jpg.png"], ficha: "https://i.ibb.co/DXNftv7/ficha-5bf4c0c1a4632713.png" },
-  { id: 3, modelo: "iPhone 15 Pro Max", serie: "15", condicion: "sellado", almacenamiento: "512 GB", color: "Black", colorHex: "#1b1b1d", precio: 715.0, piezasOriginales: true, bateria: 100, ciclos: 185, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/YFF6tFqS/equipo-c8c9c973c1f1aa27-768b821ad134-jpg.png", imgs: ["https://i.ibb.co/YFF6tFqS/equipo-c8c9c973c1f1aa27-768b821ad134-jpg.png", "https://i.ibb.co/9m8bn5LV/equipo-c8c9c973c1f1aa27-ba28cae379ec-jpg.png", "https://i.ibb.co/vvBXzYmK/equipo-c8c9c973c1f1aa27-26816016e698-jpg.png", "https://i.ibb.co/Kz7Vyv38/equipo-c8c9c973c1f1aa27-8a5a1a2eb858-jpg.png", "https://i.ibb.co/KzcBZyMd/equipo-c8c9c973c1f1aa27-7a838422776b-jpg.png", "https://i.ibb.co/jP3MXr2p/equipo-c8c9c973c1f1aa27-60fe9b17c309-jpg.png", "https://i.ibb.co/4nPFczMF/equipo-c8c9c973c1f1aa27-4fb2cfce90a3-jpg.png", "https://i.ibb.co/zH85Jj92/equipo-c8c9c973c1f1aa27-f84a64c7532b-jpg.png"], ficha: "https://i.ibb.co/kVp6X1Tm/ficha-c8c9c973c1f1aa27.png" },
-  { id: 2, modelo: "iPhone 15 Pro Max", serie: "15", condicion: "sellado", almacenamiento: "1 TB", color: "Black", colorHex: "#1b1b1d", precio: 730.0, piezasOriginales: true, bateria: 99, ciclos: 234, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/SD5bw4G7/equipo-198dfafe3dba876f-68dbfc422682-jpg.png", imgs: ["https://i.ibb.co/SD5bw4G7/equipo-198dfafe3dba876f-68dbfc422682-jpg.png", "https://i.ibb.co/jktyVkM2/equipo-198dfafe3dba876f-6f110d2c8656-jpg.png", "https://i.ibb.co/HLfTq6CP/equipo-198dfafe3dba876f-615b5030724c-jpg.png", "https://i.ibb.co/RGj667g0/equipo-198dfafe3dba876f-ced930d9b657-jpg.png", "https://i.ibb.co/Vc1mfyjT/equipo-198dfafe3dba876f-5d9832ba3bf4-jpg.png", "https://i.ibb.co/sd9bG3Sd/equipo-198dfafe3dba876f-6dc446e98bfe-jpg.png", "https://i.ibb.co/XrntNnV1/equipo-198dfafe3dba876f-73fafc99a9bc-jpg.png", "https://i.ibb.co/rGwdz8xw/equipo-198dfafe3dba876f-e6db569fe1a3-jpg.png"], ficha: "https://i.ibb.co/bkPY3dV/ficha-198dfafe3dba876f.png" },
-  { id: 4, modelo: "iPhone 15 Pro Max", serie: "15", condicion: "sellado", almacenamiento: "1 TB", color: "Natural", colorHex: "#8a8f87", precio: 730.0, piezasOriginales: true, bateria: 100, ciclos: 112, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/b5d9BYhs/equipo-19ec51ce08734748-41351045c620-jpg.png", imgs: ["https://i.ibb.co/b5d9BYhs/equipo-19ec51ce08734748-41351045c620-jpg.png", "https://i.ibb.co/JFmX9R7s/equipo-19ec51ce08734748-576f38ad7940-jpg.png", "https://i.ibb.co/VpvXzrn0/equipo-19ec51ce08734748-68454f5466a3-jpg.png", "https://i.ibb.co/PZLnRHf3/equipo-19ec51ce08734748-d70454159cdd-jpg.png", "https://i.ibb.co/k6JK2TC1/equipo-19ec51ce08734748-0cd607a777e5-jpg.png", "https://i.ibb.co/jZPfn1nX/equipo-19ec51ce08734748-b449992579bd-jpg.png", "https://i.ibb.co/4ZD9XBNR/equipo-19ec51ce08734748-4a3f36aa5d98-jpg.png", "https://i.ibb.co/bcVpv7Y/equipo-19ec51ce08734748-6a1799fc0ef3-jpg.png"], ficha: "https://i.ibb.co/kVkV8ddV/ficha-19ec51ce08734748.png" },
-  { id: 8, modelo: "iPhone 16", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "White", colorHex: "#f2f2f2", precio: 600.0, piezasOriginales: true, bateria: 91, ciclos: 726, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/XxwR7BbW/equipo-8bd4ee59e5b86df1-3d93ec408efc-jpg.png", imgs: ["https://i.ibb.co/XxwR7BbW/equipo-8bd4ee59e5b86df1-3d93ec408efc-jpg.png", "https://i.ibb.co/dJsSj7f7/equipo-8bd4ee59e5b86df1-d08d485e983e-jpg.png", "https://i.ibb.co/1GWqGBsL/equipo-8bd4ee59e5b86df1-cd01b870e1d9-jpg.png", "https://i.ibb.co/35Nkjysw/equipo-8bd4ee59e5b86df1-70123d4e2b1a-jpg.png", "https://i.ibb.co/dwmx1Scm/equipo-8bd4ee59e5b86df1-825b59ff644a-jpg.png", "https://i.ibb.co/j97NkMKT/equipo-8bd4ee59e5b86df1-7c9e94abab0c-jpg.png", "https://i.ibb.co/svPN6DM0/equipo-8bd4ee59e5b86df1-39d3c1ce8498-jpg.png", "https://i.ibb.co/mVrHm74X/equipo-8bd4ee59e5b86df1-0dc31dc4174d-jpg.png"], ficha: "https://i.ibb.co/sdVdV4rF/ficha-8bd4ee59e5b86df1.png" },
-  { id: 9, modelo: "iPhone 16", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "White", colorHex: "#f2f2f2", precio: 620.0, piezasOriginales: false, bateria: 90, ciclos: 439, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/QvY6ZmPk/catalogo-i-Phone-16-Plus-Black.png", imgs: ["https://i.ibb.co/QvY6ZmPk/catalogo-i-Phone-16-Plus-Black.png"], ficha: "https://i.ibb.co/wh6QKzV4/ficha-f2edc56831b80caf.png" },
-  { id: 10, modelo: "iPhone 16", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "Teal", colorHex: "#3c6b6b", precio: 620.0, piezasOriginales: true, bateria: 92, ciclos: 498, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/QvY6ZmPk/catalogo-i-Phone-16-Plus-Black.png", imgs: ["https://i.ibb.co/QvY6ZmPk/catalogo-i-Phone-16-Plus-Black.png"], ficha: "https://i.ibb.co/TDpHv56f/ficha-79307e7f1d295a80.png" },
-  { id: 6, modelo: "iPhone 16 Plus", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "Black", colorHex: "#1b1b1d", precio: 620.0, piezasOriginales: true, bateria: 91, ciclos: 273, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/ks9ZYj3P/equipo-fb951e559a2bfc01-f731c993b6f0-jpg.png", imgs: ["https://i.ibb.co/ks9ZYj3P/equipo-fb951e559a2bfc01-f731c993b6f0-jpg.png", "https://i.ibb.co/S42WvDM2/equipo-fb951e559a2bfc01-8462232b2192-jpg.png", "https://i.ibb.co/TMtM4MBQ/equipo-fb951e559a2bfc01-77a1a6dd0b0f-jpg.png", "https://i.ibb.co/BVCnC3S9/equipo-fb951e559a2bfc01-55c8421eb60f-jpg.png", "https://i.ibb.co/XxjTH7Z8/equipo-fb951e559a2bfc01-19f359a40abc-jpg.png", "https://i.ibb.co/LzhQqFDW/equipo-fb951e559a2bfc01-ec06c34809eb-jpg.png", "https://i.ibb.co/B2T5kvKT/equipo-fb951e559a2bfc01-ed0026007d3a-jpg.png", "https://i.ibb.co/XfYsS45W/equipo-fb951e559a2bfc01-46d48c85ef60-jpg.png"], ficha: "https://i.ibb.co/mrvWTFQ9/ficha-fb951e559a2bfc01.png" },
-  { id: 5, modelo: "iPhone 16 Pro Max", serie: "16", condicion: "sellado", almacenamiento: "256 GB", color: "White", colorHex: "#f2f2f2", precio: 750.0, piezasOriginales: true, bateria: 90, ciclos: 439, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/9mNk8ccq/catalogo-i-Phone-16-Pro-Max-White.png", imgs: ["https://i.ibb.co/9mNk8ccq/catalogo-i-Phone-16-Pro-Max-White.png"], ficha: "https://i.ibb.co/m5FbFy0P/ficha-167706131a82da32.png" },
+  { id: 12, slug: "iphone-12-64gb-black-3ada", modelo: "iPhone 12", serie: "12", condicion: "sellado", almacenamiento: "64 GB", color: "Black", colorHex: "#1b1b1d", precio: 230.0, piezasOriginales: true, bateria: 92, ciclos: 69, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/fVmX3fqB/catalogo-i-Phone-12-Black.png", imgs: ["https://i.ibb.co/fVmX3fqB/catalogo-i-Phone-12-Black.png"], ficha: "https://i.ibb.co/jZG225PK/ficha-89516fcf3e567d45.png" },
+  { id: 14, slug: "iphone-13-pro-max-128gb-gold-cfaa", modelo: "iPhone 13 Pro Max", serie: "13", condicion: "sellado", almacenamiento: "128 GB", color: "Gold", colorHex: "#d9c6a5", precio: 415.0, piezasOriginales: false, bateria: 89, ciclos: 398, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/m5Wn5qhK/catalogo-i-Phone-13-Pro-Max-Gold.png", imgs: ["https://i.ibb.co/m5Wn5qhK/catalogo-i-Phone-13-Pro-Max-Gold.png"], ficha: "https://i.ibb.co/Vc6tPt9n/ficha-b09e6bc3f810197c.png" },
+  { id: 1, slug: "iphone-14-pro-max-256gb-space-black-80c7", modelo: "iPhone 14 Pro Max", serie: "14", condicion: "sellado", almacenamiento: "256 GB", color: "Space Black", colorHex: "#1b1b1d", precio: 500.0, piezasOriginales: true, bateria: 100, ciclos: 0, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/jvJK52ZJ/equipo-a5c0b95bf736486c-052e69c387e1-jpg.png", imgs: ["https://i.ibb.co/jvJK52ZJ/equipo-a5c0b95bf736486c-052e69c387e1-jpg.png", "https://i.ibb.co/scHpwb7/equipo-a5c0b95bf736486c-d2243708faa6-jpg.png", "https://i.ibb.co/tPnSFZ82/equipo-a5c0b95bf736486c-a1fabb56dc05-jpg.png", "https://i.ibb.co/mV0Mx2FV/equipo-a5c0b95bf736486c-a740fec31a81-jpg.png", "https://i.ibb.co/BKGVNyTG/equipo-a5c0b95bf736486c-519d1a0e5613-jpg.png", "https://i.ibb.co/KzQpvLcd/equipo-a5c0b95bf736486c-afa93abae283-jpg.png", "https://i.ibb.co/Kj4jM96B/equipo-a5c0b95bf736486c-cd0f164becd8-jpg.png", "https://i.ibb.co/TqqC3Zjb/equipo-a5c0b95bf736486c-9001fc3ba958-jpg.png", "https://i.ibb.co/HLdyvPVY/equipo-a5c0b95bf736486c-9e17ebe6a212-jpg.png"], ficha: "https://i.ibb.co/Z1bWCYyD/ficha-a5c0b95bf736486c.png" },
+  { id: 11, slug: "iphone-15-pro-128gb-black-5318", modelo: "iPhone 15 Pro", serie: "15", condicion: "sellado", almacenamiento: "128 GB", color: "Black", colorHex: "#1b1b1d", precio: 530.0, piezasOriginales: true, bateria: 82, ciclos: 1090, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/1YnFhr6v/catalogo-i-Phone-15-Pro-Black.png", imgs: ["https://i.ibb.co/1YnFhr6v/catalogo-i-Phone-15-Pro-Black.png"], ficha: "https://i.ibb.co/RGszL9sY/ficha-61c09a7cc260460d.png" },
+  { id: 13, slug: "iphone-15-pro-128gb-black-4dd2", modelo: "iPhone 15 Pro", serie: "15", condicion: "sellado", almacenamiento: "128 GB", color: "Black", colorHex: "#1b1b1d", precio: 560.0, piezasOriginales: true, bateria: 87, ciclos: 795, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/1YnFhr6v/catalogo-i-Phone-15-Pro-Black.png", imgs: ["https://i.ibb.co/1YnFhr6v/catalogo-i-Phone-15-Pro-Black.png"], ficha: "https://i.ibb.co/KpjRmNVD/ficha-7751f869dc6a12c9.png" },
+  { id: 7, slug: "iphone-15-pro-128gb-natural-6ef4", modelo: "iPhone 15 Pro", serie: "15", condicion: "sellado", almacenamiento: "128 GB", color: "Natural", colorHex: "#8a8f87", precio: 570.0, piezasOriginales: true, bateria: 99, ciclos: 170, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/6JbGLTmP/equipo-5bf4c0c1a4632713-8f5f8013ea3c-jpg.png", imgs: ["https://i.ibb.co/6JbGLTmP/equipo-5bf4c0c1a4632713-8f5f8013ea3c-jpg.png", "https://i.ibb.co/ks7t1gfz/equipo-5bf4c0c1a4632713-746fd3ced753-jpg.png", "https://i.ibb.co/NnGWTYvq/equipo-5bf4c0c1a4632713-8aa8ea9d7681-jpg.png", "https://i.ibb.co/tp13tjRh/equipo-5bf4c0c1a4632713-905257d6826c-jpg.png", "https://i.ibb.co/tTmXpxqs/equipo-5bf4c0c1a4632713-4880b9f4d025-jpg.png", "https://i.ibb.co/pr598Krh/equipo-5bf4c0c1a4632713-03bbc5645248-jpg.png", "https://i.ibb.co/ynQsbDLG/equipo-5bf4c0c1a4632713-423b1b812e0d-jpg.png", "https://i.ibb.co/23KPXMLT/equipo-5bf4c0c1a4632713-9e9191f3496c-jpg.png"], ficha: "https://i.ibb.co/DXNftv7/ficha-5bf4c0c1a4632713.png" },
+  { id: 3, slug: "iphone-15-pro-max-512gb-black-0f1b", modelo: "iPhone 15 Pro Max", serie: "15", condicion: "sellado", almacenamiento: "512 GB", color: "Black", colorHex: "#1b1b1d", precio: 715.0, piezasOriginales: true, bateria: 100, ciclos: 185, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/YFF6tFqS/equipo-c8c9c973c1f1aa27-768b821ad134-jpg.png", imgs: ["https://i.ibb.co/YFF6tFqS/equipo-c8c9c973c1f1aa27-768b821ad134-jpg.png", "https://i.ibb.co/9m8bn5LV/equipo-c8c9c973c1f1aa27-ba28cae379ec-jpg.png", "https://i.ibb.co/vvBXzYmK/equipo-c8c9c973c1f1aa27-26816016e698-jpg.png", "https://i.ibb.co/Kz7Vyv38/equipo-c8c9c973c1f1aa27-8a5a1a2eb858-jpg.png", "https://i.ibb.co/KzcBZyMd/equipo-c8c9c973c1f1aa27-7a838422776b-jpg.png", "https://i.ibb.co/jP3MXr2p/equipo-c8c9c973c1f1aa27-60fe9b17c309-jpg.png", "https://i.ibb.co/4nPFczMF/equipo-c8c9c973c1f1aa27-4fb2cfce90a3-jpg.png", "https://i.ibb.co/zH85Jj92/equipo-c8c9c973c1f1aa27-f84a64c7532b-jpg.png"], ficha: "https://i.ibb.co/kVp6X1Tm/ficha-c8c9c973c1f1aa27.png" },
+  { id: 2, slug: "iphone-15-pro-max-1tb-black-5dd6", modelo: "iPhone 15 Pro Max", serie: "15", condicion: "sellado", almacenamiento: "1 TB", color: "Black", colorHex: "#1b1b1d", precio: 730.0, piezasOriginales: true, bateria: 99, ciclos: 234, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/SD5bw4G7/equipo-198dfafe3dba876f-68dbfc422682-jpg.png", imgs: ["https://i.ibb.co/SD5bw4G7/equipo-198dfafe3dba876f-68dbfc422682-jpg.png", "https://i.ibb.co/jktyVkM2/equipo-198dfafe3dba876f-6f110d2c8656-jpg.png", "https://i.ibb.co/HLfTq6CP/equipo-198dfafe3dba876f-615b5030724c-jpg.png", "https://i.ibb.co/RGj667g0/equipo-198dfafe3dba876f-ced930d9b657-jpg.png", "https://i.ibb.co/Vc1mfyjT/equipo-198dfafe3dba876f-5d9832ba3bf4-jpg.png", "https://i.ibb.co/sd9bG3Sd/equipo-198dfafe3dba876f-6dc446e98bfe-jpg.png", "https://i.ibb.co/XrntNnV1/equipo-198dfafe3dba876f-73fafc99a9bc-jpg.png", "https://i.ibb.co/rGwdz8xw/equipo-198dfafe3dba876f-e6db569fe1a3-jpg.png"], ficha: "https://i.ibb.co/bkPY3dV/ficha-198dfafe3dba876f.png" },
+  { id: 4, slug: "iphone-15-pro-max-1tb-natural-5d1d", modelo: "iPhone 15 Pro Max", serie: "15", condicion: "sellado", almacenamiento: "1 TB", color: "Natural", colorHex: "#8a8f87", precio: 730.0, piezasOriginales: true, bateria: 100, ciclos: 112, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/b5d9BYhs/equipo-19ec51ce08734748-41351045c620-jpg.png", imgs: ["https://i.ibb.co/b5d9BYhs/equipo-19ec51ce08734748-41351045c620-jpg.png", "https://i.ibb.co/JFmX9R7s/equipo-19ec51ce08734748-576f38ad7940-jpg.png", "https://i.ibb.co/VpvXzrn0/equipo-19ec51ce08734748-68454f5466a3-jpg.png", "https://i.ibb.co/PZLnRHf3/equipo-19ec51ce08734748-d70454159cdd-jpg.png", "https://i.ibb.co/k6JK2TC1/equipo-19ec51ce08734748-0cd607a777e5-jpg.png", "https://i.ibb.co/jZPfn1nX/equipo-19ec51ce08734748-b449992579bd-jpg.png", "https://i.ibb.co/4ZD9XBNR/equipo-19ec51ce08734748-4a3f36aa5d98-jpg.png", "https://i.ibb.co/bcVpv7Y/equipo-19ec51ce08734748-6a1799fc0ef3-jpg.png"], ficha: "https://i.ibb.co/kVkV8ddV/ficha-19ec51ce08734748.png" },
+  { id: 8, slug: "iphone-16-128gb-white-d407", modelo: "iPhone 16", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "White", colorHex: "#f2f2f2", precio: 600.0, piezasOriginales: true, bateria: 91, ciclos: 726, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/XxwR7BbW/equipo-8bd4ee59e5b86df1-3d93ec408efc-jpg.png", imgs: ["https://i.ibb.co/XxwR7BbW/equipo-8bd4ee59e5b86df1-3d93ec408efc-jpg.png", "https://i.ibb.co/dJsSj7f7/equipo-8bd4ee59e5b86df1-d08d485e983e-jpg.png", "https://i.ibb.co/1GWqGBsL/equipo-8bd4ee59e5b86df1-cd01b870e1d9-jpg.png", "https://i.ibb.co/35Nkjysw/equipo-8bd4ee59e5b86df1-70123d4e2b1a-jpg.png", "https://i.ibb.co/dwmx1Scm/equipo-8bd4ee59e5b86df1-825b59ff644a-jpg.png", "https://i.ibb.co/j97NkMKT/equipo-8bd4ee59e5b86df1-7c9e94abab0c-jpg.png", "https://i.ibb.co/svPN6DM0/equipo-8bd4ee59e5b86df1-39d3c1ce8498-jpg.png", "https://i.ibb.co/mVrHm74X/equipo-8bd4ee59e5b86df1-0dc31dc4174d-jpg.png"], ficha: "https://i.ibb.co/sdVdV4rF/ficha-8bd4ee59e5b86df1.png" },
+  { id: 9, slug: "iphone-16-128gb-white-8e10", modelo: "iPhone 16", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "White", colorHex: "#f2f2f2", precio: 620.0, piezasOriginales: false, bateria: 90, ciclos: 439, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/QvY6ZmPk/catalogo-i-Phone-16-Plus-Black.png", imgs: ["https://i.ibb.co/QvY6ZmPk/catalogo-i-Phone-16-Plus-Black.png"], ficha: "https://i.ibb.co/wh6QKzV4/ficha-f2edc56831b80caf.png" },
+  { id: 10, slug: "iphone-16-128gb-teal-2521", modelo: "iPhone 16", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "Teal", colorHex: "#3c6b6b", precio: 620.0, piezasOriginales: true, bateria: 92, ciclos: 498, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/QvY6ZmPk/catalogo-i-Phone-16-Plus-Black.png", imgs: ["https://i.ibb.co/QvY6ZmPk/catalogo-i-Phone-16-Plus-Black.png"], ficha: "https://i.ibb.co/TDpHv56f/ficha-79307e7f1d295a80.png" },
+  { id: 6, slug: "iphone-16-plus-128gb-black-7880", modelo: "iPhone 16 Plus", serie: "16", condicion: "sellado", almacenamiento: "128 GB", color: "Black", colorHex: "#1b1b1d", precio: 620.0, piezasOriginales: true, bateria: 91, ciclos: 273, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/ks9ZYj3P/equipo-fb951e559a2bfc01-f731c993b6f0-jpg.png", imgs: ["https://i.ibb.co/ks9ZYj3P/equipo-fb951e559a2bfc01-f731c993b6f0-jpg.png", "https://i.ibb.co/S42WvDM2/equipo-fb951e559a2bfc01-8462232b2192-jpg.png", "https://i.ibb.co/TMtM4MBQ/equipo-fb951e559a2bfc01-77a1a6dd0b0f-jpg.png", "https://i.ibb.co/BVCnC3S9/equipo-fb951e559a2bfc01-55c8421eb60f-jpg.png", "https://i.ibb.co/XxjTH7Z8/equipo-fb951e559a2bfc01-19f359a40abc-jpg.png", "https://i.ibb.co/LzhQqFDW/equipo-fb951e559a2bfc01-ec06c34809eb-jpg.png", "https://i.ibb.co/B2T5kvKT/equipo-fb951e559a2bfc01-ed0026007d3a-jpg.png", "https://i.ibb.co/XfYsS45W/equipo-fb951e559a2bfc01-46d48c85ef60-jpg.png"], ficha: "https://i.ibb.co/mrvWTFQ9/ficha-fb951e559a2bfc01.png" },
+  { id: 5, slug: "iphone-16-pro-max-256gb-white-3950", modelo: "iPhone 16 Pro Max", serie: "16", condicion: "sellado", almacenamiento: "256 GB", color: "White", colorHex: "#f2f2f2", precio: 750.0, piezasOriginales: true, bateria: 90, ciclos: 439, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/9mNk8ccq/catalogo-i-Phone-16-Pro-Max-White.png", imgs: ["https://i.ibb.co/9mNk8ccq/catalogo-i-Phone-16-Pro-Max-White.png"], ficha: "https://i.ibb.co/m5FbFy0P/ficha-167706131a82da32.png" },
 ];
+
+// Últimos vendidos (franja "Vendidos recientemente"): solo modelo, capacidad, color y fecha.
+const vendidos = [{"modelo": "iPhone 14 Pro Max", "almacenamiento": "256 GB", "color": "Gold", "fecha": "2026-11-25"}, {"modelo": "iPhone 15 Pro Max", "almacenamiento": "256 GB", "color": "Natural", "fecha": "2026-11-25"}, {"modelo": "iPhone 15", "almacenamiento": "128 GB", "color": "Black", "fecha": "2026-11-25"}, {"modelo": "iPhone 15 Plus", "almacenamiento": "128 GB", "color": "Pink", "fecha": "2026-11-25"}, {"modelo": "iPhone 15 Pro Max", "almacenamiento": "512 GB", "color": "Black", "fecha": "2026-11-25"}, {"modelo": "iPhone 12", "almacenamiento": "64 GB", "color": "Blue", "fecha": "2026-11-25"}, {"modelo": "iPhone 13 Pro Max", "almacenamiento": "128 GB", "color": "Azul Sierra", "fecha": "2026-11-25"}, {"modelo": "iPhone 13 Pro Max", "almacenamiento": "128 GB", "color": "Gold", "fecha": "2026-11-25"}];
 /* AKH_SYNC_END */
 /* ====================================================================== */
 
@@ -356,7 +368,10 @@ function openSpecModal(id){
   document.getElementById("specModalContent").innerHTML = `
     <div class="flex items-center justify-between px-6 h-14 border-b hairline">
       <span class="mono text-[11px] tracking-[0.1em] font-bold" style="color:${CONDITION_COLOR[p.condicion]}">${CONDITION_LABEL[p.condicion]}</span>
-      <button onclick="closeSpecModal()" aria-label="Cerrar" class="btn-line rounded-full p-1.5"><i data-lucide="x" class="w-4 h-4"></i></button>
+      <div class="flex items-center gap-2">
+        <button onclick="sharePhone(${p.id})" aria-label="Compartir este teléfono" class="btn-line rounded-full pl-2.5 pr-3 py-1.5 flex items-center gap-1.5 text-xs font-semibold"><i data-lucide="share-2" class="w-3.5 h-3.5"></i> Compartir</button>
+        <button onclick="closeSpecModal()" aria-label="Cerrar" class="btn-line rounded-full p-1.5"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
     </div>
     <div class="relative bg-[var(--bg)] aspect-[4/3] border-b hairline">
       <div id="galleryScroll" class="flex w-full h-full overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar">
@@ -395,6 +410,7 @@ function openSpecModal(id){
     </div>`;
   document.getElementById("specModalOverlay").classList.remove("hidden");
   document.getElementById("specModalOverlay").classList.add("flex");
+  history.replaceState(null, "", "#" + slugOf(p));   // link fijo de este teléfono
   lucide.createIcons();
   if(p.imgs.length > 1){
     const gs = document.getElementById("galleryScroll");
@@ -467,6 +483,56 @@ function openFicha(id){
 function closeSpecModal(){
   document.getElementById("specModalOverlay").classList.add("hidden");
   document.getElementById("specModalOverlay").classList.remove("flex");
+  if(location.hash && findBySlug(location.hash)) history.replaceState(null, "", location.pathname + location.search);
+}
+
+/* ── Link fijo por teléfono: akhimport.com/#iphone-13-pro-128gb-azul-a1b2 ── */
+function slugify(s){ return String(s).normalize("NFKD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/(\d+)\s*(gb|tb)/g,"$1$2").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""); }
+function slugOf(p){ return p.slug || (slugify(`${p.modelo} ${p.almacenamiento} ${p.color}`) + "-" + p.id); }
+function phoneUrl(p){ return location.origin + location.pathname + "#" + slugOf(p); }
+function findBySlug(h){ const s = decodeURIComponent(String(h).replace(/^#/, "")); return s ? products.find(p => slugOf(p) === s) : null; }
+async function sharePhone(id){
+  const p = products.find(x=>x.id===id); if(!p) return;
+  const url = phoneUrl(p);
+  const text = `${p.modelo} · ${p.almacenamiento} · ${p.color} — $${p.precio.toLocaleString()} en AKH Import`;
+  if(navigator.share){ try { await navigator.share({title: p.modelo, text, url}); return; } catch(e){ if(e.name === "AbortError") return; } }
+  try { await navigator.clipboard.writeText(url); showToast("Link copiado"); }
+  catch(e){ prompt("Copia el link:", url); }
+}
+function abrirDesdeLink(){
+  if(!location.hash || location.hash.length < 3) return;
+  const p = findBySlug(location.hash);
+  if(p){ openSpecModal(p.id); }
+  else if(/iphone/i.test(location.hash)){
+    history.replaceState(null, "", location.pathname + location.search);
+    showToast("Ese equipo ya se vendió · mira los disponibles");
+  }
+}
+window.addEventListener("hashchange", abrirDesdeLink);
+
+/* ── Vendidos recientemente ── */
+function haceCuanto(iso){
+  const [y,m,d] = iso.split("-").map(Number);
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  const dias = Math.round((hoy - new Date(y, m-1, d)) / 86400000);
+  if(dias <= 0) return "hoy";
+  if(dias === 1) return "ayer";
+  if(dias < 7) return `hace ${dias} días`;
+  if(dias < 14) return "hace 1 semana";
+  return `hace ${Math.floor(dias/7)} semanas`;
+}
+function renderVendidos(){
+  const list = (typeof vendidos !== "undefined" && Array.isArray(vendidos)) ? vendidos : [];
+  if(!list.length) return;
+  document.getElementById("vendidosRow").innerHTML = list.map(v => `
+    <div class="snap-start shrink-0 flex items-center gap-2.5 bg-[var(--paper)] border hairline rounded-xl pl-2.5 pr-3.5 py-2">
+      <span class="w-7 h-7 rounded-full bg-[rgba(23,131,80,0.1)] text-[var(--green)] flex items-center justify-center shrink-0"><i data-lucide="check" class="w-3.5 h-3.5"></i></span>
+      <div class="leading-tight">
+        <p class="text-xs font-bold whitespace-nowrap">${v.modelo}${v.almacenamiento ? " · " + v.almacenamiento : ""}</p>
+        <p class="mono text-[10px] text-[var(--ink3)] whitespace-nowrap">${v.color ? v.color + " · " : ""}vendido ${haceCuanto(v.fecha)}</p>
+      </div>
+    </div>`).join("");
+  document.getElementById("vendidosSec").classList.remove("hidden");
 }
 
 function addToCart(id){
@@ -500,7 +566,7 @@ document.getElementById("cartBtn").addEventListener("click", openCart);
 
 function buildMessageForProducts(list){
   let msg = "Hola AKH Import, quiero consultar por:\n\n";
-  list.forEach(p => { msg += `• ${p.modelo} — ${p.almacenamiento} — ${p.color} — ${CONDITION_LABEL[p.condicion]} — $${p.precio.toLocaleString()}\n`; });
+  list.forEach(p => { msg += `• ${p.modelo} — ${p.almacenamiento} — ${p.color} — ${CONDITION_LABEL[p.condicion]} — $${p.precio.toLocaleString()}\n  ${phoneUrl(p)}\n`; });
   const total = list.reduce((s,p)=>s+p.precio,0);
   if(list.length>1) msg += `\nTotal estimado: $${total.toLocaleString()}`;
   return msg;
@@ -551,7 +617,9 @@ document.addEventListener("keydown", e=>{ if(e.key==="Escape" && !document.getEl
 
 renderAll();
 renderCart();
+renderVendidos();
 lucide.createIcons();
+abrirDesdeLink();
 </script>
 </body>
 </html>
