@@ -256,7 +256,7 @@ const WHATSAPP_NUMBER = "584121251918"; // <-- EDITA ESTE NÚMERO
 const BCV_RATE = 924.35; // <-- actualizado automáticamente
 const BCV_DATE = "2026-11-26";
 // Tasa Binance P2P USDT/VES. Precio a tasa BCV = dólares × BINANCE_RATE ÷ BCV_RATE.
-const BINANCE_RATE = 1105.13;
+const BINANCE_RATE = 1104.72;
 
 const products = [
   { id: 12, slug: "iphone-12-64gb-black-3ada", modelo: "iPhone 12", serie: "12", condicion: "sellado", almacenamiento: "64 GB", color: "Black", colorHex: "#1b1b1d", precio: 230.0, piezasOriginales: true, bateria: 92, ciclos: 69, grado: "Nuevo", caja: "", garantia: "", img: "https://i.ibb.co/fVmX3fqB/catalogo-i-Phone-12-Black.png", imgs: ["https://i.ibb.co/fVmX3fqB/catalogo-i-Phone-12-Black.png"], ficha: "https://i.ibb.co/jZG225PK/ficha-89516fcf3e567d45.png" },
@@ -276,7 +276,7 @@ const products = [
 ];
 
 // Últimos vendidos (franja "Vendidos recientemente"): solo modelo, capacidad, color y fecha.
-const vendidos = [{"modelo": "iPhone 14 Pro Max", "almacenamiento": "256 GB", "color": "Gold", "fecha": "2026-11-25"}, {"modelo": "iPhone 15 Pro Max", "almacenamiento": "256 GB", "color": "Natural", "fecha": "2026-11-25"}, {"modelo": "iPhone 15", "almacenamiento": "128 GB", "color": "Black", "fecha": "2026-11-25"}, {"modelo": "iPhone 15 Plus", "almacenamiento": "128 GB", "color": "Pink", "fecha": "2026-11-25"}, {"modelo": "iPhone 15 Pro Max", "almacenamiento": "512 GB", "color": "Black", "fecha": "2026-11-25"}, {"modelo": "iPhone 12", "almacenamiento": "64 GB", "color": "Blue", "fecha": "2026-11-25"}, {"modelo": "iPhone 13 Pro Max", "almacenamiento": "128 GB", "color": "Azul Sierra", "fecha": "2026-11-25"}, {"modelo": "iPhone 13 Pro Max", "almacenamiento": "128 GB", "color": "Gold", "fecha": "2026-11-25"}];
+const vendidos = [{"modelo": "iPhone 14 Pro Max", "almacenamiento": "256 GB", "color": "Gold", "fecha": "2026-11-25"}, {"modelo": "iPhone 15 Pro Max", "almacenamiento": "256 GB", "color": "Natural", "fecha": "2026-11-25"}, {"modelo": "iPhone 15", "almacenamiento": "128 GB", "color": "Black", "fecha": "2026-11-25"}, {"modelo": "iPhone 15 Plus", "almacenamiento": "128 GB", "color": "Pink", "fecha": "2026-11-25"}, {"modelo": "iPhone 14", "almacenamiento": "128 GB", "color": "Lavanda", "fecha": "2026-11-23"}, {"modelo": "iPhone 14 Pro", "almacenamiento": "512 GB", "color": "Space Black", "fecha": "2026-11-23"}, {"modelo": "iPhone 15 Pro", "almacenamiento": "512 GB", "color": "Natural", "fecha": "2026-11-23"}, {"modelo": "iPhone 15 Pro", "almacenamiento": "128 GB", "color": "White", "fecha": "2026-11-23"}, {"modelo": "iPhone 14", "almacenamiento": "128 GB", "color": "Midnight", "fecha": "2026-11-21"}, {"modelo": "iPhone 15 Pro", "almacenamiento": "512 GB", "color": "Natural", "fecha": "2026-11-21"}, {"modelo": "iPhone 15 Plus", "almacenamiento": "256 GB", "color": "Blue", "fecha": "2026-11-21"}, {"modelo": "iPhone 16 Pro", "almacenamiento": "128 GB", "color": "White", "fecha": "2026-11-21"}, {"modelo": "iPhone 15", "almacenamiento": "128 GB", "color": "Blue", "fecha": "2026-11-19"}, {"modelo": "iPhone 15 Pro Max", "almacenamiento": "256 GB", "color": "Black", "fecha": "2026-11-19"}];
 /* AKH_SYNC_END */
 /* ====================================================================== */
 
@@ -521,11 +521,9 @@ function haceCuanto(iso){
   const [y,m,d] = iso.split("-").map(Number);
   const hoy = new Date(); hoy.setHours(0,0,0,0);
   const dias = Math.round((hoy - new Date(y, m-1, d)) / 86400000);
-  if(dias <= 0) return "hoy";
+  if(dias === 0) return "hoy";
   if(dias === 1) return "ayer";
-  if(dias < 7) return `hace ${dias} días`;
-  if(dias < 14) return "hace 1 semana";
-  return `hace ${Math.floor(dias/7)} semanas`;
+  return "el " + String(d).padStart(2,"0") + "/" + String(m).padStart(2,"0");   // fecha de salida del programa
 }
 function renderVendidos(){
   const list = (typeof vendidos !== "undefined" && Array.isArray(vendidos)) ? vendidos : [];
